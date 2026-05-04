@@ -1,0 +1,350 @@
+import React, { useState } from 'react';
+import { 
+  Server, Monitor, Download, ChevronRight, 
+  Shield, Zap, Cpu, Eye, ArrowLeft,
+  Gamepad2, Info, Copy, Check, Users, Sparkles
+} from 'lucide-react';
+import './index.css';
+
+// --- COMPONENTS ---
+
+const TabNav = ({ activeTab, setActiveTab }) => (
+  <nav className="nav-bar glass animate-enter">
+    <div className="flex items-center gap-3">
+      <div className="bg-blue-600/20 p-2 rounded-xl text-blue-400">
+        <Gamepad2 size={28} />
+      </div>
+      <span className="text-xl font-bold text-gradient">Create MC</span>
+    </div>
+    <div className="nav-links">
+      {['home', 'servidor', 'modpacks', 'acerca'].map((tab) => (
+        <button
+          key={tab}
+          className={`nav-item ${activeTab === tab ? 'active' : ''}`}
+          onClick={() => setActiveTab(tab)}
+        >
+          {tab.charAt(0).toUpperCase() + tab.slice(1)}
+        </button>
+      ))}
+    </div>
+  </nav>
+);
+
+const HomeTab = ({ setActiveTab }) => (
+  <div className="flex-col items-center text-center animate-enter delay-100 mt-12">
+    <div className="badge mb-6">
+      <Sparkles size={16} /> <span>Servidor Privado 1.21.1 Create</span>
+    </div>
+    <h1 className="text-gradient">Bienvenido a la Aventura</h1>
+    <p className="text-secondary mb-8 max-w-2xl text-lg mx-auto">
+      Descarga los modpacks, conéctate a nuestro servidor y explora un mundo lleno de posibilidades con Create mod y mucho más.
+    </p>
+    <div className="flex gap-4 justify-center">
+      <button className="btn btn-primary" onClick={() => setActiveTab('modpacks')}>
+        <Download size={20} /> Descargar Modpacks
+      </button>
+      <button className="btn btn-outline" onClick={() => setActiveTab('servidor')}>
+        <Server size={20} /> Info del Servidor
+      </button>
+    </div>
+  </div>
+);
+
+const ServerTab = () => {
+  const [copied, setCopied] = useState(false);
+  const ip = "play.mc-create-server.com"; // Placeholder IP
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(ip);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="animate-enter delay-100 max-w-4xl mx-auto">
+      <div className="text-center mb-12">
+        <h2 className="text-gradient">Nuestro Servidor</h2>
+        <p className="text-secondary text-lg">Únete a nosotros para la mejor experiencia survival.</p>
+        
+        <div className="ip-box" onClick={handleCopy} title="Haz clic para copiar">
+          {ip}
+          {copied ? <Check size={24} color="#4ade80" /> : <Copy size={24} />}
+        </div>
+        {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
+      </div>
+
+      <div className="glass-card mt-12">
+        <div className="flex items-center gap-3 mb-6">
+          <Shield className="text-blue-400" size={32} />
+          <h3 className="mb-0">Normas del Servidor</h3>
+        </div>
+        <div className="rule-item">
+          <div className="rule-number">1</div>
+          <div>
+            <h4 className="mb-1 text-lg">Respeto Mutuo</h4>
+            <p className="text-secondary">Trata a todos con respeto. No se tolerará toxicidad, acoso ni insultos.</p>
+          </div>
+        </div>
+        <div className="rule-item">
+          <div className="rule-number">2</div>
+          <div>
+            <h4 className="mb-1 text-lg">No Grifear</h4>
+            <p className="text-secondary">Construye, no destruyas. Respeta las construcciones y cofres de los demás jugadores.</p>
+          </div>
+        </div>
+        <div className="rule-item">
+          <div className="rule-number">3</div>
+          <div>
+            <h4 className="mb-1 text-lg">Uso Justo de Recursos</h4>
+            <p className="text-secondary">Evita laggear el servidor con máquinas de Create innecesariamente masivas si no estás en línea.</p>
+          </div>
+        </div>
+        <div className="rule-item">
+          <div className="rule-number">4</div>
+          <div>
+            <h4 className="mb-1 text-lg">Divertirse</h4>
+            <p className="text-secondary">Es un juego, colabora, crea rutas de trenes y disfruta de la compañía.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const ModpacksTab = () => {
+  const [view, setView] = useState('main'); // main, client, detail
+  const [selectedPack, setSelectedPack] = useState(null);
+
+  const packs = {
+    server: {
+      id: 'server',
+      title: 'Archivos del Servidor',
+      icon: <Server size={40} className="text-blue-400" />,
+      desc: 'Descarga el .zip con los mods y configuraciones necesarias para montar o actualizar el servidor.',
+      features: ['Todos los mods del servidor', 'Configuraciones (.conf)', 'Scripts de inicio'],
+      performance: { fps: 'N/A', ram: '4GB - 8GB Recomendado' },
+      downloadUrl: './server_pack.zip'
+    },
+    potato: {
+      id: 'potato',
+      title: 'Potato (Solo Optimización)',
+      icon: <Zap size={40} className="text-blue-400" />,
+      desc: 'El pack más ligero. Solo contiene mods esenciales y de optimización pura. Para PCs de bajos recursos.',
+      features: ['Sodium, Lithium, etc.', 'Sin shaders', 'FPS al máximo', 'Create Mod Base'],
+      performance: { fps: '120+ FPS en PCs gama baja', ram: '2GB - 4GB' },
+      downloadUrl: './potato_pack.zip'
+    },
+    lowAesthetic: {
+      id: 'lowAesthetic',
+      title: 'Low Aesthetic (Potato + Shaders)',
+      icon: <Eye size={40} className="text-blue-400" />,
+      desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Potato/Low', 'Mejora visual moderada'],
+      performance: { fps: '60-80 FPS en PCs gama media', ram: '4GB - 6GB' },
+      downloadUrl: './low_aesthetic_pack.zip'
+    },
+    highAesthetic: {
+      id: 'highAesthetic',
+      title: 'High Aesthetic (Ultra)',
+      icon: <Sparkles size={40} className="text-blue-400" />,
+      desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders High/Ultra', 'Texturas HD opcionales'],
+      performance: { fps: '60+ FPS en PCs gama alta', ram: '8GB+' },
+      downloadUrl: './high_aesthetic_pack.zip'
+    }
+  };
+
+  const openDetail = (packId) => {
+    setSelectedPack(packs[packId]);
+    setView('detail');
+  };
+
+  const renderMain = () => (
+    <div className="animate-enter delay-100 max-w-4xl mx-auto">
+      <div className="text-center mb-10">
+        <h2 className="text-gradient">Descargas</h2>
+        <p className="text-secondary text-lg">¿Qué necesitas descargar?</p>
+      </div>
+      
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="glass-card cursor-pointer items-center text-center" onClick={() => openDetail('server')}>
+          <div className="bg-blue-600/10 p-6 rounded-full mb-6">
+            <Server size={48} className="text-blue-400" />
+          </div>
+          <h3 className="mb-2">Servidor</h3>
+          <p className="text-secondary mb-6">Archivos del servidor (.zip con mods y config).</p>
+          <button className="btn btn-primary mt-auto w-full">
+            Ver Detalles <ChevronRight size={18} />
+          </button>
+        </div>
+
+        <div className="glass-card cursor-pointer items-center text-center" onClick={() => setView('client')}>
+          <div className="bg-blue-600/10 p-6 rounded-full mb-6">
+            <Monitor size={48} className="text-blue-400" />
+          </div>
+          <h3 className="mb-2">Cliente</h3>
+          <p className="text-secondary mb-6">Modpacks para jugar (diferentes niveles gráficos).</p>
+          <button className="btn btn-primary mt-auto w-full">
+            Ver Opciones <ChevronRight size={18} />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderClientPacks = () => (
+    <div className="animate-enter max-w-5xl mx-auto">
+      <button className="btn btn-outline mb-8" onClick={() => setView('main')}>
+        <ArrowLeft size={18} /> Volver
+      </button>
+      
+      <div className="text-center mb-10">
+        <h2 className="text-gradient">Selecciona tu Modpack</h2>
+        <p className="text-secondary text-lg">Elige la versión que mejor se adapte a tu PC.</p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-6">
+        {['potato', 'lowAesthetic', 'highAesthetic'].map(key => (
+          <div key={key} className="glass-card cursor-pointer" onClick={() => openDetail(key)}>
+            <div className="mb-6">{packs[key].icon}</div>
+            <h3 className="text-xl mb-3">{packs[key].title}</h3>
+            <p className="text-secondary text-sm mb-6 flex-1">{packs[key].desc}</p>
+            <button className="btn btn-outline w-full justify-between">
+              Seleccionar <ChevronRight size={18} />
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderDetail = () => {
+    if (!selectedPack) return null;
+    return (
+      <div className="animate-enter max-w-3xl mx-auto glass-card relative overflow-hidden">
+        {/* Decorative background glow */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
+        
+        <button 
+          className="btn btn-outline mb-8 w-max" 
+          onClick={() => setView(selectedPack.title.includes('Servidor') ? 'main' : 'client')}
+        >
+          <ArrowLeft size={18} /> Volver
+        </button>
+
+        <div className="flex items-center gap-4 mb-6">
+          <div className="p-4 bg-blue-900/30 rounded-2xl border border-blue-500/20">
+            {selectedPack.icon}
+          </div>
+          <div>
+            <h2 className="mb-1 text-3xl">{selectedPack.title}</h2>
+            <div className="badge">1.21.1 / Fabric</div>
+          </div>
+        </div>
+
+        <p className="text-lg text-secondary mb-8">{selectedPack.desc}</p>
+
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h4 className="text-xl mb-4 flex items-center gap-2"><Check className="text-blue-400"/> Contenido</h4>
+            <ul className="feature-list">
+              {selectedPack.features.map((f, i) => (
+                <li key={i}><div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div> {f}</li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-xl mb-4 flex items-center gap-2"><Cpu className="text-blue-400"/> Rendimiento</h4>
+            <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+              <div className="mb-3">
+                <div className="text-sm text-secondary mb-1">FPS Estimados</div>
+                <div className="font-semibold text-blue-300">{selectedPack.performance.fps}</div>
+              </div>
+              <div>
+                <div className="text-sm text-secondary mb-1">RAM Recomendada</div>
+                <div className="font-semibold text-blue-300">{selectedPack.performance.ram}</div>
+              </div>
+            </div>
+            {/* Pruebas de rendimiento placeholder */}
+            <div className="mt-4 p-4 rounded-xl border border-blue-500/20 bg-blue-950/20">
+              <p className="text-sm text-secondary italic">
+                * Pruebas de rendimiento gráficas próximamente. (Aquí irán las imágenes que enviarás).
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <a 
+          href={selectedPack.downloadUrl} 
+          download={`${selectedPack.id}_pack.zip`}
+          className="btn btn-primary w-full py-4 text-lg mt-4"
+        >
+          <Download size={24} /> Descargar {selectedPack.title}.zip
+        </a>
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {view === 'main' && renderMain()}
+      {view === 'client' && renderClientPacks()}
+      {view === 'detail' && renderDetail()}
+    </div>
+  );
+};
+
+const AboutTab = () => (
+  <div className="animate-enter delay-100 max-w-3xl mx-auto text-center">
+    <div className="bg-blue-600/10 p-6 rounded-full mb-6 w-max mx-auto">
+      <Info size={48} className="text-blue-400" />
+    </div>
+    <h2 className="text-gradient mb-6">Acerca de la Web</h2>
+    <p className="text-secondary text-lg mb-8">
+      Esta web fue creada para facilitar la instalación y actualización de los modpacks para nuestro servidor privado de Minecraft 1.21.1 con Create Mod. 
+    </p>
+    <div className="glass-card">
+      <div className="flex flex-col md:flex-row gap-8 text-left justify-around">
+        <div>
+          <h4 className="text-blue-400 mb-2 font-bold">¿Cómo instalo el modpack?</h4>
+          <p className="text-sm text-secondary">
+            1. Descarga el .zip correspondiente.<br/>
+            2. Descomprime en tu carpeta /mods de tu perfil de Fabric 1.21.1.<br/>
+            3. Sustituye la carpeta /config con la que viene en el .zip.
+          </p>
+        </div>
+        <div>
+          <h4 className="text-blue-400 mb-2 font-bold">Contacto</h4>
+          <p className="text-sm text-secondary">
+            Si tienes problemas con la instalación o algún crasheo, contacta con el admin en Discord.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// --- MAIN APP ---
+
+function App() {
+  const [activeTab, setActiveTab] = useState('home');
+
+  return (
+    <div className="container">
+      <TabNav activeTab={activeTab} setActiveTab={setActiveTab} />
+      
+      <main className="min-h-[60vh] flex flex-col justify-center">
+        {activeTab === 'home' && <HomeTab setActiveTab={setActiveTab} />}
+        {activeTab === 'servidor' && <ServerTab />}
+        {activeTab === 'modpacks' && <ModpacksTab />}
+        {activeTab === 'acerca' && <AboutTab />}
+      </main>
+
+      <footer className="mt-20 text-center text-secondary text-sm border-t border-white/5 pt-8">
+        <p>© 2026 Create Server - Modpack Hub. Creado para la comunidad.</p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
