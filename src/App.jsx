@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { 
-  Server, Monitor, Download, ChevronRight, 
+import {
+  Server, Monitor, Download, ChevronRight,
   Shield, Zap, Cpu, Eye, ArrowLeft,
   Gamepad2, Info, Copy, Check, Users, Sparkles
 } from 'lucide-react';
@@ -65,7 +65,7 @@ const ServerTab = () => {
       <div className="text-center mb-12">
         <h2 className="text-gradient">Nuestro Servidor</h2>
         <p className="text-secondary text-lg">Únete a nosotros para la mejor experiencia survival.</p>
-        
+
         <div className="ip-box" onClick={handleCopy} title="Haz clic para copiar">
           {ip}
           {copied ? <Check size={24} color="#4ade80" /> : <Copy size={24} />}
@@ -73,7 +73,25 @@ const ServerTab = () => {
         {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
       </div>
 
-      <div className="glass-card mt-12">
+      <div className="glass-card mt-8 mb-12 flex flex-col md:flex-row gap-6 justify-around text-center p-6">
+        <div>
+          <Cpu className="text-blue-400 mx-auto mb-3" size={36} />
+          <h4 className="text-xl mb-1 text-white">Procesador</h4>
+          <p className="text-secondary font-medium">4 OCPU</p>
+        </div>
+        <div>
+          <Server className="text-blue-400 mx-auto mb-3" size={36} />
+          <h4 className="text-xl mb-1 text-white">Memoria RAM</h4>
+          <p className="text-secondary font-medium">24 GB</p>
+        </div>
+        <div>
+          <Zap className="text-blue-400 mx-auto mb-3" size={36} />
+          <h4 className="text-xl mb-1 text-white">Red</h4>
+          <p className="text-secondary font-medium">4 Gbps de Ancho de Banda</p>
+        </div>
+      </div>
+
+      <div className="glass-card">
         <div className="flex items-center gap-3 mb-6">
           <Shield className="text-blue-400" size={32} />
           <h3 className="mb-0">Normas del Servidor</h3>
@@ -118,21 +136,35 @@ const ModpacksTab = () => {
   const packs = {
     server: {
       id: 'server',
-      title: 'Archivos del Servidor',
+      title: 'Archivos Base (Servidor)',
       icon: <Server size={40} className="text-blue-400" />,
-      desc: 'Descarga el .zip con los mods y configuraciones necesarias para montar o actualizar el servidor.',
-      features: ['Todos los mods del servidor', 'Configuraciones (.conf)', 'Scripts de inicio'],
-      performance: { fps: 'N/A', ram: '4GB - 8GB Recomendado' },
-      downloadUrl: './server_pack.zip'
+      desc: 'El modpack base para jugar en el servidor. No incluye mods de optimización extra.',
+      features: ['Todos los mods del servidor', 'Configuraciones', 'Sin optimización'],
+      performance: {
+        fps: '59-110 FPS (Avg: 90)',
+        ram: 'Prueba: 2832 MB',
+        gpu: 'AMD Radeon Integrated Graphics',
+        usage: 'GPU 67% | CPU 20%',
+        dh: 'Desactivado',
+        resolution: '1440p'
+      },
+      downloadUrl: './server.zip'
     },
     potato: {
       id: 'potato',
-      title: 'Potato (Solo Optimización)',
+      title: 'Pack Potato (Optimización)',
       icon: <Zap size={40} className="text-blue-400" />,
-      desc: 'El pack más ligero. Solo contiene mods esenciales y de optimización pura. Para PCs de bajos recursos.',
-      features: ['Sodium, Lithium, etc.', 'Sin shaders', 'FPS al máximo', 'Create Mod Base'],
-      performance: { fps: '120+ FPS en PCs gama baja', ram: '2GB - 4GB' },
-      downloadUrl: './potato_pack.zip'
+      desc: 'El pack más ligero. Contiene mods de optimización pura para exprimir cada FPS. Recomendado para PCs humildes.',
+      features: ['Sodium, Lithium, etc.', 'Dynamic Lights (Realtime)', 'FPS al máximo', 'Create Mod Base'],
+      performance: {
+        fps: '100-140 FPS (Avg: 130)',
+        ram: 'Prueba: 3088 MB',
+        gpu: 'AMD Radeon Integrated Graphics',
+        usage: 'GPU 55% | CPU 25%',
+        dh: 'Desactivado',
+        resolution: '1440p'
+      },
+      downloadUrl: './potato.zip'
     },
     lowAesthetic: {
       id: 'lowAesthetic',
@@ -140,8 +172,15 @@ const ModpacksTab = () => {
       icon: <Eye size={40} className="text-blue-400" />,
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Potato/Low', 'Mejora visual moderada'],
-      performance: { fps: '60-80 FPS en PCs gama media', ram: '4GB - 6GB' },
-      downloadUrl: './low_aesthetic_pack.zip'
+      performance: { 
+        fps: '39-51 FPS (Avg: 48)', 
+        ram: 'Prueba: 2720 MB',
+        gpu: 'AMD Radeon Integrated Graphics',
+        usage: 'GPU 80% | CPU 16%',
+        dh: 'Desactivado',
+        resolution: '1440p'
+      },
+      downloadUrl: './low.zip'
     },
     highAesthetic: {
       id: 'highAesthetic',
@@ -149,8 +188,15 @@ const ModpacksTab = () => {
       icon: <Sparkles size={40} className="text-blue-400" />,
       desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders High/Ultra', 'Texturas HD opcionales'],
-      performance: { fps: '60+ FPS en PCs gama alta', ram: '8GB+' },
-      downloadUrl: './high_aesthetic_pack.zip'
+      performance: { 
+        fps: '10-14 FPS (Avg: 12)', 
+        ram: 'Prueba: 2722 MB',
+        gpu: 'AMD Radeon Integrated Graphics',
+        usage: 'GPU 100% | CPU 20%',
+        dh: 'Desactivado',
+        resolution: '1440p'
+      },
+      downloadUrl: './high.zip'
     }
   };
 
@@ -165,7 +211,7 @@ const ModpacksTab = () => {
         <h2 className="text-gradient">Descargas</h2>
         <p className="text-secondary text-lg">¿Qué necesitas descargar?</p>
       </div>
-      
+
       <div className="grid md:grid-cols-2 gap-8">
         <div className="glass-card cursor-pointer items-center text-center" onClick={() => openDetail('server')}>
           <div className="bg-blue-600/10 p-6 rounded-full mb-6">
@@ -197,7 +243,7 @@ const ModpacksTab = () => {
       <button className="btn btn-outline mb-8" onClick={() => setView('main')}>
         <ArrowLeft size={18} /> Volver
       </button>
-      
+
       <div className="text-center mb-10">
         <h2 className="text-gradient">Selecciona tu Modpack</h2>
         <p className="text-secondary text-lg">Elige la versión que mejor se adapte a tu PC.</p>
@@ -224,9 +270,9 @@ const ModpacksTab = () => {
       <div className="animate-enter max-w-3xl mx-auto glass-card relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
-        
-        <button 
-          className="btn btn-outline mb-8 w-max" 
+
+        <button
+          className="btn btn-outline mb-8 w-max"
           onClick={() => setView(selectedPack.title.includes('Servidor') ? 'main' : 'client')}
         >
           <ArrowLeft size={18} /> Volver
@@ -246,7 +292,7 @@ const ModpacksTab = () => {
 
         <div className="grid md:grid-cols-2 gap-8 mb-8">
           <div>
-            <h4 className="text-xl mb-4 flex items-center gap-2"><Check className="text-blue-400"/> Contenido</h4>
+            <h4 className="text-xl mb-4 flex items-center gap-2"><Check className="text-blue-400" /> Contenido</h4>
             <ul className="feature-list">
               {selectedPack.features.map((f, i) => (
                 <li key={i}><div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div> {f}</li>
@@ -254,16 +300,32 @@ const ModpacksTab = () => {
             </ul>
           </div>
           <div>
-            <h4 className="text-xl mb-4 flex items-center gap-2"><Cpu className="text-blue-400"/> Rendimiento</h4>
+            <h4 className="text-xl mb-4 flex items-center gap-2"><Cpu className="text-blue-400" /> Rendimiento</h4>
             <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5">
               <div className="mb-3">
                 <div className="text-sm text-secondary mb-1">FPS Estimados</div>
                 <div className="font-semibold text-blue-300">{selectedPack.performance.fps}</div>
               </div>
-              <div>
-                <div className="text-sm text-secondary mb-1">RAM Recomendada</div>
+              <div className={selectedPack.performance.gpu ? "mb-3" : ""}>
+                <div className="text-sm text-secondary mb-1">{selectedPack.performance.gpu ? "RAM (Prueba)" : "RAM Recomendada"}</div>
                 <div className="font-semibold text-blue-300">{selectedPack.performance.ram}</div>
               </div>
+              {selectedPack.performance.gpu && (
+                <>
+                  <div className="mb-3">
+                    <div className="text-sm text-secondary mb-1">Hardware de Prueba</div>
+                    <div className="font-semibold text-blue-300">{selectedPack.performance.gpu} ({selectedPack.performance.resolution})</div>
+                  </div>
+                  <div className="mb-3">
+                    <div className="text-sm text-secondary mb-1">Uso del Sistema</div>
+                    <div className="font-semibold text-blue-300">{selectedPack.performance.usage}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-secondary mb-1">Distant Horizons</div>
+                    <div className="font-semibold text-blue-300">{selectedPack.performance.dh}</div>
+                  </div>
+                </>
+              )}
             </div>
             {/* Pruebas de rendimiento placeholder */}
             <div className="mt-4 p-4 rounded-xl border border-blue-500/20 bg-blue-950/20">
@@ -274,8 +336,8 @@ const ModpacksTab = () => {
           </div>
         </div>
 
-        <a 
-          href={selectedPack.downloadUrl} 
+        <a
+          href={selectedPack.downloadUrl}
           download={`${selectedPack.id}_pack.zip`}
           className="btn btn-primary w-full py-4 text-lg mt-4"
         >
@@ -301,16 +363,16 @@ const AboutTab = () => (
     </div>
     <h2 className="text-gradient mb-6">Acerca de la Web</h2>
     <p className="text-secondary text-lg mb-8">
-      Esta web fue creada para facilitar la instalación y actualización de los modpacks para nuestro servidor privado de Minecraft 1.21.1 con Create Mod. 
+      Esta web fue creada para facilitar la instalación y actualización de los modpacks para nuestro servidor privado de Minecraft 1.21.1 con Create Mod.
     </p>
     <div className="glass-card">
       <div className="flex flex-col md:flex-row gap-8 text-left justify-around">
         <div>
           <h4 className="text-blue-400 mb-2 font-bold">¿Cómo instalo el modpack?</h4>
           <p className="text-sm text-secondary">
-            1. Descarga el .zip correspondiente.<br/>
-            2. Descomprime en tu carpeta /mods de tu perfil de Fabric 1.21.1.<br/>
-            3. Sustituye la carpeta /config con la que viene en el .zip.
+            1. Descarga el .zip correspondiente.<br />
+            2. Descomprímelo directamente en tu carpeta principal <code className="bg-white/10 px-1 rounded">.minecraft</code>.<br />
+            3. Sobrescribe los archivos cuando te lo pregunte, ¡y listo para jugar!
           </p>
         </div>
         <div>
@@ -330,17 +392,17 @@ function App() {
   const [activeTab, setActiveTab] = useState('home');
 
   return (
-    <div className="container">
+    <div className="container min-h-screen flex flex-col">
       <TabNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      
-      <main className="min-h-[60vh] flex flex-col justify-center">
+
+      <main className="flex-grow flex flex-col justify-center">
         {activeTab === 'home' && <HomeTab setActiveTab={setActiveTab} />}
         {activeTab === 'servidor' && <ServerTab />}
         {activeTab === 'modpacks' && <ModpacksTab />}
         {activeTab === 'acerca' && <AboutTab />}
       </main>
 
-      <footer className="mt-20 text-center text-secondary text-sm border-t border-white/5 pt-8">
+      <footer className="mt-auto text-center text-secondary text-sm border-t border-white/5 pt-8 pb-4">
         <p>© 2026 Create Server - Modpack Hub. Creado para la comunidad.</p>
       </footer>
     </div>
