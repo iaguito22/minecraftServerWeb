@@ -122,7 +122,7 @@ const ServerTab = () => {
     };
 
     fetchStats();
-    const interval = setInterval(fetchStats, 10000); // Actualiza cada 10s
+    const interval = setInterval(fetchStats, 2000); // Actualiza cada 2s
     return () => clearInterval(interval);
   }, []);
 
