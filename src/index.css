@@ -48,22 +48,6 @@
   border-color: rgba(0, 0, 0, 0.05);
 }
 
-:root.light .bg-slate-900\\/50 {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-
-:root.light .bg-slate-800 {
-  background-color: #cbd5e1;
-}
-
-:root.light .bg-blue-950\\/20 {
-  background-color: rgba(59, 130, 246, 0.1);
-}
-
-:root.light .bg-blue-900\\/30 {
-  background-color: rgba(59, 130, 246, 0.15);
-}
-
 * {
   box-sizing: border-box;
   margin: 0;
