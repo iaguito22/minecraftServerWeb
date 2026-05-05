@@ -3,40 +3,85 @@ import {
   Server, Monitor, Download, ChevronRight,
   Shield, Zap, Cpu, Eye, ArrowLeft,
   Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon,
-  HardDrive, Wifi, Clock
+  HardDrive, Wifi, Clock, Menu, X
 } from 'lucide-react';
 import './index.css';
 
 // --- COMPONENTS ---
 
-const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => (
-  <nav className="nav-bar glass animate-enter">
-    <div className="flex items-center gap-3">
-      <div className="bg-blue-600/20 p-2 rounded-xl text-blue-400">
-        <Gamepad2 size={28} />
+const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const tabs = ['home', 'servidor', 'modpacks', 'acerca'];
+
+  const handleTab = (tab) => {
+    setActiveTab(tab);
+    setMenuOpen(false);
+  };
+
+  return (
+    <nav className="nav-bar glass animate-enter">
+      <div className="flex items-center gap-3">
+        <div className="nav-logo-icon">
+          <Gamepad2 size={24} />
+        </div>
+        <span className="text-xl font-bold text-gradient">Create MC</span>
       </div>
-      <span className="text-xl font-bold text-gradient">Create MC</span>
-    </div>
-    <div className="nav-links flex items-center">
-      {['home', 'servidor', 'modpacks', 'acerca'].map((tab) => (
+
+      {/* Desktop links */}
+      <div className="nav-links flex items-center">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            className={`nav-item ${activeTab === tab ? 'active' : ''}`}
+            onClick={() => handleTab(tab)}
+          >
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
         <button
-          key={tab}
-          className={`nav-item ${activeTab === tab ? 'active' : ''}`}
-          onClick={() => setActiveTab(tab)}
+          onClick={toggleTheme}
+          className="theme-toggle-btn"
+          title="Cambiar tema"
         >
-          {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
         </button>
-      ))}
-      <button 
-        onClick={toggleTheme} 
-        className={`ml-2 p-2 rounded-full hover:bg-blue-600/10 transition-colors bg-transparent border-none cursor-pointer flex items-center justify-center ${theme === 'light' ? 'text-black' : 'text-white'}`}
-        title="Cambiar tema"
-      >
-        {theme === 'light' ? <Moon size={22} /> : <Sun size={22} />}
-      </button>
-    </div>
-  </nav>
-);
+      </div>
+
+      {/* Mobile right side */}
+      <div className="nav-mobile-right">
+        <button
+          onClick={toggleTheme}
+          className="theme-toggle-btn"
+          title="Cambiar tema"
+        >
+          {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+        </button>
+        <button
+          className="hamburger-btn"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menú"
+        >
+          {menuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
+      </div>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              className={`mobile-menu-item ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => handleTab(tab)}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+      )}
+    </nav>
+  );
+};
 
 const HomeTab = ({ setActiveTab }) => (
   <div className="flex-col items-center text-center animate-enter delay-100 mt-12">
@@ -95,7 +140,7 @@ const ServerTab = () => {
 
         {/* Live Server Status Widget */}
         <div className={`server-widget ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
-          
+
           <div className="server-widget-header">
             <div className="flex items-center gap-4">
               <div className="status-indicator">
@@ -106,7 +151,7 @@ const ServerTab = () => {
                 {serverStats ? (serverStats.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline') : 'Conectando...'}
               </h3>
             </div>
-            
+
             {serverStats && serverStats.estado_maquina === 'running' && (
               <div className="uptime-badge">
                 <Clock size={16} className="text-blue-400" />
@@ -114,10 +159,10 @@ const ServerTab = () => {
               </div>
             )}
           </div>
-          
+
           {serverStats && serverStats.estado_maquina === 'running' && (
             <div className="server-widget-grid">
-              
+
               <div className="stat-card">
                 <div className="stat-label">
                   <Users size={18} /> Jugadores
@@ -158,14 +203,14 @@ const ServerTab = () => {
                 <div className="stat-label">
                   <Wifi size={18} /> Red
                 </div>
-                <div className="w-full mt-2">
-                  <div className="flex justify-between items-center mb-1">
-                    <span className="stat-unit" style={{fontSize: '0.75rem'}}>Bajada:</span>
-                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 500}}>{parseFloat(serverStats.red_bajada_kb).toFixed(0)} KB/s</span>
+                <div className="w-full mt-3 px-1">
+                  <div className="flex justify-between items-center gap-2 mb-2">
+                    <span className="stat-unit" style={{fontSize: '0.75rem', opacity: 0.8}}>Bajada:</span>
+                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 600}}>{parseFloat(serverStats.red_bajada_kb).toFixed(0)} <span className="stat-unit" style={{fontSize: '0.7rem', fontWeight: 400}}>KB/s</span></span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="stat-unit" style={{fontSize: '0.75rem'}}>Subida:</span>
-                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 500}}>{parseFloat(serverStats.red_subida_kb).toFixed(0)} KB/s</span>
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="stat-unit" style={{fontSize: '0.75rem', opacity: 0.8}}>Subida:</span>
+                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 600}}>{parseFloat(serverStats.red_subida_kb).toFixed(0)} <span className="stat-unit" style={{fontSize: '0.7rem', fontWeight: 400}}>KB/s</span></span>
                   </div>
                 </div>
               </div>
