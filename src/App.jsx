@@ -112,7 +112,8 @@ const ServerTab = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent("http://141.253.109.219:3000/estado")}`);
+        const bustCache = `http://141.253.109.219:3000/estado?_t=${Date.now()}`;
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(bustCache)}`);
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setServerStats(data);
