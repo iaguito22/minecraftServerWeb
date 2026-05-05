@@ -129,6 +129,43 @@ const ServerTab = () => {
   );
 };
 
+const PerformanceChart = () => {
+  const chartData = [
+    { name: 'Potato (Optimización)', fps: 130, color: 'bg-green-400', width: '92%' },
+    { name: 'Server (Base)', fps: 90, color: 'bg-blue-400', width: '64%' },
+    { name: 'Low (Shaders Ligeros)', fps: 48, color: 'bg-yellow-400', width: '34%' },
+    { name: 'High (Ultra Shaders)', fps: 12, color: 'bg-red-400', width: '8%' }
+  ];
+
+  return (
+    <div className="mt-6 p-5 rounded-xl border border-blue-500/20 bg-slate-900/50">
+      <h4 className="text-lg mb-4 text-white flex items-center gap-2">
+        <Zap size={18} className="text-blue-400" />
+        Comparativa de Rendimiento
+      </h4>
+      <div className="space-y-4">
+        {chartData.map((data, index) => (
+          <div key={index} className="group">
+            <div className="flex justify-between text-sm mb-1">
+              <span className="text-secondary group-hover:text-white transition-colors">{data.name}</span>
+              <span className="font-bold text-white">{data.fps} FPS</span>
+            </div>
+            <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+              <div
+                className={`${data.color} h-2.5 rounded-full transition-all duration-1000 ease-out`}
+                style={{ width: data.width }}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-secondary mt-4 text-center opacity-80">
+        * Promedios en pruebas con gráficos integrados (1440p)
+      </p>
+    </div>
+  );
+};
+
 const ModpacksTab = () => {
   const [view, setView] = useState('main'); // main, client, detail
   const [selectedPack, setSelectedPack] = useState(null);
@@ -148,7 +185,7 @@ const ModpacksTab = () => {
         dh: 'Desactivado',
         resolution: '1440p'
       },
-      downloadUrl: './server.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/server.zip'
     },
     potato: {
       id: 'potato',
@@ -164,7 +201,7 @@ const ModpacksTab = () => {
         dh: 'Desactivado',
         resolution: '1440p'
       },
-      downloadUrl: './potato.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/potato.zip'
     },
     lowAesthetic: {
       id: 'lowAesthetic',
@@ -172,15 +209,15 @@ const ModpacksTab = () => {
       icon: <Eye size={40} className="text-blue-400" />,
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Potato/Low', 'Mejora visual moderada'],
-      performance: { 
-        fps: '39-51 FPS (Avg: 48)', 
+      performance: {
+        fps: '39-51 FPS (Avg: 48)',
         ram: 'Prueba: 2720 MB',
         gpu: 'AMD Radeon Integrated Graphics',
         usage: 'GPU 80% | CPU 16%',
         dh: 'Desactivado',
         resolution: '1440p'
       },
-      downloadUrl: './low.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/low.zip'
     },
     highAesthetic: {
       id: 'highAesthetic',
@@ -188,15 +225,15 @@ const ModpacksTab = () => {
       icon: <Sparkles size={40} className="text-blue-400" />,
       desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders High/Ultra', 'Texturas HD opcionales'],
-      performance: { 
-        fps: '10-14 FPS (Avg: 12)', 
+      performance: {
+        fps: '10-14 FPS (Avg: 12)',
         ram: 'Prueba: 2722 MB',
         gpu: 'AMD Radeon Integrated Graphics',
         usage: 'GPU 100% | CPU 20%',
         dh: 'Desactivado',
         resolution: '1440p'
       },
-      downloadUrl: './high.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/high.zip'
     }
   };
 
@@ -327,12 +364,8 @@ const ModpacksTab = () => {
                 </>
               )}
             </div>
-            {/* Pruebas de rendimiento placeholder */}
-            <div className="mt-4 p-4 rounded-xl border border-blue-500/20 bg-blue-950/20">
-              <p className="text-sm text-secondary italic">
-                * Pruebas de rendimiento gráficas próximamente. (Aquí irán las imágenes que enviarás).
-              </p>
-            </div>
+            {/* Pruebas de rendimiento */}
+            <PerformanceChart />
           </div>
         </div>
 
