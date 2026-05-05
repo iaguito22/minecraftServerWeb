@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Server, Monitor, Download, ChevronRight,
   Shield, Zap, Cpu, Eye, ArrowLeft,
   Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon,
-  HardDrive, Wifi, Clock, Menu, X
+  HardDrive, Wifi, Clock, Menu, X, RefreshCw
 } from 'lucide-react';
 import './index.css';
 
@@ -107,31 +107,52 @@ const ServerTab = () => {
   const [copied, setCopied] = useState(false);
   const [serverStats, setServerStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [countdown, setCountdown] = useState(20);
   const ip = "141.253.109.219";
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch('https://mc-status-proxy.igl2005.workers.dev/');
-        if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.json();
-        setServerStats(data);
-      } catch (error) {
-        setServerStats({ estado_maquina: 'offline' });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStats();
-    const interval = setInterval(fetchStats, 2000); // Actualiza cada 2s
-    return () => clearInterval(interval);
+  const fetchStats = useCallback(async () => {
+    try {
+      const response = await fetch('https://mc-status-proxy.igl2005.workers.dev/');
+      if (!response.ok) throw new Error("Network response was not ok");
+      const data = await response.json();
+      setServerStats(data);
+    } catch (error) {
+      setServerStats({ estado_maquina: 'offline' });
+    } finally {
+      setLoading(false);
+      setCountdown(20);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          fetchStats();
+          return 20;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [fetchStats]);
+
+  const handleManualRefresh = () => {
+    if (!loading) {
+      setCountdown(20);
+      setLoading(true);
+      fetchStats();
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(ip);
     setCopied(true);
-    setTimeout(() => setCopied(false), 5000);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -157,8 +178,23 @@ const ServerTab = () => {
                 <span className={`status-dot ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}></span>
               </div>
               <h3 className={`status-title ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
-                {loading ? 'Conectando...' : (serverStats?.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline')}
+                {loading && !serverStats ? 'Conectando...' : (serverStats?.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline')}
               </h3>
+
+              {serverStats && (
+                <div className="flex items-center gap-2 ml-2">
+                  <button 
+                    onClick={handleManualRefresh}
+                    disabled={loading}
+                    style={{ background: 'none', border: 'none', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', outline: 'none' }}
+                    className="text-secondary hover:text-white transition-colors cursor-pointer"
+                    title="Actualizar estado"
+                  >
+                    <RefreshCw size={18} className={loading ? "animate-spin text-white" : ""} />
+                  </button>
+                  <span className="text-sm text-secondary font-mono">{countdown}s</span>
+                </div>
+              )}
             </div>
 
             {!loading && serverStats?.estado_maquina === 'running' && (
