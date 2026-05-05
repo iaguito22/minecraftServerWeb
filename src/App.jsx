@@ -214,7 +214,7 @@ const ModpacksTab = () => {
         ram: 'Prueba: 2720 MB',
         gpu: 'AMD Radeon Integrated Graphics',
         usage: 'GPU 80% | CPU 16%',
-        dh: 'Desactivado',
+        dh: 'Activado',
         resolution: '1440p'
       },
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/low.zip'
@@ -230,7 +230,7 @@ const ModpacksTab = () => {
         ram: 'Prueba: 2722 MB',
         gpu: 'AMD Radeon Integrated Graphics',
         usage: 'GPU 100% | CPU 20%',
-        dh: 'Desactivado',
+        dh: 'Activado',
         resolution: '1440p'
       },
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/high.zip'
@@ -321,7 +321,7 @@ const ModpacksTab = () => {
           </div>
           <div>
             <h2 className="mb-1 text-3xl">{selectedPack.title}</h2>
-            <div className="badge">1.21.1 / Fabric</div>
+            <div className="badge">1.21.1 / NeoForge</div>
           </div>
         </div>
 
