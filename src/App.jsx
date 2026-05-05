@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Server, Monitor, Download, ChevronRight,
   Shield, Zap, Cpu, Eye, ArrowLeft,
-  Gamepad2, Info, Copy, Check, Users, Sparkles
+  Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon
 } from 'lucide-react';
 import './index.css';
 
 // --- COMPONENTS ---
 
-const TabNav = ({ activeTab, setActiveTab }) => (
+const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => (
   <nav className="nav-bar glass animate-enter">
     <div className="flex items-center gap-3">
       <div className="bg-blue-600/20 p-2 rounded-xl text-blue-400">
@@ -16,7 +16,7 @@ const TabNav = ({ activeTab, setActiveTab }) => (
       </div>
       <span className="text-xl font-bold text-gradient">Create MC</span>
     </div>
-    <div className="nav-links">
+    <div className="nav-links flex items-center">
       {['home', 'servidor', 'modpacks', 'acerca'].map((tab) => (
         <button
           key={tab}
@@ -26,6 +26,13 @@ const TabNav = ({ activeTab, setActiveTab }) => (
           {tab.charAt(0).toUpperCase() + tab.slice(1)}
         </button>
       ))}
+      <button 
+        onClick={toggleTheme} 
+        className={`ml-2 p-2 rounded-full hover:bg-blue-600/10 transition-colors bg-transparent border-none cursor-pointer flex items-center justify-center ${theme === 'light' ? 'text-black' : 'text-white'}`}
+        title="Cambiar tema"
+      >
+        {theme === 'light' ? <Moon size={22} /> : <Sun size={22} />}
+      </button>
     </div>
   </nav>
 );
@@ -52,7 +59,32 @@ const HomeTab = ({ setActiveTab }) => (
 
 const ServerTab = () => {
   const [copied, setCopied] = useState(false);
+  const [serverStats, setServerStats] = useState(null);
+  const [statsError, setStatsError] = useState(null);
   const ip = "play.mc-create-server.com"; // Placeholder IP
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("http://141.253.109.219/api/client/servers/2f476403/resources", {
+          headers: {
+            "Authorization": "Bearer ptlc_HlJwO1ONX3demBvn1Q9NrgXI871QBnA9jbdSLxeRbpr",
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          }
+        });
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        setServerStats(data.attributes);
+      } catch (error) {
+        setStatsError("No se pudo conectar con el servidor.");
+      }
+    };
+
+    fetchStats();
+    const interval = setInterval(fetchStats, 10000); // Actualiza cada 10s
+    return () => clearInterval(interval);
+  }, []);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(ip);
@@ -66,6 +98,33 @@ const ServerTab = () => {
         <h2 className="text-gradient">Nuestro Servidor</h2>
         <p className="text-secondary text-lg">Únete a nosotros para la mejor experiencia survival.</p>
 
+        {/* Live Server Status Widget */}
+        <div className="mt-8 mb-6 inline-flex flex-col md:flex-row items-center gap-6 bg-slate-900/50 p-4 rounded-2xl border border-white/5">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className={`w-4 h-4 rounded-full ${serverStats?.current_state === 'running' ? 'bg-green-500' : 'bg-red-500'}`}></div>
+              {serverStats?.current_state === 'running' && <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-75"></div>}
+            </div>
+            <span className="font-bold text-lg text-white">
+              {serverStats ? (serverStats.current_state === 'running' ? 'Online' : 'Offline') : 'Conectando...'}
+            </span>
+          </div>
+          
+          {serverStats && serverStats.current_state === 'running' && (
+            <div className="flex gap-6 text-sm text-secondary">
+              <div className="flex items-center gap-2">
+                <Cpu size={16} className="text-blue-400" />
+                <span>{serverStats.resources.cpu_absolute.toFixed(1)}% CPU</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Server size={16} className="text-blue-400" />
+                <span>{(serverStats.resources.memory_bytes / 1024 / 1024 / 1024).toFixed(2)} GB RAM</span>
+              </div>
+            </div>
+          )}
+          {statsError && <span className="text-sm text-red-400">{statsError} (Posible bloqueo CORS)</span>}
+        </div>
+
         <div className="ip-box" onClick={handleCopy} title="Haz clic para copiar">
           {ip}
           {copied ? <Check size={24} color="#4ade80" /> : <Copy size={24} />}
@@ -73,21 +132,27 @@ const ServerTab = () => {
         {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
       </div>
 
-      <div className="glass-card mt-8 mb-12 flex flex-col md:flex-row gap-6 justify-around text-center p-6">
-        <div>
-          <Cpu className="text-blue-400 mx-auto mb-3" size={36} />
-          <h4 className="text-xl mb-1 text-white">Procesador</h4>
-          <p className="text-secondary font-medium">4 OCPU</p>
+      <div className="glass-card mt-8 mb-8 flex flex-row flex-wrap gap-8 justify-around p-6">
+        <div className="flex items-center gap-4 text-left">
+          <Cpu className="text-blue-400" size={36} />
+          <div>
+            <h4 className="text-xl mb-1 text-white">Procesador</h4>
+            <p className="text-secondary font-medium">4 OCPU</p>
+          </div>
         </div>
-        <div>
-          <Server className="text-blue-400 mx-auto mb-3" size={36} />
-          <h4 className="text-xl mb-1 text-white">Memoria RAM</h4>
-          <p className="text-secondary font-medium">24 GB</p>
+        <div className="flex items-center gap-4 text-left">
+          <Server className="text-blue-400" size={36} />
+          <div>
+            <h4 className="text-xl mb-1 text-white">Memoria RAM</h4>
+            <p className="text-secondary font-medium">24 GB</p>
+          </div>
         </div>
-        <div>
-          <Zap className="text-blue-400 mx-auto mb-3" size={36} />
-          <h4 className="text-xl mb-1 text-white">Red</h4>
-          <p className="text-secondary font-medium">4 Gbps de Ancho de Banda</p>
+        <div className="flex items-center gap-4 text-left">
+          <Zap className="text-blue-400" size={36} />
+          <div>
+            <h4 className="text-xl mb-1 text-white">Red</h4>
+            <p className="text-secondary font-medium">4 Gbps de Ancho</p>
+          </div>
         </div>
       </div>
 
@@ -166,7 +231,7 @@ const PerformanceChart = () => {
   );
 };
 
-const ModpacksTab = () => {
+const ModpacksTab = ({ setActiveTab }) => {
   const [view, setView] = useState('main'); // main, client, detail
   const [selectedPack, setSelectedPack] = useState(null);
 
@@ -192,7 +257,7 @@ const ModpacksTab = () => {
       title: 'Pack Potato (Optimización)',
       icon: <Zap size={40} className="text-blue-400" />,
       desc: 'El pack más ligero. Contiene mods de optimización pura para exprimir cada FPS. Recomendado para PCs humildes.',
-      features: ['Sodium, Lithium, etc.', 'Dynamic Lights (Realtime)', 'FPS al máximo', 'Create Mod Base'],
+      features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'FPS al máximo', 'Create Mod Base'],
       performance: {
         fps: '100-140 FPS (Avg: 130)',
         ram: 'Prueba: 3088 MB',
@@ -208,7 +273,7 @@ const ModpacksTab = () => {
       title: 'Low Aesthetic (Potato + Shaders)',
       icon: <Eye size={40} className="text-blue-400" />,
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
-      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Potato/Low', 'Mejora visual moderada'],
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders E-LITE 5.0.1', 'Mejora visual fluida'],
       performance: {
         fps: '39-51 FPS (Avg: 48)',
         ram: 'Prueba: 2720 MB',
@@ -224,7 +289,7 @@ const ModpacksTab = () => {
       title: 'High Aesthetic (Ultra)',
       icon: <Sparkles size={40} className="text-blue-400" />,
       desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
-      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders High/Ultra', 'Texturas HD opcionales'],
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Solas V3.6', 'Visuales impresionantes'],
       performance: {
         fps: '10-14 FPS (Avg: 12)',
         ram: 'Prueba: 2722 MB',
@@ -244,7 +309,7 @@ const ModpacksTab = () => {
 
   const renderMain = () => (
     <div className="animate-enter delay-100 max-w-4xl mx-auto">
-      <div className="text-center mb-10">
+      <div className="text-center mb-16">
         <h2 className="text-gradient">Descargas</h2>
         <p className="text-secondary text-lg">¿Qué necesitas descargar?</p>
       </div>
@@ -281,7 +346,7 @@ const ModpacksTab = () => {
         <ArrowLeft size={18} /> Volver
       </button>
 
-      <div className="text-center mb-10">
+      <div className="text-center mb-16">
         <h2 className="text-gradient">Selecciona tu Modpack</h2>
         <p className="text-secondary text-lg">Elige la versión que mejor se adapte a tu PC.</p>
       </div>
@@ -364,18 +429,29 @@ const ModpacksTab = () => {
                 </>
               )}
             </div>
-            {/* Pruebas de rendimiento */}
-            <PerformanceChart />
           </div>
         </div>
 
-        <a
-          href={selectedPack.downloadUrl}
-          download={`${selectedPack.id}_pack.zip`}
-          className="btn btn-primary w-full py-4 text-lg mt-4"
-        >
-          <Download size={24} /> Descargar {selectedPack.title}.zip
-        </a>
+        {/* Pruebas de rendimiento */}
+        <div className="max-w-2xl mx-auto mb-8">
+          <PerformanceChart />
+        </div>
+
+        <div className="mt-4">
+          <a
+            href={selectedPack.downloadUrl}
+            download={`${selectedPack.id}_pack.zip`}
+            className="btn btn-primary w-full py-4 text-lg"
+          >
+            <Download size={24} /> Descargar {selectedPack.title}.zip
+          </a>
+          <button
+            onClick={() => setActiveTab('acerca')}
+            className="btn btn-outline w-full mt-6"
+          >
+            <Info size={18} /> ¿Cómo lo instalo?
+          </button>
+        </div>
       </div>
     );
   };
@@ -402,10 +478,11 @@ const AboutTab = () => (
       <div className="flex flex-col md:flex-row gap-8 text-left justify-around">
         <div>
           <h4 className="text-blue-400 mb-2 font-bold">¿Cómo instalo el modpack?</h4>
-          <p className="text-sm text-secondary">
+          <p className="text-sm text-secondary leading-relaxed">
             1. Descarga el .zip correspondiente.<br />
-            2. Descomprímelo directamente en tu carpeta principal <code className="bg-white/10 px-1 rounded">.minecraft</code>.<br />
-            3. Sobrescribe los archivos cuando te lo pregunte, ¡y listo para jugar!
+            <strong className="text-blue-400">2. IMPORTANTE: Ve a tu carpeta <code className="bg-white/10 px-1 rounded">.minecraft</code> y ELIMINA tu carpeta <code className="bg-white/10 px-1 rounded">mods</code> actual para evitar incompatibilidades.</strong><br />
+            3. Descomprime el .zip directamente en la carpeta principal <code className="bg-white/10 px-1 rounded">.minecraft</code>.<br />
+            4. Sobrescribe los archivos y carpetas cuando te lo pregunte, ¡y listo para jugar!
           </p>
         </div>
         <div>
@@ -423,19 +500,32 @@ const AboutTab = () => (
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('light');
+    } else {
+      document.documentElement.classList.remove('light');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   return (
-    <div className="container min-h-screen flex flex-col">
-      <TabNav activeTab={activeTab} setActiveTab={setActiveTab} />
+    <div className="container min-h-screen flex flex-col justify-between">
+      <div className="flex-1 flex flex-col">
+        <TabNav activeTab={activeTab} setActiveTab={setActiveTab} theme={theme} toggleTheme={toggleTheme} />
 
-      <main className="flex-grow flex flex-col justify-center">
-        {activeTab === 'home' && <HomeTab setActiveTab={setActiveTab} />}
-        {activeTab === 'servidor' && <ServerTab />}
-        {activeTab === 'modpacks' && <ModpacksTab />}
-        {activeTab === 'acerca' && <AboutTab />}
-      </main>
+        <main className="flex-grow flex flex-col justify-center pb-12">
+          {activeTab === 'home' && <HomeTab setActiveTab={setActiveTab} />}
+          {activeTab === 'servidor' && <ServerTab />}
+          {activeTab === 'modpacks' && <ModpacksTab setActiveTab={setActiveTab} />}
+          {activeTab === 'acerca' && <AboutTab />}
+        </main>
+      </div>
 
-      <footer className="mt-auto text-center text-secondary text-sm border-t border-white/5 pt-8 pb-4">
+      <footer className="w-full text-center text-secondary text-sm py-4 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
         <p>© 2026 Create Server - Modpack Hub. Creado para la comunidad.</p>
       </footer>
     </div>
