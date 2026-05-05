@@ -106,7 +106,7 @@ const HomeTab = ({ setActiveTab }) => (
 const ServerTab = () => {
   const [copied, setCopied] = useState(false);
   const [serverStats, setServerStats] = useState(null);
-  const [statsError, setStatsError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const ip = "141.253.109.219";
 
   useEffect(() => {
@@ -117,7 +117,9 @@ const ServerTab = () => {
         const data = await response.json();
         setServerStats(data);
       } catch (error) {
-        setStatsError("No se pudo conectar con el servidor.");
+        setServerStats({ estado_maquina: 'offline' });
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -129,7 +131,7 @@ const ServerTab = () => {
   const handleCopy = () => {
     navigator.clipboard.writeText(ip);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 5000);
   };
 
   return (
@@ -138,8 +140,15 @@ const ServerTab = () => {
         <h2 className="text-gradient">Nuestro Servidor</h2>
         <p className="text-secondary text-lg">Únete a nosotros para la mejor experiencia survival.</p>
 
+        {/* IP Box */}
+        <div className="ip-box" onClick={handleCopy} title="Haz clic para copiar">
+          {ip}
+          {copied ? <Check size={24} color="#4ade80" /> : <Copy size={24} />}
+        </div>
+        {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
+
         {/* Live Server Status Widget */}
-        <div className={`server-widget ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
+        <div className={`server-widget mt-6 ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
 
           <div className="server-widget-header">
             <div className="flex items-center gap-4">
@@ -148,11 +157,11 @@ const ServerTab = () => {
                 <span className={`status-dot ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}></span>
               </div>
               <h3 className={`status-title ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
-                {serverStats ? (serverStats.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline') : 'Conectando...'}
+                {loading ? 'Conectando...' : (serverStats?.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline')}
               </h3>
             </div>
 
-            {serverStats && serverStats.estado_maquina === 'running' && (
+            {!loading && serverStats?.estado_maquina === 'running' && (
               <div className="uptime-badge">
                 <Clock size={16} className="text-blue-400" />
                 <span>Tiempo activo: <span className="text-white font-medium">{serverStats.tiempo_encendido}</span></span>
@@ -160,71 +169,75 @@ const ServerTab = () => {
             )}
           </div>
 
-          {serverStats && serverStats.estado_maquina === 'running' && (
-            <div className="server-widget-grid">
+          {!loading && serverStats?.estado_maquina === 'running' && (
+            <>
+              <div className="server-widget-grid">
 
-              <div className="stat-card">
-                <div className="stat-label">
-                  <Users size={18} /> Jugadores
-                </div>
-                <div className="stat-value">
-                  {serverStats.jugadores_conectados} <span className="stat-unit">/ {serverStats.jugadores_maximos}</span>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-label">
-                  <Cpu size={18} /> CPU
-                </div>
-                <div className="stat-value">
-                  {(parseFloat(serverStats.cpu_uso) / 4).toFixed(1)}% <span className="stat-unit">/ 100%</span>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-label">
-                  <Server size={18} /> RAM
-                </div>
-                <div className="stat-value">
-                  {(parseFloat(serverStats.ram_mb) / 1024).toFixed(1)} <span className="stat-unit">/ 24 GB</span>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="stat-label">
-                  <HardDrive size={18} /> Disco
-                </div>
-                <div className="stat-value">
-                  {(parseFloat(serverStats.disco_mb) / 1024).toFixed(1)} <span className="stat-unit">GB</span>
-                </div>
-              </div>
-
-              <div className="stat-card wide">
-                <div className="stat-label">
-                  <Wifi size={18} /> Red
-                </div>
-                <div className="w-full mt-3 px-1">
-                  <div className="flex justify-between items-center gap-2 mb-2">
-                    <span className="stat-unit" style={{fontSize: '0.75rem', opacity: 0.8}}>Bajada:</span>
-                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 600}}>{parseFloat(serverStats.red_bajada_kb).toFixed(0)} <span className="stat-unit" style={{fontSize: '0.7rem', fontWeight: 400}}>KB/s</span></span>
+                <div className="stat-card">
+                  <div className="stat-label">
+                    <Users size={18} /> Jugadores
                   </div>
-                  <div className="flex justify-between items-center gap-2">
-                    <span className="stat-unit" style={{fontSize: '0.75rem', opacity: 0.8}}>Subida:</span>
-                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 600}}>{parseFloat(serverStats.red_subida_kb).toFixed(0)} <span className="stat-unit" style={{fontSize: '0.7rem', fontWeight: 400}}>KB/s</span></span>
+                  <div className="stat-value">
+                    {serverStats.jugadores_conectados} <span className="stat-unit">/ {serverStats.jugadores_maximos}</span>
                   </div>
                 </div>
+
+                <div className="stat-card">
+                  <div className="stat-label">
+                    <Cpu size={18} /> CPU
+                  </div>
+                  <div className="stat-value">
+                    {(parseFloat(serverStats.cpu_uso) / 4).toFixed(1)}% <span className="stat-unit">/ 100%</span>
+                  </div>
+                </div>
+
+                <div className="stat-card">
+                  <div className="stat-label">
+                    <Server size={18} /> RAM
+                  </div>
+                  <div className="stat-value">
+                    {(parseFloat(serverStats.ram_mb) / 1024).toFixed(1)} <span className="stat-unit">/ 24 GB</span>
+                  </div>
+                </div>
+
+                <div className="stat-card">
+                  <div className="stat-label">
+                    <HardDrive size={18} /> Disco
+                  </div>
+                  <div className="stat-value">
+                    {(parseFloat(serverStats.disco_mb) / 1024).toFixed(1)} <span className="stat-unit">GB</span>
+                  </div>
+                </div>
+
+                <div className="stat-card wide">
+                  <div className="stat-label">
+                    <Wifi size={18} /> Red
+                  </div>
+                  <div className="w-full mt-3 px-1">
+                    <div className="flex justify-between items-center gap-2 mb-2">
+                      <span className="stat-unit" style={{ fontSize: '0.75rem', opacity: 0.8 }}>Bajada:</span>
+                      <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{parseFloat(serverStats.red_bajada_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>KB/s</span></span>
+                    </div>
+                    <div className="flex justify-between items-center gap-2">
+                      <span className="stat-unit" style={{ fontSize: '0.75rem', opacity: 0.8 }}>Subida:</span>
+                      <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{parseFloat(serverStats.red_subida_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>KB/s</span></span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
 
-            </div>
+              {serverStats.nombres_jugadores && serverStats.nombres_jugadores.length > 0 && (
+                <div className="player-row">
+                  <span className="player-row-label"><Users size={14} /> En línea ahora:</span>
+                  {serverStats.nombres_jugadores.map((nombre, i) => (
+                    <span key={i} className="player-tag">{nombre}</span>
+                  ))}
+                </div>
+              )}
+            </>
           )}
-          {statsError && <div className="mt-4 text-center"><span className="text-sm text-red-400 font-medium bg-red-500/10 px-4 py-2 rounded-xl">{statsError}</span></div>}
         </div>
-
-        <div className="ip-box" onClick={handleCopy} title="Haz clic para copiar">
-          {ip}
-          {copied ? <Check size={24} color="#4ade80" /> : <Copy size={24} />}
-        </div>
-        {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
       </div>
 
       <div className="glass-card mt-8 mb-8 flex flex-row flex-wrap gap-8 justify-around p-6">
