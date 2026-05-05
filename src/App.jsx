@@ -108,7 +108,7 @@ const ServerTab = () => {
   const [serverStats, setServerStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [countdown, setCountdown] = useState(20);
-  const ip = "141.253.109.219";
+  const ip = "141.253.109.219:25565";
 
   const fetchStats = useCallback(async () => {
     try {
