@@ -112,8 +112,7 @@ const ServerTab = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const bustCache = `http://${ip}:3000/estado?_t=${Date.now()}`;
-        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(bustCache)}`);
+        const response = await fetch('https://mc-status-proxy.igl2005.workers.dev/');
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setServerStats(data);
