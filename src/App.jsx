@@ -133,7 +133,7 @@ const ServerTab = () => {
       setCountdown((prev) => {
         if (prev <= 1) {
           fetchStats();
-          return 20;
+          return 60;
         }
         return prev - 1;
       });
@@ -169,21 +169,32 @@ const ServerTab = () => {
         {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
 
         {/* Live Server Status Widget */}
-        <div className={`server-widget mt-6 ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
+        <div className={`server-widget mt-6 ${
+          serverStats?.estado_maquina === 'running' ? 'online' : 
+          serverStats?.estado_maquina === 'starting' ? 'starting' : 'offline'
+        }`}>
 
           <div className="server-widget-header">
             <div className="flex items-center gap-4">
               <div className="status-indicator">
                 {serverStats?.estado_maquina === 'running' && <span className="status-ping"></span>}
-                <span className={`status-dot ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}></span>
+                <span className={`status-dot ${
+                  serverStats?.estado_maquina === 'running' ? 'online' : 
+                  serverStats?.estado_maquina === 'starting' ? 'starting' : 'offline'
+                }`}></span>
               </div>
-              <h3 className={`status-title ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
-                {loading && !serverStats ? 'Conectando...' : (serverStats?.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline')}
+              <h3 className={`status-title ${
+                serverStats?.estado_maquina === 'running' ? 'online' : 
+                serverStats?.estado_maquina === 'starting' ? 'starting' : 'offline'
+              }`}>
+                {loading && !serverStats ? 'Conectando...' : 
+                  serverStats?.estado_maquina === 'running' ? 'Servidor Online' : 
+                  serverStats?.estado_maquina === 'starting' ? 'Servidor Iniciando...' : 'Servidor Offline'}
               </h3>
 
               {serverStats && (
                 <div className="flex items-center gap-2 ml-2">
-                  <button 
+                  <button
                     onClick={handleManualRefresh}
                     disabled={loading}
                     style={{ background: 'none', border: 'none', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', outline: 'none' }}

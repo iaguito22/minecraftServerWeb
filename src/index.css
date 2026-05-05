@@ -800,6 +800,12 @@ h3 {
   box-shadow: 0 0 30px rgba(239, 68, 68, 0.15);
 }
 
+.server-widget.starting {
+  background: rgba(249, 115, 22, 0.05);
+  border-color: rgba(249, 115, 22, 0.2);
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.15);
+}
+
 .server-widget-header {
   display: flex;
   flex-direction: column;
@@ -900,6 +906,11 @@ h3 {
   box-shadow: 0 0 10px #ef4444;
 }
 
+.status-dot.starting {
+  background-color: #f97316;
+  box-shadow: 0 0 10px #f97316;
+}
+
 .status-ping {
   position: absolute;
   display: inline-flex;
@@ -936,7 +947,11 @@ h3 {
 }
 
 .status-title.offline {
-  color: #f87171;
+  color: #ef4444;
+}
+
+.status-title.starting {
+  color: #f97316;
 }
 
 .uptime-badge {
