@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Server, Monitor, Download, ChevronRight,
   Shield, Zap, Cpu, Eye, ArrowLeft,
-  Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon
+  Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon,
+  HardDrive, Wifi, Clock
 } from 'lucide-react';
 import './index.css';
 
@@ -66,16 +67,10 @@ const ServerTab = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("http://141.253.109.219/api/client/servers/2f476403/resources", {
-          headers: {
-            "Authorization": "Bearer ptlc_HlJwO1ONX3demBvn1Q9NrgXI871QBnA9jbdSLxeRbpr",
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-          }
-        });
+        const response = await fetch("http://141.253.109.219:3000/estado");
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
-        setServerStats(data.attributes);
+        setServerStats(data);
       } catch (error) {
         setStatsError("No se pudo conectar con el servidor.");
       }
@@ -99,30 +94,85 @@ const ServerTab = () => {
         <p className="text-secondary text-lg">Únete a nosotros para la mejor experiencia survival.</p>
 
         {/* Live Server Status Widget */}
-        <div className="mt-8 mb-6 inline-flex flex-col md:flex-row items-center gap-6 bg-slate-900/50 p-4 rounded-2xl border border-white/5">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className={`w-4 h-4 rounded-full ${serverStats?.current_state === 'running' ? 'bg-green-500' : 'bg-red-500'}`}></div>
-              {serverStats?.current_state === 'running' && <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-75"></div>}
+        <div className={`server-widget ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
+          
+          <div className="server-widget-header">
+            <div className="flex items-center gap-4">
+              <div className="status-indicator">
+                {serverStats?.estado_maquina === 'running' && <span className="status-ping"></span>}
+                <span className={`status-dot ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}></span>
+              </div>
+              <h3 className={`status-title ${serverStats?.estado_maquina === 'running' ? 'online' : 'offline'}`}>
+                {serverStats ? (serverStats.estado_maquina === 'running' ? 'Servidor Online' : 'Servidor Offline') : 'Conectando...'}
+              </h3>
             </div>
-            <span className="font-bold text-lg text-white">
-              {serverStats ? (serverStats.current_state === 'running' ? 'Online' : 'Offline') : 'Conectando...'}
-            </span>
+            
+            {serverStats && serverStats.estado_maquina === 'running' && (
+              <div className="uptime-badge">
+                <Clock size={16} className="text-blue-400" />
+                <span>Tiempo activo: <span className="text-white font-medium">{serverStats.tiempo_encendido}</span></span>
+              </div>
+            )}
           </div>
           
-          {serverStats && serverStats.current_state === 'running' && (
-            <div className="flex gap-6 text-sm text-secondary">
-              <div className="flex items-center gap-2">
-                <Cpu size={16} className="text-blue-400" />
-                <span>{serverStats.resources.cpu_absolute.toFixed(1)}% CPU</span>
+          {serverStats && serverStats.estado_maquina === 'running' && (
+            <div className="server-widget-grid">
+              
+              <div className="stat-card">
+                <div className="stat-label">
+                  <Users size={18} /> Jugadores
+                </div>
+                <div className="stat-value">
+                  {serverStats.jugadores_conectados} <span className="stat-unit">/ {serverStats.jugadores_maximos}</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <Server size={16} className="text-blue-400" />
-                <span>{(serverStats.resources.memory_bytes / 1024 / 1024 / 1024).toFixed(2)} GB RAM</span>
+
+              <div className="stat-card">
+                <div className="stat-label">
+                  <Cpu size={18} /> CPU
+                </div>
+                <div className="stat-value">
+                  {(parseFloat(serverStats.cpu_uso) / 4).toFixed(1)}% <span className="stat-unit">/ 100%</span>
+                </div>
               </div>
+
+              <div className="stat-card">
+                <div className="stat-label">
+                  <Server size={18} /> RAM
+                </div>
+                <div className="stat-value">
+                  {(parseFloat(serverStats.ram_mb) / 1024).toFixed(1)} <span className="stat-unit">/ 24 GB</span>
+                </div>
+              </div>
+
+              <div className="stat-card">
+                <div className="stat-label">
+                  <HardDrive size={18} /> Disco
+                </div>
+                <div className="stat-value">
+                  {(parseFloat(serverStats.disco_mb) / 1024).toFixed(1)} <span className="stat-unit">GB</span>
+                </div>
+              </div>
+
+              <div className="stat-card wide">
+                <div className="stat-label">
+                  <Wifi size={18} /> Red
+                </div>
+                <div className="w-full mt-2">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="stat-unit" style={{fontSize: '0.75rem'}}>Bajada:</span>
+                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 500}}>{parseFloat(serverStats.red_bajada_kb).toFixed(0)} KB/s</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="stat-unit" style={{fontSize: '0.75rem'}}>Subida:</span>
+                    <span className="text-white" style={{fontSize: '0.9rem', fontWeight: 500}}>{parseFloat(serverStats.red_subida_kb).toFixed(0)} KB/s</span>
+                  </div>
+                </div>
+              </div>
+
             </div>
           )}
-          {statsError && <span className="text-sm text-red-400">{statsError} (Posible bloqueo CORS)</span>}
+          {statsError && <div className="mt-4 text-center"><span className="text-sm text-red-400 font-medium bg-red-500/10 px-4 py-2 rounded-xl">{statsError}</span></div>}
         </div>
 
         <div className="ip-box" onClick={handleCopy} title="Haz clic para copiar">
