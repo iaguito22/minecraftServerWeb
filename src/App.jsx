@@ -107,13 +107,13 @@ const ServerTab = () => {
   const [copied, setCopied] = useState(false);
   const [serverStats, setServerStats] = useState(null);
   const [statsError, setStatsError] = useState(null);
-  const ip = "play.mc-create-server.com"; // Placeholder IP
+  const ip = "141.253.109.219";
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const bustCache = `http://141.253.109.219:3000/estado?_t=${Date.now()}`;
-        const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(bustCache)}`);
+        const bustCache = `http://${ip}:3000/estado?_t=${Date.now()}`;
+        const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(bustCache)}`);
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setServerStats(data);
