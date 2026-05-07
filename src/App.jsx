@@ -3,7 +3,8 @@ import {
   Server, Monitor, Download, ChevronRight,
   Shield, Zap, Cpu, Eye, ArrowLeft,
   Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon,
-  HardDrive, Wifi, Clock, Menu, X, RefreshCw
+  HardDrive, Wifi, Clock, Menu, X, RefreshCw,
+  Wrench, Plane, Skull, ShieldAlert, Terminal, AlertTriangle, Box, Settings
 } from 'lucide-react';
 import './index.css';
 
@@ -35,12 +36,12 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
             className={`nav-item ${activeTab === tab ? 'active' : ''}`}
             onClick={() => handleTab(tab)}
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            {tab === 'acerca' ? 'El Mundo' : tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
         ))}
         <button
           onClick={toggleTheme}
-          className="theme-toggle-btn"
+          className="theme-toggle-btn ml-4"
           title="Cambiar tema"
         >
           {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
@@ -84,20 +85,20 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
 };
 
 const HomeTab = ({ setActiveTab }) => (
-  <div className="flex-col items-center text-center animate-enter delay-100 mt-12">
-    <div className="badge mb-6">
-      <Sparkles size={16} /> <span>Servidor Privado 1.21.1 Create</span>
+  <div className="flex-col items-center text-center animate-enter delay-100 -mt-20">
+    <div className="badge mb-8 border-orange-500/50 bg-orange-500/10 text-orange-400 px-8 py-3 text-base font-bold">
+      <Wrench size={20} /> <span>JAVA 1.21.1 — NEOFORGE</span>
     </div>
-    <h1 className="text-gradient">Bienvenido a la Aventura</h1>
-    <p className="text-secondary mb-8 max-w-2xl text-lg mx-auto">
-      Descarga los modpacks, conéctate a nuestro servidor y explora un mundo lleno de posibilidades con Create mod y mucho más.
+    <h1 className="text-gradient text-6xl mb-4">INGENIERÍA EXTREMA</h1>
+    <p className="text-secondary mb-8 max-w-2xl text-xl mx-auto leading-relaxed">
+      Bienvenido a un entorno industrial sin concesiones. Diseña fábricas, construye aeronaves físicas y sobrevive en un mundo donde la tecnología es tu única defensa.
     </p>
     <div className="flex gap-4 justify-center">
-      <button className="btn btn-primary" onClick={() => setActiveTab('modpacks')}>
-        <Download size={20} /> Descargar Modpacks
+      <button className="btn btn-primary bg-orange-600 hover:bg-orange-700 border-none px-8 py-6 text-lg" onClick={() => setActiveTab('modpacks')}>
+        <Download size={22} /> Obtener Modpacks
       </button>
-      <button className="btn btn-outline" onClick={() => setActiveTab('servidor')}>
-        <Server size={20} /> Info del Servidor
+      <button className="btn btn-outline px-8 py-6 text-lg" onClick={() => setActiveTab('servidor')}>
+        <Server size={22} /> Terminal de Estado
       </button>
     </div>
   </div>
@@ -169,27 +170,24 @@ const ServerTab = () => {
         {copied && <p className="text-green-400 mt-2 text-sm font-medium">¡IP Copiada al portapapeles!</p>}
 
         {/* Live Server Status Widget */}
-        <div className={`server-widget mt-6 ${
-          serverStats?.estado_maquina === 'running' ? 'online' : 
+        <div className={`server-widget mt-6 ${serverStats?.estado_maquina === 'running' ? 'online' :
           serverStats?.estado_maquina === 'starting' ? 'starting' : 'offline'
-        }`}>
+          }`}>
 
           <div className="server-widget-header">
             <div className="flex items-center gap-4">
               <div className="status-indicator">
                 {serverStats?.estado_maquina === 'running' && <span className="status-ping"></span>}
-                <span className={`status-dot ${
-                  serverStats?.estado_maquina === 'running' ? 'online' : 
+                <span className={`status-dot ${serverStats?.estado_maquina === 'running' ? 'online' :
                   serverStats?.estado_maquina === 'starting' ? 'starting' : 'offline'
-                }`}></span>
+                  }`}></span>
               </div>
-              <h3 className={`status-title ${
-                serverStats?.estado_maquina === 'running' ? 'online' : 
+              <h3 className={`status-title ${serverStats?.estado_maquina === 'running' ? 'online' :
                 serverStats?.estado_maquina === 'starting' ? 'starting' : 'offline'
-              }`}>
-                {loading && !serverStats ? 'Conectando...' : 
-                  serverStats?.estado_maquina === 'running' ? 'Servidor Online' : 
-                  serverStats?.estado_maquina === 'starting' ? 'Servidor Iniciando...' : 'Servidor Offline'}
+                }`}>
+                {loading && !serverStats ? 'Conectando...' :
+                  serverStats?.estado_maquina === 'running' ? 'Servidor Online' :
+                    serverStats?.estado_maquina === 'starting' ? 'Servidor Iniciando...' : 'Servidor Offline'}
               </h3>
 
               {serverStats && (
@@ -311,37 +309,37 @@ const ServerTab = () => {
         </div>
       </div>
 
-      <div className="glass-card">
+      <div className="glass-card border-red-500/20">
         <div className="flex items-center gap-3 mb-6">
-          <Shield className="text-blue-400" size={32} />
-          <h3 className="mb-0">Normas del Servidor</h3>
+          <ShieldAlert className="text-red-500" size={32} />
+          <h3 className="mb-0 text-red-400">Directrices de Supervivencia</h3>
         </div>
-        <div className="rule-item">
-          <div className="rule-number">1</div>
-          <div>
-            <h4 className="mb-1 text-lg">Respeto Mutuo</h4>
-            <p className="text-secondary">Trata a todos con respeto. No se tolerará toxicidad, acoso ni insultos.</p>
+
+        <div className="rule-item border-l-2 border-red-500/30 pl-6 py-4">
+          <div className="flex items-start gap-4">
+            <Skull className="text-red-500 mt-1" size={24} />
+            <div>
+              <h4 className="mb-2 text-xl text-white uppercase tracking-wider">Libertad y Consecuencias</h4>
+              <p className="text-secondary leading-relaxed">
+                Este es un mundo de supervivencia pura. Tienes libertad total: juega en cooperativo, mantén la paz o ve por tu cuenta.
+                <span className="text-white font-bold block mt-2">
+                  Si decides ser hostil, robar o sabotear a otros, asume que la comunidad puede (y probablemente lo hará) cazarte y destruir todo lo que has construido.
+                </span>
+                No hay protecciones mágicas ni zonas seguras artificiales. Apechugas con tus actos.
+              </p>
+            </div>
           </div>
         </div>
-        <div className="rule-item">
-          <div className="rule-number">2</div>
-          <div>
-            <h4 className="mb-1 text-lg">No Grifear</h4>
-            <p className="text-secondary">Construye, no destruyas. Respeta las construcciones y cofres de los demás jugadores.</p>
-          </div>
-        </div>
-        <div className="rule-item">
-          <div className="rule-number">3</div>
-          <div>
-            <h4 className="mb-1 text-lg">Uso Justo de Recursos</h4>
-            <p className="text-secondary">Evita laggear el servidor con máquinas de Create innecesariamente masivas si no estás en línea.</p>
-          </div>
-        </div>
-        <div className="rule-item">
-          <div className="rule-number">4</div>
-          <div>
-            <h4 className="mb-1 text-lg">Divertirse</h4>
-            <p className="text-secondary">Es un juego, colabora, crea rutas de trenes y disfruta de la compañía.</p>
+
+        <div className="rule-item border-l-2 border-orange-500/30 pl-6 py-4 mt-4">
+          <div className="flex items-start gap-4">
+            <Cpu className="text-orange-500 mt-1" size={24} />
+            <div>
+              <h4 className="mb-2 text-xl text-white uppercase tracking-wider">Eficiencia de Máquinas</h4>
+              <p className="text-secondary">
+                La ingeniería requiere optimización. No satures el servidor con mecanismos infinitos e innecesarios si no estás presente. Si tu fábrica causa lag crítico, será desmantelada sin previo aviso.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -508,8 +506,8 @@ const ModpacksTab = ({ setActiveTab }) => {
 
       <div className="grid md:grid-cols-3 gap-6">
         {['potato', 'lowAesthetic', 'highAesthetic'].map(key => (
-          <div key={key} className="glass-card cursor-pointer" onClick={() => openDetail(key)}>
-            <div className="mb-6">{packs[key].icon}</div>
+          <div key={key} className="glass-card cursor-pointer items-center text-center" onClick={() => openDetail(key)}>
+            <div className="mb-6 bg-blue-600/10 p-4 rounded-2xl border border-blue-500/10 w-max">{packs[key].icon}</div>
             <h3 className="text-xl mb-3">{packs[key].title}</h3>
             <p className="text-secondary text-sm mb-6 flex-1">{packs[key].desc}</p>
             <button className="btn btn-outline w-full justify-between">
@@ -535,12 +533,12 @@ const ModpacksTab = ({ setActiveTab }) => {
           <ArrowLeft size={18} /> Volver
         </button>
 
-        <div className="flex items-center gap-4 mb-6">
-          <div className="p-4 bg-blue-900/30 rounded-2xl border border-blue-500/20">
+        <div className="flex flex-col items-center text-center gap-4 mb-8">
+          <div className="p-4 bg-blue-900/30 rounded-2xl border border-blue-500/20 w-max">
             {selectedPack.icon}
           </div>
           <div>
-            <h2 className="mb-1 text-3xl">{selectedPack.title}</h2>
+            <h2 className="mb-2 text-3xl">{selectedPack.title}</h2>
             <div className="badge">1.21.1 / NeoForge</div>
           </div>
         </div>
@@ -604,8 +602,18 @@ const ModpacksTab = ({ setActiveTab }) => {
             onClick={() => setActiveTab('acerca')}
             className="btn btn-outline w-full mt-6"
           >
-            <Info size={18} /> ¿Cómo lo instalo?
+            <Info size={18} /> Guía de Instalación y Configuración
           </button>
+
+          <div className="mt-8 p-4 bg-white/5 rounded-lg border border-white/10">
+            <h4 className="text-sm font-bold text-white mb-2 uppercase flex items-center gap-2">
+              <Settings size={16} /> Personalización de Interfaz
+            </h4>
+            <p className="text-xs text-secondary leading-relaxed">
+              Los mods de interfaz como <span className="text-blue-400 font-bold">JourneyMap</span> (minimapa) y <span className="text-blue-400 font-bold">Jade</span> (información de bloques) son 100% opcionales.
+              Puedes configurarlos, ocultarlos o desactivarlos en tu cliente si prefieres una pantalla más limpia e inmersiva.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -621,32 +629,94 @@ const ModpacksTab = ({ setActiveTab }) => {
 };
 
 const AboutTab = () => (
-  <div className="animate-enter delay-100 max-w-3xl mx-auto text-center">
-    <div className="bg-blue-600/10 p-6 rounded-full mb-6 w-max mx-auto">
-      <Info size={48} className="text-blue-400" />
-    </div>
-    <h2 className="text-gradient mb-6">Acerca de la Web</h2>
-    <p className="text-secondary text-lg mb-8">
-      Esta web fue creada para facilitar la instalación y actualización de los modpacks para nuestro servidor privado de Minecraft 1.21.1 con Create Mod.
-    </p>
-    <div className="glass-card">
-      <div className="flex flex-col md:flex-row gap-8 text-left justify-around">
-        <div>
-          <h4 className="text-blue-400 mb-2 font-bold">¿Cómo instalo el modpack?</h4>
-          <p className="text-sm text-secondary leading-relaxed">
-            1. Descarga el .zip correspondiente.<br />
-            <strong className="text-blue-400">2. IMPORTANTE: Ve a tu carpeta <code className="bg-white/10 px-1 rounded">.minecraft</code> y ELIMINA tu carpeta <code className="bg-white/10 px-1 rounded">mods</code> actual para evitar incompatibilidades.</strong><br />
-            3. Descomprime el .zip directamente en la carpeta principal <code className="bg-white/10 px-1 rounded">.minecraft</code>.<br />
-            4. Sobrescribe los archivos y carpetas cuando te lo pregunte, ¡y listo para jugar!
-          </p>
+  <div className="animate-enter delay-100 max-w-5xl mx-auto px-6 pb-32 flex flex-col gap-8">
+    {/* Bloque 1: El Mundo */}
+    <section className="text-center pt-4">
+      <div className="bg-orange-600/10 p-5 rounded-full mb-4 w-max mx-auto border border-orange-500/20">
+        <Plane size={44} className="text-orange-500" />
+      </div>
+      <h2 className="text-gradient mb-3 text-5xl">El Mundo y el Meta</h2>
+      <p className="text-secondary text-xl max-w-3xl mx-auto leading-relaxed">
+        No es solo Minecraft. Es una carrera armamentística e industrial. La experiencia central gira en torno a la ingeniería avanzada con <span className="theme-text-primary font-bold">Create</span>.
+        Diseña redes ferroviarias masivas, automatiza fábricas complejas y conquista los cielos con aeronaves físicas reales mediante <span className="theme-text-primary font-bold">Create: Aeronautics</span>.
+        Y si alguien te estorba, <span className="theme-text-primary font-bold">Create Big Cannons</span> te da la potencia de fuego necesaria para defender lo que es tuyo.
+      </p>
+    </section>
+
+    {/* Bloque 2: Mods Principales */}
+    <section className="glass-card p-8 md:p-10">
+      <h3 className="text-2xl mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
+        <Box className="text-blue-400" /> Manifiesto Tecnológico (Mods)
+      </h3>
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Wrench size={18} /> Núcleo Técnico y Físicas</h4>
+            <p className="text-sm text-secondary">Create, Aeronautics, Big Cannons, Diesel Generators.</p>
+            <br/>
+          </div>
+          <div className="pt-4">
+            <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Plane size={18} /> Mundo y Estructuras</h4>
+            <p className="text-sm text-secondary">TerraBlender, Colección de YUNG's, Moog's Structures.</p>
+          </div>
         </div>
-        <div>
-          <h4 className="text-blue-400 mb-2 font-bold">Contacto</h4>
-          <p className="text-sm text-secondary">
-            Si tienes problemas con la instalación o algún crasheo, contacta con el admin en Discord.
-          </p>
+        <div className="space-y-6">
+          <div>
+            <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Skull size={18} /> Criaturas y Vida</h4>
+            <p className="text-sm text-secondary">Naturalist (Ecosistemas vivos y peligrosos).</p>
+            <br/>
+          </div>
+          <div className="pt-4">
+            <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Zap size={18} /> Utilidad y Combate</h4>
+            <p className="text-sm text-secondary">Sophisticated Backpacks, Simple Voice Chat, Better Combat, Macaw's Mods.</p>
+          </div>
         </div>
       </div>
+    </section>
+
+    {/* Bloque 3: Acceso y Seguridad */}
+    <div className="grid md:grid-cols-2 gap-8">
+      <section className="glass-card p-8 md:p-10 border-blue-500/20 flex flex-col h-full">
+        <h3 className="text-xl mb-6 flex items-center gap-3 text-blue-400">
+          <Terminal size={24} /> Comandos de Acceso
+        </h3>
+        <div className="space-y-4 font-mono flex-grow">
+          <div className="bg-black/40 p-3 rounded-xl border border-white/5">
+            <p className="text-[10px] uppercase tracking-wider text-secondary mb-1">Primera vez:</p>
+            <p className="text-blue-300">/register &lt;contraseña&gt; &lt;contraseña&gt;</p>
+          </div>
+          <div className="bg-black/40 p-3 rounded-xl border border-white/5">
+            <p className="text-[10px] uppercase tracking-wider text-secondary mb-1">Entradas posteriores:</p>
+            <p className="text-blue-300">/login &lt;contraseña&gt;</p>
+          </div>
+        </div>
+
+        <div className="mt-8 p-5 bg-red-600/10 border border-red-500/30 rounded-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
+          <div className="flex items-center gap-3 text-red-400 font-bold mb-2">
+            <AlertTriangle size={20} className="animate-pulse" />
+            <span className="text-xs uppercase tracking-widest">Seguridad</span>
+          </div>
+          <p className="text-sm text-red-200 font-black tracking-tight leading-tight">
+            ¡ES VITAL QUE NO OLVIDES TU CONTRASEÑA!<br />
+            <span className="text-[10px] opacity-70 font-medium uppercase">No podemos recuperarla manualmente.</span>
+          </p>
+        </div>
+      </section>
+
+      <section className="glass-card p-8 md:p-10 flex flex-col h-full">
+        <h3 className="text-xl mb-6 flex items-center gap-3 text-orange-400">
+          <Download size={24} /> Protocolo de Instalación
+        </h3>
+        <ol className="text-sm text-secondary space-y-4 list-decimal pl-5 flex-grow">
+          <li>Descarga el archivo .zip de la sección de Modpacks.</li>
+          <li className="p-3 bg-orange-600/10 border border-orange-500/20 rounded-xl font-bold text-white shadow-lg shadow-orange-900/10">
+            Limpia tu carpeta <code className="bg-white/20 px-1.5 rounded text-orange-400">mods</code> anterior en .minecraft para evitar conflictos.
+          </li>
+          <li>Descomprime el contenido del .zip en tu directorio <code className="bg-white/10 px-1 rounded">.minecraft</code>.</li>
+          <li>Inicia el juego usando el perfil de <span className="text-orange-400 font-bold">NeoForge 1.21.1</span>.</li>
+        </ol>
+      </section>
     </div>
   </div>
 );
@@ -680,11 +750,20 @@ function App() {
         </main>
       </div>
 
-      <footer className="w-full text-center text-secondary text-sm py-4 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
-        <p>© 2026 Create Server - Modpack Hub. Creado para la comunidad.</p>
+      <footer className="w-full text-center text-secondary text-sm py-8 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
+        <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p>© 2026 Create Server - Modpack Hub. Creado para la comunidad.</p>
+          <div className="flex items-center gap-3">
+            <span className="opacity-50 text-[10px] uppercase tracking-widest font-bold">Versión de Referencia:</span>
+            <div className="px-5 py-2 bg-orange-600/10 border border-orange-500/20 rounded-full text-[10px] font-black text-orange-400">
+              JAVA 1.21.1 | NEOFORGE
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
 }
 
 export default App;
+;
