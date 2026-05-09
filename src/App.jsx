@@ -108,17 +108,53 @@ const ServerTab = () => {
   const [copied, setCopied] = useState(false);
   const [serverStats, setServerStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isBlocked, setIsBlocked] = useState(false);
   const [countdown, setCountdown] = useState(20);
   const ip = "141.253.109.219:25565";
 
   const fetchStats = useCallback(async () => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 6000);
+
     try {
-      const response = await fetch('https://mc-status-proxy.igl2005.workers.dev/');
-      if (!response.ok) throw new Error("Network response was not ok");
+      // Intento 1: Proxy avanzado (con CPU/RAM)
+      const response = await fetch('https://mc-status-proxy.igl2005.workers.dev/', {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) throw new Error("Worker no responde");
       const data = await response.json();
       setServerStats(data);
+      setIsBlocked(false);
     } catch (error) {
-      setServerStats({ estado_maquina: 'offline' });
+      console.warn("Conexión avanzada bloqueada o caída, usando respaldo...");
+      setIsBlocked(true);
+      
+      // Intento 2: API pública (Backup)
+      try {
+        const fbResponse = await fetch('https://api.mcsrvstat.us/3/141.253.109.219');
+        const fbData = await fbResponse.json();
+        
+        if (fbData.online) {
+          setServerStats({
+            estado_maquina: 'running',
+            jugadores_conectados: fbData.players?.online || 0,
+            jugadores_maximos: fbData.players?.max || 20,
+            tiempo_encendido: 'Disponible',
+            cpu_uso: "0%", 
+            ram_mb: "0",
+            disco_mb: "0",
+            red_bajada_kb: "0",
+            red_subida_kb: "0",
+            isFallback: true
+          });
+        } else {
+          setServerStats({ estado_maquina: 'offline' });
+        }
+      } catch (fbError) {
+        setServerStats({ estado_maquina: 'offline' });
+      }
     } finally {
       setLoading(false);
       setCountdown(20);
@@ -216,6 +252,15 @@ const ServerTab = () => {
 
           {!loading && serverStats?.estado_maquina === 'running' && (
             <>
+              {isBlocked && (
+                <div className="mx-6 mt-4 p-3 glass flex items-start gap-3 border-amber-500/30 animate-enter" style={{ background: 'rgba(245, 158, 11, 0.05)' }}>
+                  <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
+                  <div className="text-xs text-amber-200/80 leading-relaxed">
+                    <strong className="text-amber-400 block mb-0.5">Estadísticas limitadas</strong>
+                    La conexión con el monitor de hardware parece estar bloqueada. Si usas un bloqueador de anuncios (uBlock/AdBlock) o VPN, prueba a desactivarlo para ver los datos de CPU/RAM.
+                  </div>
+                </div>
+              )}
               <div className="server-widget-grid">
 
                 <div className="stat-card">
@@ -232,7 +277,7 @@ const ServerTab = () => {
                     <Cpu size={18} /> CPU
                   </div>
                   <div className="stat-value">
-                    {(parseFloat(serverStats.cpu_uso) / 4).toFixed(1)}% <span className="stat-unit">/ 100%</span>
+                    {serverStats.isFallback ? 'N/A' : `${(parseFloat(serverStats.cpu_uso) / 4).toFixed(1)}%`} <span className="stat-unit">/ 100%</span>
                   </div>
                 </div>
 
@@ -241,7 +286,7 @@ const ServerTab = () => {
                     <Server size={18} /> RAM
                   </div>
                   <div className="stat-value">
-                    {(parseFloat(serverStats.ram_mb) / 1024).toFixed(1)} <span className="stat-unit">/ 24 GB</span>
+                    {serverStats.isFallback ? 'N/A' : (parseFloat(serverStats.ram_mb) / 1024).toFixed(1)} <span className="stat-unit">/ 24 GB</span>
                   </div>
                 </div>
 
@@ -250,7 +295,7 @@ const ServerTab = () => {
                     <HardDrive size={18} /> Disco
                   </div>
                   <div className="stat-value">
-                    {(parseFloat(serverStats.disco_mb) / 1024).toFixed(1)} <span className="stat-unit">GB</span>
+                    {serverStats.isFallback ? 'N/A' : (parseFloat(serverStats.disco_mb) / 1024).toFixed(1)} <span className="stat-unit">GB</span>
                   </div>
                 </div>
 
@@ -261,11 +306,11 @@ const ServerTab = () => {
                   <div className="w-full mt-3 px-1">
                     <div className="flex justify-between items-center gap-2 mb-2">
                       <span className="stat-unit" style={{ fontSize: '0.75rem', opacity: 0.8 }}>Bajada:</span>
-                      <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{parseFloat(serverStats.red_bajada_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>KB/s</span></span>
+                      <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{serverStats.isFallback ? 'N/A' : parseFloat(serverStats.red_bajada_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>{serverStats.isFallback ? '' : 'KB/s'}</span></span>
                     </div>
                     <div className="flex justify-between items-center gap-2">
                       <span className="stat-unit" style={{ fontSize: '0.75rem', opacity: 0.8 }}>Subida:</span>
-                      <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{parseFloat(serverStats.red_subida_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>KB/s</span></span>
+                      <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{serverStats.isFallback ? 'N/A' : parseFloat(serverStats.red_subida_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>{serverStats.isFallback ? '' : 'KB/s'}</span></span>
                     </div>
                   </div>
                 </div>
