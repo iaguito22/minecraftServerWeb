@@ -25,7 +25,7 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
         <div className="nav-logo-icon">
           <Gamepad2 size={24} />
         </div>
-        <span className="text-xl font-bold text-gradient">Create MC</span>
+        <span className="text-xl font-bold text-gradient">Feixismo MC</span>
       </div>
 
       {/* Desktop links */}
@@ -89,7 +89,7 @@ const HomeTab = ({ setActiveTab }) => (
     <div className="badge mb-8 border-orange-500/50 bg-orange-500/10 text-orange-400 px-8 py-3 text-base font-bold">
       <Wrench size={20} /> <span>JAVA 1.21.1 — NEOFORGE</span>
     </div>
-    <h1 className="text-gradient text-6xl mb-4">INGENIERÍA EXTREMA</h1>
+    <h1 className="text-gradient text-4xl mb-4">Feixismo MC</h1>
     <p className="text-secondary mb-8 max-w-2xl text-xl mx-auto leading-relaxed">
       Bienvenido a un entorno industrial sin concesiones. Diseña fábricas, construye aeronaves físicas y sobrevive en un mundo donde la tecnología es tu única defensa.
     </p>
@@ -98,7 +98,7 @@ const HomeTab = ({ setActiveTab }) => (
         <Download size={22} /> Obtener Modpacks
       </button>
       <button className="btn btn-outline px-8 py-6 text-lg" onClick={() => setActiveTab('servidor')}>
-        <Server size={22} /> Terminal de Estado
+        <Server size={22} /> Información del server
       </button>
     </div>
   </div>
@@ -159,7 +159,7 @@ const ServerTab = () => {
   return (
     <div className="animate-enter delay-100 max-w-4xl mx-auto">
       <div className="text-center mb-12">
-        <h2 className="text-gradient">Nuestro Servidor</h2>
+        <h2 className="text-gradient text-3xl">Información de nuestro servidor:</h2>
         <p className="text-secondary text-lg">Únete a nosotros para la mejor experiencia survival.</p>
 
         {/* IP Box */}
@@ -312,7 +312,7 @@ const ServerTab = () => {
       <div className="glass-card border-red-500/20">
         <div className="flex items-center gap-3 mb-6">
           <ShieldAlert className="text-red-500" size={32} />
-          <h3 className="mb-0 text-red-400">Directrices de Supervivencia</h3>
+          <h3 className="mb-0" style={{ color: '#ef4444', fontWeight: 900, fontSize: '1.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', textShadow: '2px 2px 4px rgba(239, 68, 68, 0.4)' }}>Directrices de Supervivencia</h3>
         </div>
 
         <div className="rule-item border-l-2 border-red-500/30 pl-6 py-4">
@@ -338,6 +338,18 @@ const ServerTab = () => {
               <h4 className="mb-2 text-xl text-white uppercase tracking-wider">Eficiencia de Máquinas</h4>
               <p className="text-secondary">
                 La ingeniería requiere optimización. No satures el servidor con mecanismos infinitos e innecesarios si no estás presente. Si tu fábrica causa lag crítico, será desmantelada sin previo aviso.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="rule-item border-l-2 border-yellow-500/30 pl-6 py-4 mt-4">
+          <div className="flex items-start gap-4">
+            <AlertTriangle className="text-yellow-500 mt-1" size={24} />
+            <div>
+              <h4 className="mb-2 text-xl text-white uppercase tracking-wider">Límites de Exploración</h4>
+              <p className="text-secondary">
+                Como recomendación para mantener la estabilidad, evita alejarte más de 15,000 bloques del centro. Generar terreno a distancias extremas puede ralentizar el servidor y arruinar la experiencia de juego de todos. ¡Hay mucho espacio disponible cerca!
               </p>
             </div>
           </div>
@@ -637,7 +649,7 @@ const AboutTab = () => (
       </div>
       <h2 className="text-gradient mb-3 text-5xl">El Mundo y el Meta</h2>
       <p className="text-secondary text-xl max-w-3xl mx-auto leading-relaxed">
-        No es solo Minecraft. Es una carrera armamentística e industrial. La experiencia central gira en torno a la ingeniería avanzada con <span className="theme-text-primary font-bold">Create</span>.
+        No es un servidor para ir corriendo y jugar solo dos días, es un mundo pensado para que pases tiempo en él construyendo grandes proyectos. La experiencia central gira en torno a la ingeniería avanzada con <span className="theme-text-primary font-bold">Create</span>.
         Diseña redes ferroviarias masivas, automatiza fábricas complejas y conquista los cielos con aeronaves físicas reales mediante <span className="theme-text-primary font-bold">Create: Aeronautics</span>.
         Y si alguien te estorba, <span className="theme-text-primary font-bold">Create Big Cannons</span> te da la potencia de fuego necesaria para defender lo que es tuyo.
       </p>
@@ -653,7 +665,7 @@ const AboutTab = () => (
           <div>
             <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Wrench size={18} /> Núcleo Técnico y Físicas</h4>
             <p className="text-sm text-secondary">Create, Aeronautics, Big Cannons, Diesel Generators.</p>
-            <br/>
+            <br />
           </div>
           <div className="pt-4">
             <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Plane size={18} /> Mundo y Estructuras</h4>
@@ -664,7 +676,7 @@ const AboutTab = () => (
           <div>
             <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Skull size={18} /> Criaturas y Vida</h4>
             <p className="text-sm text-secondary">Naturalist (Ecosistemas vivos y peligrosos).</p>
-            <br/>
+            <br />
           </div>
           <div className="pt-4">
             <h4 className="text-blue-400 font-bold flex items-center gap-2 mb-2"><Zap size={18} /> Utilidad y Combate</h4>
@@ -718,6 +730,35 @@ const AboutTab = () => (
         </ol>
       </section>
     </div>
+
+    {/* Bloque 4: Preguntas Frecuentes (Q&A) */}
+    <section className="glass-card p-8 md:p-10 border-blue-500/20 mt-2">
+      <h3 className="text-2xl mb-8 flex items-center gap-3 border-b border-white/10 pb-4 text-blue-400">
+        <Info size={28} /> Q&A - Preguntas Frecuentes
+      </h3>
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="space-y-6">
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+            <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Hay comandos de /tpa o /home?</h4>
+            <p className="text-sm text-secondary">No. Queremos mantener la inmersión y la importancia de la infraestructura. Para viajar rápido deberás construir vehiculos con Create o usar medios de transporte físicos.</p>
+          </div>
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+            <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Existen las protecciones de zona (Claims)?</h4>
+            <p className="text-sm text-secondary">No. No hay bloques de protección mágicos. Si quieres asegurar tus cosas, construye una base oculta, lejos, o defiéndela con sistemas de seguridad mecánicos o formando alianzas.</p>
+          </div>
+        </div>
+        <div className="space-y-6">
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+            <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Es obligatorio usar el chat de voz?</h4>
+            <p className="text-sm text-secondary">No es obligatorio, pero es altamente recomendado. Gran parte de la diplomacia, el comercio y la supervivencia depende de poder comunicarte rápidamente con los que te encuentras.</p>
+          </div>
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+            <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Puedo añadir minimapas o mods visuales?</h4>
+            <p className="text-sm text-secondary">Sí, los mods que sean puramente visuales o de información en el cliente (como minimapas tipo JourneyMap o mods de inventario) están permitidos mientras no otorguen una ventaja injusta (como X-Ray).</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 );
 
@@ -752,7 +793,7 @@ function App() {
 
       <footer className="w-full text-center text-secondary text-sm py-8 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
         <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>© 2026 Create Server - Modpack Hub. Creado para la comunidad.</p>
+          <p>© 2026 Feixismo MC. Creado para la comunidad.</p>
           <div className="flex items-center gap-3">
             <span className="opacity-50 text-[10px] uppercase tracking-widest font-bold">Versión de Referencia:</span>
             <div className="px-5 py-2 bg-orange-600/10 border border-orange-500/20 rounded-full text-[10px] font-black text-orange-400">
