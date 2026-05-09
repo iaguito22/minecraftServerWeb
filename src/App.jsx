@@ -253,7 +253,7 @@ const ServerTab = () => {
           {!loading && serverStats?.estado_maquina === 'running' && (
             <>
               {isBlocked && (
-                <div className="mx-6 mt-4 p-3 glass flex items-start gap-3 border-amber-500/30 animate-enter" style={{ background: 'rgba(245, 158, 11, 0.05)' }}>
+                <div className="mx-6 mt-4 mb-6 p-4 glass flex items-start gap-3 border-amber-500/30 animate-enter" style={{ background: 'rgba(245, 158, 11, 0.05)' }}>
                   <AlertTriangle size={18} className="text-amber-500 shrink-0 mt-0.5" />
                   <div className="text-xs text-amber-200/80 leading-relaxed">
                     <strong className="text-amber-400 block mb-0.5">Estadísticas limitadas</strong>
