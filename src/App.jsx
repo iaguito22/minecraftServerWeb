@@ -130,19 +130,19 @@ const ServerTab = () => {
     } catch (error) {
       console.warn("Conexión avanzada bloqueada o caída, usando respaldo...");
       setIsBlocked(true);
-      
+
       // Intento 2: API pública (Backup)
       try {
         const fbResponse = await fetch('https://api.mcsrvstat.us/3/141.253.109.219');
         const fbData = await fbResponse.json();
-        
+
         if (fbData.online) {
           setServerStats({
             estado_maquina: 'running',
             jugadores_conectados: fbData.players?.online || 0,
             jugadores_maximos: fbData.players?.max || 20,
             tiempo_encendido: 'Disponible',
-            cpu_uso: "0%", 
+            cpu_uso: "0%",
             ram_mb: "0",
             disco_mb: "0",
             red_bajada_kb: "0",
@@ -170,7 +170,7 @@ const ServerTab = () => {
       setCountdown((prev) => {
         if (prev <= 1) {
           fetchStats();
-          return 60;
+          return 20;
         }
         return prev - 1;
       });
@@ -354,15 +354,15 @@ const ServerTab = () => {
         </div>
       </div>
 
-      <div className="glass-card border-red-500/20">
+      <div className="glass-card border-blue-500/20">
         <div className="flex items-center gap-3 mb-6">
-          <ShieldAlert className="text-red-500" size={32} />
-          <h3 className="mb-0" style={{ color: '#ef4444', fontWeight: 900, fontSize: '1.8rem', textTransform: 'uppercase', letterSpacing: '0.05em', textShadow: '2px 2px 4px rgba(239, 68, 68, 0.4)' }}>Directrices de Supervivencia</h3>
+          <ShieldAlert className="text-blue-500" size={32} />
+          <h3 className="directives-title mb-0">Directrices de Supervivencia</h3>
         </div>
 
-        <div className="rule-item border-l-2 border-red-500/30 pl-6 py-4">
+        <div className="rule-item border-l-2 border-blue-500/30 pl-6 py-4">
           <div className="flex items-start gap-4">
-            <Skull className="text-red-500 mt-1" size={24} />
+            <Skull className="text-blue-500 mt-1" size={24} />
             <div>
               <h4 className="mb-2 text-xl text-white uppercase tracking-wider">Libertad y Consecuencias</h4>
               <p className="text-secondary leading-relaxed">
@@ -748,13 +748,13 @@ const AboutTab = () => (
           </div>
         </div>
 
-        <div className="mt-8 p-5 bg-red-600/10 border border-red-500/30 rounded-2xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-red-500"></div>
-          <div className="flex items-center gap-3 text-red-400 font-bold mb-2">
+        <div className="mt-8 p-5 bg-amber-600/10 border border-amber-500/30 rounded-2xl relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+          <div className="flex items-center gap-3 text-amber-400 font-bold mb-2">
             <AlertTriangle size={20} className="animate-pulse" />
             <span className="text-xs uppercase tracking-widest">Seguridad</span>
           </div>
-          <p className="text-sm text-red-200 font-black tracking-tight leading-tight">
+          <p className="text-sm text-amber-200 font-black tracking-tight leading-tight">
             ¡ES VITAL QUE NO OLVIDES TU CONTRASEÑA!<br />
             <span className="text-[10px] opacity-70 font-medium uppercase">No podemos recuperarla manualmente.</span>
           </p>

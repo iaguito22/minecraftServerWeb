@@ -1,16 +1,46 @@
-# React + Vite
+# 🛠️ Feixismo MC - Portal Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Versión](https://img.shields.io/badge/Minecraft-1.21.1-orange?style=for-the-badge&logo=minecraft)
+![Loader](https://img.shields.io/badge/NeoForge-Latest-blue?style=for-the-badge)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 
-Currently, two official plugins are available:
+Bienvenido al portal oficial de **Feixismo MC**, un servidor de Minecraft industrial y técnico diseñado para ofrecer una experiencia de supervivencia sin concesiones.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Características del Proyecto
 
-## React Compiler
+Este portal web está construido con **React + Vite** y ofrece:
+- **Estado del Servidor en Tiempo Real**: Monitorización de jugadores, CPU, RAM y latencia.
+- **Selector de Modpacks**: Descarga directa de diferentes perfiles (Potato, Low Aesthetic, High Aesthetic).
+- **Diseño Glassmorphic Premium**: Una interfaz moderna que soporta temas **Claro** y **Oscuro**.
+- **Guía de Instalación**: Instrucciones paso a paso para configurar el cliente y los mods.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tecnologías Utilizadas
 
-## Expanding the ESLint configuration
+- **Frontend**: React 19 + Vite
+- **Iconografía**: Lucide React
+- **Estilos**: Vanilla CSS con variables dinámicas y Glassmorphism
+- **Despliegue**: GitHub Pages
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 Desarrollo Local
+
+Para ejecutar el proyecto localmente, sigue estos pasos:
+
+1. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+2. Inicia el servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
+
+## 🏗️ Estructura del Servidor
+
+El meta del juego se centra en:
+- **Ingeniería con Create**: Automatización masiva y redes ferroviarias.
+- **Aeronáutica**: Construcción de aeronaves físicas con `Create: Aeronautics`.
+- **Defensa y Combate**: Artillería pesada con `Create Big Cannons`.
+- **Supervivencia Pura**: Libertad total con consecuencias reales.
+
+---
+Creado con ❤️ para la comunidad de Feixismo MC.
