@@ -919,6 +919,9 @@ h3 {
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.05);
   transition: var(--transition);
+  width: 100%;
+  max-width: 300px;
+  justify-self: center;
 }
 
 .stat-card:hover {

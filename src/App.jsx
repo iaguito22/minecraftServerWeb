@@ -303,7 +303,7 @@ const ServerTab = () => {
                   <div className="stat-label">
                     <Wifi size={18} /> Red
                   </div>
-                  <div className="w-full mt-3 px-1">
+                  <div className="w-full mx-auto mt-3 px-1" style={{ maxWidth: '180px' }}>
                     <div className="flex justify-between items-center gap-2 mb-2">
                       <span className="stat-unit" style={{ fontSize: '0.75rem', opacity: 0.8 }}>Bajada:</span>
                       <span className="text-white" style={{ fontSize: '0.9rem', fontWeight: 600 }}>{serverStats.isFallback ? 'N/A' : parseFloat(serverStats.red_bajada_kb).toFixed(0)} <span className="stat-unit" style={{ fontSize: '0.7rem', fontWeight: 400 }}>{serverStats.isFallback ? '' : 'KB/s'}</span></span>
