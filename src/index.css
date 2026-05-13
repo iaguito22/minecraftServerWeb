@@ -1102,3 +1102,136 @@ h3 {
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
+.flex-row { display: flex; flex-direction: row; }
+.flex-col { display: flex; flex-direction: column; }
+.items-stretch { align-items: stretch; }
+
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 768px) {
+  .md\:flex-row { display: flex; flex-direction: row; }
+  .md\:flex-col { display: flex; flex-direction: column; }
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.bg-slate-800\/40 { background-color: rgba(30, 41, 59, 0.4); }
+.bg-blue-600\/5 { background-color: rgba(37, 99, 235, 0.05); }
+.bg-slate-600\/5 { background-color: rgba(71, 85, 105, 0.05); }
+.bg-blue-500\/30 { background-color: rgba(59, 130, 246, 0.3); }
+.bg-orange-500\/30 { background-color: rgba(249, 115, 22, 0.3); }
+.bg-white\/5 { background-color: rgba(255, 255, 255, 0.05); }
+
+.border-white\/5 { border-color: rgba(255, 255, 255, 0.05); }
+
+.h-1\.5 { height: 0.375rem; }
+.h-full { height: 100%; }
+
+.mt-10 { margin-top: 2.5rem; }
+.mt-12 { margin-top: 3rem; }
+.p-0 { padding: 0 !important; }
+.p-4 { padding: 1rem !important; }
+.p-6 { padding: 1.5rem !important; }
+
+.flex-row { display: flex !important; flex-direction: row !important; }
+.gap-6 { gap: 1.5rem !important; }
+
+@media (min-width: 768px) {
+  .md\:flex-row { display: flex !important; flex-direction: row !important; }
+  .md\:gap-6 { gap: 1.5rem !important; }
+}
+
+.flex-1 { flex: 1 1 0% !important; }
+.flex-1\.5 { flex: 1.5 1 0% !important; }
+.flex-0\.6 { flex: 0.6 1 0% !important; }
+
+.mt-10 { margin-top: 2.5rem !important; }
+.mb-10 { margin-bottom: 2.5rem !important; }
+
+.text-label { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; color: #64748b; }
+.text-value { font-size: 12px; font-weight: 700; color: #e2e8f0; }
+
+/* Utility classes for colors and positioning */
+.bg-green-400 { background-color: #4ade80; }
+.bg-blue-400 { background-color: #60a5fa; }
+.bg-orange-500 { background-color: #f97316; }
+.bg-slate-500 { background-color: #64748b; }
+.bg-slate-800 { background-color: #1e293b; }
+.bg-slate-900\/50 { background-color: rgba(15, 23, 42, 0.5); }
+
+.absolute { position: absolute; }
+.relative { position: relative; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.inset-auto { top: auto; right: auto; bottom: auto; left: auto; }
+
+.flex { display: flex; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+
+.p-2 { padding: 0.5rem; }
+.p-4 { padding: 1rem; }
+.p-5 { padding: 1.25rem; }
+.p-6 { padding: 1.5rem; }
+
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-full { border-radius: 9999px; }
+
+.overflow-hidden { overflow: hidden; }
+
+.w-full { width: 100%; }
+.h-2\.5 { height: 0.625rem; }
+
+.opacity-0 { opacity: 0; }
+.opacity-100 { opacity: 1; }
+
+.transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+
+.duration-300 { transition-duration: 300ms; }
+.duration-500 { transition-duration: 500ms; }
+.duration-1000 { transition-duration: 1000ms; }
+
+.ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+
+.group:hover .group-hover\:opacity-100 { opacity: 1; }
+.group:hover .group-hover\:scale-\[1\.02\] { transform: scale(1.02); }
+
+.screenshot-frame {
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.03);
+  transition: var(--transition);
+}
+
+.screenshot-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--radius-md) - 8px);
+}
+
+.screenshot-frame .absolute {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+.screenshot-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.screenshot-frame:hover .screenshot-overlay {
+  opacity: 1;
+}
+
+.screenshot-frame.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+}

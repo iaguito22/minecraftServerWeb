@@ -6,6 +6,9 @@ import {
   HardDrive, Wifi, Clock, Menu, X, RefreshCw,
   Wrench, Plane, Skull, ShieldAlert, Terminal, AlertTriangle, Box, Settings
 } from 'lucide-react';
+import potatoImg from './assets/potato.png';
+import lowImg from './assets/low.png';
+import highImg from './assets/high.png';
 import './index.css';
 
 // --- COMPONENTS ---
@@ -404,39 +407,78 @@ const ServerTab = () => {
   );
 };
 
-const PerformanceChart = () => {
-  const chartData = [
-    { name: 'Potato (Optimización)', fps: 130, color: 'bg-green-400', width: '92%' },
-    { name: 'Server (Base)', fps: 90, color: 'bg-blue-400', width: '64%' },
-    { name: 'Low (Shaders Ligeros)', fps: 48, color: 'bg-yellow-400', width: '34%' },
-    { name: 'High (Ultra Shaders)', fps: 12, color: 'bg-red-400', width: '8%' }
+const PerformanceChart = ({ selectedPackId }) => {
+  const rtxData = [
+    { id: 'potato', name: 'Potato Pack', fps: 275 },
+    { id: 'lowAesthetic', name: 'Low Aesthetic', fps: 121 },
+    { id: 'highAesthetic', name: 'High Aesthetic', fps: 53 }
   ];
 
-  return (
-    <div className="mt-6 p-5 rounded-xl border border-blue-500/20 bg-slate-900/50">
-      <h4 className="text-lg mb-4 text-white flex items-center gap-2">
-        <Zap size={18} className="text-blue-400" />
-        Comparativa de Rendimiento
-      </h4>
-      <div className="space-y-4">
-        {chartData.map((data, index) => (
-          <div key={index} className="group">
-            <div className="flex justify-between text-sm mb-1">
-              <span className="text-secondary group-hover:text-white transition-colors">{data.name}</span>
-              <span className="font-bold text-white">{data.fps} FPS</span>
-            </div>
-            <div className="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-              <div
-                className={`${data.color} h-2.5 rounded-full transition-all duration-1000 ease-out`}
-                style={{ width: data.width }}
-              ></div>
-            </div>
-          </div>
-        ))}
+  const integratedData = [
+    { id: 'potato', name: 'Potato Pack', fps: 150 },
+    { id: 'lowAesthetic', name: 'Low Aesthetic', fps: 52 },
+    { id: 'highAesthetic', name: 'High Aesthetic', fps: 18 }
+  ];
+
+  // Global max to normalize bars between both charts
+  const globalMaxFps = Math.max(
+    ...rtxData.map(d => d.fps),
+    ...integratedData.map(d => d.fps)
+  );
+
+  const ChartBlock = ({ title, icon, data, titleColor }) => {
+    return (
+      <div className="flex-1 p-6 rounded-2xl border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-xl">
+        <h4 className={`text-[11px] mb-6 ${titleColor} font-black uppercase tracking-[0.25em] flex items-center gap-2`}>
+          {icon}
+          {title}
+        </h4>
+        <div className="space-y-6">
+          {data.map((item, index) => {
+            const isSelected = item.id === selectedPackId;
+            const width = `${(item.fps / globalMaxFps) * 100}%`;
+            
+            return (
+              <div key={index} className="group">
+                <div className="flex justify-between text-[11px] mb-2 px-1">
+                  <span className={`${isSelected ? 'text-green-400 font-black' : 'text-blue-300/60 font-bold'} group-hover:text-white transition-colors uppercase tracking-wider`}>
+                    {item.name} {isSelected && '— ACTUAL'}
+                  </span>
+                  <span className={`font-black ${isSelected ? 'text-green-400' : 'text-blue-200'}`}>{item.fps} FPS</span>
+                </div>
+                <div className="w-full bg-slate-800/40 rounded-full border border-white/5 overflow-hidden" style={{ height: '8px' }}>
+                  <div
+                    className="h-full rounded-full transition-all duration-1000 ease-out"
+                    style={{ 
+                      width: width,
+                      backgroundColor: isSelected ? '#22c55e' : '#3b82f6',
+                      opacity: isSelected ? 1 : 0.4,
+                      boxShadow: isSelected ? '0 0 10px rgba(34, 197, 94, 0.4)' : 'none'
+                    }}
+                  ></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-      <p className="text-xs text-secondary mt-4 text-center opacity-80">
-        * Promedios en pruebas con gráficos integrados (1440p)
-      </p>
+    );
+  };
+
+  return (
+    <div className="mt-12 flex flex-col md:flex-row gap-6">
+      <ChartBlock 
+        title="NVIDIA RTX 3050 (1440p)" 
+        icon={<Zap size={14} />} 
+        data={rtxData}
+        titleColor="text-blue-400"
+      />
+      <ChartBlock 
+        title="Gráficos Integrados (1440p)" 
+        icon={<Monitor size={14} />} 
+        data={integratedData}
+        titleColor="text-slate-400"
+      />
     </div>
   );
 };
@@ -469,13 +511,14 @@ const ModpacksTab = ({ setActiveTab }) => {
       desc: 'El pack más ligero. Contiene mods de optimización pura para exprimir cada FPS. Recomendado para PCs humildes.',
       features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'FPS al máximo', 'Create Mod Base'],
       performance: {
-        fps: '100-140 FPS (Avg: 130)',
+        fps: '200-275 FPS (Avg: 230)',
         ram: 'Prueba: 3088 MB',
-        gpu: 'AMD Radeon Integrated Graphics',
-        usage: 'GPU 55% | CPU 25%',
+        gpu: 'NVIDIA GeForce RTX 3050',
+        usage: 'GPU 100% | CPU 56%',
         dh: 'Desactivado',
         resolution: '1440p'
       },
+      screenshot: potatoImg,
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/potato.zip'
     },
     lowAesthetic: {
@@ -485,13 +528,14 @@ const ModpacksTab = ({ setActiveTab }) => {
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders E-LITE 5.0.1', 'Mejora visual fluida'],
       performance: {
-        fps: '39-51 FPS (Avg: 48)',
+        fps: '102-121 FPS (Avg: 116)',
         ram: 'Prueba: 2720 MB',
-        gpu: 'AMD Radeon Integrated Graphics',
-        usage: 'GPU 80% | CPU 16%',
+        gpu: 'NVIDIA GeForce RTX 3050',
+        usage: 'GPU 100% | CPU 51%',
         dh: 'Activado',
         resolution: '1440p'
       },
+      screenshot: lowImg,
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/low.zip'
     },
     highAesthetic: {
@@ -501,13 +545,14 @@ const ModpacksTab = ({ setActiveTab }) => {
       desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Solas V3.6', 'Visuales impresionantes'],
       performance: {
-        fps: '10-14 FPS (Avg: 12)',
+        fps: '47-53 FPS (Avg: 52)',
         ram: 'Prueba: 2722 MB',
-        gpu: 'AMD Radeon Integrated Graphics',
-        usage: 'GPU 100% | CPU 20%',
+        gpu: 'NVIDIA GeForce RTX 3050',
+        usage: 'GPU 100% | CPU 56%',
         dh: 'Activado',
         resolution: '1440p'
       },
+      screenshot: highImg,
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/high.zip'
     }
   };
@@ -579,7 +624,7 @@ const ModpacksTab = ({ setActiveTab }) => {
   const renderDetail = () => {
     if (!selectedPack) return null;
     return (
-      <div className="animate-enter max-w-3xl mx-auto glass-card relative overflow-hidden">
+      <div className="animate-enter max-w-5xl mx-auto glass-card relative overflow-hidden">
         {/* Decorative background glow */}
         <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
 
@@ -602,73 +647,144 @@ const ModpacksTab = ({ setActiveTab }) => {
 
         <p className="text-lg text-secondary mb-8">{selectedPack.desc}</p>
 
-        <div className="grid md:grid-cols-2 gap-8 mb-8">
-          <div>
-            <h4 className="text-xl mb-4 flex items-center gap-2"><Check className="text-blue-400" /> Contenido</h4>
-            <ul className="feature-list">
+        <div className="flex flex-col md:flex-row gap-8 mb-12 items-stretch max-w-4xl mx-auto w-full px-4">
+          {/* Content Card */}
+          <div className="flex-1 glass-card !p-6 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
+            <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/30"></div>
+            <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 flex items-center gap-2">
+              <Box className="text-blue-400" size={18} /> Contenido
+            </h4>
+            <ul className="space-y-4 flex-1">
               {selectedPack.features.map((f, i) => (
-                <li key={i}><div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div> {f}</li>
+                <li key={i} className="flex items-center gap-3 text-secondary text-sm font-medium">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400/40"></div>
+                  {f}
+                </li>
               ))}
             </ul>
           </div>
-          <div>
-            <h4 className="text-xl mb-4 flex items-center gap-2"><Cpu className="text-blue-400" /> Rendimiento</h4>
-            <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5">
-              <div className="mb-3">
-                <div className="text-sm text-secondary mb-1">FPS Estimados</div>
-                <div className="font-semibold text-blue-300">{selectedPack.performance.fps}</div>
+
+          {/* Performance Card */}
+          <div className="flex-1 glass-card !p-6 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
+            <div className="absolute top-0 left-0 w-1 h-full bg-orange-500/30"></div>
+            <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 flex items-center gap-2">
+              <Cpu className="text-orange-400" size={18} /> Rendimiento (1440p)
+            </h4>
+
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-8">
+                {/* RTX 3050 */}
+                <div className="space-y-4">
+                  <div className="text-[13px] font-black text-blue-400 uppercase tracking-widest flex items-center gap-2.5">
+                    <Zap size={20} /> RTX 3050
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex flex-col">
+                      <span className="text-label">Promedio:</span>
+                      <div className="text-5xl font-black text-white leading-none pt-2">
+                        {selectedPack.performance.fps.split('(')[1].replace('Avg: ', '').replace(')', '').replace(' FPS', '')} <span className="text-[12px] text-slate-500 uppercase">fps</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col pt-1">
+                      <span className="text-label">Rango:</span>
+                      <div className="text-xs font-bold text-slate-300">{selectedPack.performance.fps.split(' ')[0]}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Integrated */}
+                <div className="space-y-4 border-l border-white/5 pl-8">
+                  <div className="text-[13px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2.5">
+                    <Monitor size={20} /> Integrados
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex flex-col">
+                      <span className="text-label">Promedio:</span>
+                      <div className="text-5xl font-black text-slate-200 leading-none pt-2">
+                        {selectedPack.id === 'potato' ? '130' : 
+                         selectedPack.id === 'lowAesthetic' ? '45' : 
+                         selectedPack.id === 'highAesthetic' ? '15' : '0'} <span className="text-[12px] text-slate-500 uppercase">fps</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col pt-1">
+                      <span className="text-label">Rango:</span>
+                      <div className="text-xs font-bold text-slate-300">
+                        {selectedPack.id === 'potato' ? '110-150' :
+                          selectedPack.id === 'lowAesthetic' ? '38-52' :
+                            selectedPack.id === 'highAesthetic' ? '12-18' : 'N/A'} FPS
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className={selectedPack.performance.gpu ? "mb-3" : ""}>
-                <div className="text-sm text-secondary mb-1">{selectedPack.performance.gpu ? "RAM (Prueba)" : "RAM Recomendada"}</div>
-                <div className="font-semibold text-blue-300">{selectedPack.performance.ram}</div>
+
+              {/* Technical Specs */}
+              <div className="grid grid-cols-2 gap-y-6 gap-x-8 pt-20 border-t border-white/5">
+                <div className="flex flex-col gap-1 col-span-2 mb-2">
+                  <span className="text-label text-blue-400 font-bold">RAM (Prueba):</span>
+                  <span className="text-2xl text-white font-black">{selectedPack.performance.ram}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-label">Uso Sistema:</span>
+                  <span className="text-value">{selectedPack.performance.usage}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-label">DH Mod:</span>
+                  <span className="text-value">{selectedPack.performance.dh}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-label">Resolución:</span>
+                  <span className="text-value">1440p (Native)</span>
+                </div>
               </div>
-              {selectedPack.performance.gpu && (
-                <>
-                  <div className="mb-3">
-                    <div className="text-sm text-secondary mb-1">Hardware de Prueba</div>
-                    <div className="font-semibold text-blue-300">{selectedPack.performance.gpu} ({selectedPack.performance.resolution})</div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="text-sm text-secondary mb-1">Uso del Sistema</div>
-                    <div className="font-semibold text-blue-300">{selectedPack.performance.usage}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-secondary mb-1">Distant Horizons</div>
-                    <div className="font-semibold text-blue-300">{selectedPack.performance.dh}</div>
-                  </div>
-                </>
-              )}
             </div>
           </div>
         </div>
 
-        {/* Pruebas de rendimiento */}
-        <div className="max-w-2xl mx-auto mb-8">
-          <PerformanceChart />
+        {/* Screenshot Section */}
+        <div className="max-w-4xl mx-auto mb-12 mt-10">
+          {selectedPack.screenshot && (
+            <div className="space-y-4">
+              <div className="screenshot-frame glass !p-1 overflow-hidden border border-white/5 shadow-2xl group relative rounded-2xl bg-slate-900/40">
+                <img
+                  src={selectedPack.screenshot}
+                  alt="Benchmark Screenshot"
+                  className="w-full rounded-xl transition-transform duration-700 group-hover:scale-[1.02]"
+                />
+                <div className="screenshot-overlay absolute inset-0 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-black/80 via-transparent to-transparent">
+                  <div className="text-xl font-black text-white">{selectedPack.performance.gpu} — {selectedPack.title}</div>
+                </div>
+              </div>
+            </div>
+          )}
+          <PerformanceChart selectedPackId={selectedPack.id} />
         </div>
 
-        <div className="mt-4">
+        <div className="mt-12 space-y-4">
           <a
             href={selectedPack.downloadUrl}
             download={`${selectedPack.id}_pack.zip`}
-            className="btn btn-primary w-full py-4 text-lg"
+            className="btn btn-primary w-full py-6 text-xl font-black uppercase tracking-widest shadow-[0_10px_30px_rgba(37,99,235,0.3)] hover:shadow-[0_15px_40px_rgba(37,99,235,0.5)]"
           >
-            <Download size={24} /> Descargar {selectedPack.title}.zip
+            <Download size={28} /> Descargar Modpack .zip
           </a>
-          <button
-            onClick={() => setActiveTab('acerca')}
-            className="btn btn-outline w-full mt-6"
-          >
-            <Info size={18} /> Guía de Instalación y Configuración
-          </button>
+          <div className="grid grid-cols-1 gap-4">
+            <button
+              onClick={() => setActiveTab('acerca')}
+              className="btn btn-outline py-4 font-bold uppercase tracking-wider border-white/10 text-slate-300 hover:text-white"
+            >
+              <Info size={18} /> Guía de Instalación
+            </button>
+          </div>
 
-          <div className="mt-8 p-4 bg-white/5 rounded-lg border border-white/10">
-            <h4 className="text-sm font-bold text-white mb-2 uppercase flex items-center gap-2">
-              <Settings size={16} /> Personalización de Interfaz
+          <div className="mt-12 p-6 bg-blue-500/[0.03] rounded-2xl border border-blue-500/10 backdrop-blur-md relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
+            <h4 className="text-xs font-black text-blue-400 mb-3 uppercase tracking-[0.2em] flex items-center gap-2">
+              <Settings size={14} /> Personalización de Interfaz
             </h4>
-            <p className="text-xs text-secondary leading-relaxed">
-              Los mods de interfaz como <span className="text-blue-400 font-bold">JourneyMap</span> (minimapa) y <span className="text-blue-400 font-bold">Jade</span> (información de bloques) son 100% opcionales.
-              Puedes configurarlos, ocultarlos o desactivarlos en tu cliente si prefieres una pantalla más limpia e inmersiva.
+            <p className="text-xs text-secondary leading-relaxed font-medium">
+              Los mods de interfaz como <span className="text-blue-300 font-bold">JourneyMap</span> (minimapa) y <span className="text-blue-300 font-bold">Jade</span> (información de bloques) son <span className="text-slate-200">100% opcionales</span>.
+              Puedes configurarlos, ocultarlos o desactivarlos en tu cliente para una experiencia más inmersiva.
             </p>
           </div>
         </div>
