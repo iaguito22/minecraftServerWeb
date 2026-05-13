@@ -437,7 +437,7 @@ const PerformanceChart = ({ selectedPackId }) => {
           {data.map((item, index) => {
             const isSelected = item.id === selectedPackId;
             const width = `${(item.fps / globalMaxFps) * 100}%`;
-            
+
             return (
               <div key={index} className="group">
                 <div className="flex justify-between text-[11px] mb-2 px-1">
@@ -449,7 +449,7 @@ const PerformanceChart = ({ selectedPackId }) => {
                 <div className="w-full bg-slate-800/40 rounded-full border border-white/5 overflow-hidden" style={{ height: '8px' }}>
                   <div
                     className="h-full rounded-full transition-all duration-1000 ease-out"
-                    style={{ 
+                    style={{
                       width: width,
                       backgroundColor: isSelected ? '#22c55e' : '#3b82f6',
                       opacity: isSelected ? 1 : 0.4,
@@ -467,15 +467,15 @@ const PerformanceChart = ({ selectedPackId }) => {
 
   return (
     <div className="mt-12 flex flex-col md:flex-row gap-6">
-      <ChartBlock 
-        title="NVIDIA RTX 3050 (1440p)" 
-        icon={<Zap size={14} />} 
+      <ChartBlock
+        title="NVIDIA RTX 3050 (1440p)"
+        icon={<Zap size={14} />}
         data={rtxData}
         titleColor="text-blue-400"
       />
-      <ChartBlock 
-        title="Gráficos Integrados (1440p)" 
-        icon={<Monitor size={14} />} 
+      <ChartBlock
+        title="Gráficos Integrados (1440p)"
+        icon={<Monitor size={14} />}
         data={integratedData}
         titleColor="text-slate-400"
       />
@@ -701,9 +701,9 @@ const ModpacksTab = ({ setActiveTab }) => {
                     <div className="flex flex-col">
                       <span className="text-label">Promedio:</span>
                       <div className="text-5xl font-black text-slate-200 leading-none pt-2">
-                        {selectedPack.id === 'potato' ? '130' : 
-                         selectedPack.id === 'lowAesthetic' ? '45' : 
-                         selectedPack.id === 'highAesthetic' ? '15' : '0'} <span className="text-[12px] text-slate-500 uppercase">fps</span>
+                        {selectedPack.id === 'potato' ? '130' :
+                          selectedPack.id === 'lowAesthetic' ? '45' :
+                            selectedPack.id === 'highAesthetic' ? '15' : '0'} <span className="text-[12px] text-slate-500 uppercase">fps</span>
                       </div>
                     </div>
                     <div className="flex flex-col pt-1">
