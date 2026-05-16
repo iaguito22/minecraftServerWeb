@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Server, Monitor, Download, ChevronRight,
-  Shield, Zap, Cpu, Eye, ArrowLeft,
+  Shield, Zap, Cpu, Eye, ArrowLeft, ChevronLeft,
   Gamepad2, Info, Copy, Check, Users, Sparkles, Sun, Moon,
   HardDrive, Wifi, Clock, Menu, X, RefreshCw,
   Wrench, Plane, Skull, ShieldAlert, Terminal, AlertTriangle, Box, Settings
@@ -12,6 +12,117 @@ import highImg from './assets/high.png';
 import './index.css';
 
 // --- COMPONENTS ---
+
+const FADE_DURATION = 600; // ms
+
+const VideoCarousel = ({ videos }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(null);
+  const [transitioning, setTransitioning] = useState(false);
+  const activeRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const vid = activeRef.current;
+    if (!vid) return;
+    vid.muted = true;
+    vid.load();
+    vid.play().catch(() => {});
+  }, [activeIndex]);
+
+  const changeVideo = (newIndex) => {
+    if (transitioning) return;
+    setPrevIndex(activeIndex);
+    setActiveIndex(newIndex);
+    setTransitioning(true);
+    setTimeout(() => {
+      setPrevIndex(null);
+      setTransitioning(false);
+    }, FADE_DURATION);
+  };
+
+  const nextVideo = () => changeVideo((activeIndex + 1) % videos.length);
+  const prevVideo = () => changeVideo((activeIndex - 1 + videos.length) % videos.length);
+
+  if (!videos || videos.length === 0) return null;
+
+  return (
+    <div className="video-carousel-container group">
+      <div className="video-wrapper">
+
+        {prevIndex !== null && (
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="carousel-video carousel-video-out"
+            style={{ pointerEvents: 'none', animationDuration: `${FADE_DURATION}ms` }}
+          >
+            <source src={`${import.meta.env.BASE_URL}${videos[prevIndex].url}`} type="video/mp4" />
+          </video>
+        )}
+
+        <video
+          key={activeIndex}
+          ref={activeRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className={`carousel-video ${transitioning ? 'carousel-video-in' : ''}`}
+          style={{ pointerEvents: 'none', animationDuration: `${FADE_DURATION}ms` }}
+          onCanPlay={() => activeRef.current?.play()}
+        >
+          <source src={`${import.meta.env.BASE_URL}${videos[activeIndex].url}`} type="video/mp4" />
+          Tu navegador no soporta videos.
+        </video>
+
+        {videos.length > 1 && (
+          <>
+            <div className="nav-overlay left" onClick={prevVideo}>
+              <div className="nav-btn-hint">
+                 <ChevronLeft size={32} />
+              </div>
+            </div>
+            <div className="nav-overlay right" onClick={nextVideo}>
+              <div className="nav-btn-hint">
+                 <ChevronRight size={32} />
+              </div>
+            </div>
+          </>
+        )}
+
+        <div className="absolute inset-0 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" style={{ zIndex: 5 }}>
+          <div className="text-xl font-black text-white">{videos[activeIndex].fullName} — {videos[activeIndex].resolution}</div>
+        </div>
+
+        <div className="video-info-overlay">
+          <div className="shader-badge" key={activeIndex}>
+             <Sparkles size={14} className="text-blue-400" />
+             <span>{videos[activeIndex].label}</span>
+          </div>
+        </div>
+
+        {videos.length > 1 && (
+          <div className="carousel-indicators">
+            {videos.map((_, idx) => (
+              <div
+                key={idx}
+                className={`indicator-dot ${idx === activeIndex ? 'active' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  changeVideo(idx);
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 
 const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,7 +143,7 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
       </div>
 
       {/* Desktop links */}
-      <div className="nav-links flex items-center">
+      <div className="nav-links items-center">
         {tabs.map((tab) => (
           <button
             key={tab}
@@ -408,35 +519,74 @@ const ServerTab = () => {
 };
 
 const PerformanceChart = ({ selectedPackId }) => {
-  const rtxData = [
-    { id: 'potato', name: 'Potato Pack', fps: 275 },
-    { id: 'lowAesthetic', name: 'Low Aesthetic', fps: 121 },
-    { id: 'highAesthetic', name: 'High Aesthetic', fps: 53 }
-  ];
+  const [gpu, setGpu] = useState('RTX 3050');
+  const [resolution, setResolution] = useState('1080p');
 
-  const integratedData = [
-    { id: 'potato', name: 'Potato Pack', fps: 150 },
-    { id: 'lowAesthetic', name: 'Low Aesthetic', fps: 52 },
-    { id: 'highAesthetic', name: 'High Aesthetic', fps: 18 }
-  ];
+  const perfData = {
+    '1080p': {
+      'RTX 3050': [
+        { packId: 'potato', name: 'Potato (Vanilla)', fps: 475 },
+        { packId: 'lowAesthetic', name: 'BALANCE (Sildur\'s)', fps: 222 },
+        { packId: 'lowAesthetic', name: 'BALANCE (E-LITE)', fps: 172 },
+        { packId: 'highAesthetic', name: 'High (Solas)', fps: 67 },
+        { packId: 'highAesthetic', name: 'High (Photon)', fps: 84 },
+        { packId: 'highAesthetic', name: 'High (Bliss)', fps: 67 }
+      ],
+      'Integrados': [
+        { packId: 'potato', name: 'Potato (Vanilla)', fps: 'N/A' },
+        { packId: 'lowAesthetic', name: 'BALANCE (Sildur\'s)', fps: 'N/A' },
+        { packId: 'lowAesthetic', name: 'BALANCE (E-LITE)', fps: 'N/A' },
+        { packId: 'highAesthetic', name: 'High (Solas)', fps: 'N/A' },
+        { packId: 'highAesthetic', name: 'High (Photon)', fps: 'N/A' },
+        { packId: 'highAesthetic', name: 'High (Bliss)', fps: 'N/A' }
+      ]
+    },
+    '1440p': {
+      'RTX 3050': [
+        { packId: 'potato', name: 'Potato Pack', fps: 275 },
+        { packId: 'lowAesthetic', name: 'BALANCE', fps: 121 },
+        { packId: 'highAesthetic', name: 'High Aesthetic', fps: 53 }
+      ],
+      'Integrados': [
+        { packId: 'potato', name: 'Potato Pack', fps: 150 },
+        { packId: 'lowAesthetic', name: 'BALANCE', fps: 52 },
+        { packId: 'highAesthetic', name: 'High Aesthetic', fps: 18 }
+      ]
+    }
+  };
 
-  // Global max to normalize bars between both charts
-  const globalMaxFps = Math.max(
-    ...rtxData.map(d => d.fps),
-    ...integratedData.map(d => d.fps)
-  );
+  const currentData = perfData[resolution][gpu];
+  const maxFps = Math.max(...currentData.map(d => d.fps === 'N/A' ? 0 : d.fps));
 
-  const ChartBlock = ({ title, icon, data, titleColor }) => {
-    return (
-      <div className="flex-1 p-6 rounded-2xl border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-xl">
-        <h4 className={`text-[11px] mb-6 ${titleColor} font-black uppercase tracking-[0.25em] flex items-center gap-2`}>
-          {icon}
-          {title}
-        </h4>
+  return (
+    <div className="mt-12">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h3 className="text-xl font-bold flex items-center gap-2 text-white"><Zap size={20} className="text-blue-400" /> Comparativa de Rendimiento</h3>
+        <div className="flex gap-4">
+          <select 
+            value={gpu} 
+            onChange={e => setGpu(e.target.value)}
+            className="bg-slate-800 text-white border border-slate-700 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm"
+          >
+            <option value="RTX 3050">NVIDIA RTX 3050</option>
+            <option value="Integrados">Gráficos Integrados</option>
+          </select>
+          <select 
+            value={resolution} 
+            onChange={e => setResolution(e.target.value)}
+            className="bg-slate-800 text-white border border-slate-700 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm"
+          >
+            <option value="1080p">1080p</option>
+            <option value="1440p">1440p</option>
+          </select>
+        </div>
+      </div>
+      
+      <div className="p-6 rounded-2xl border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-xl">
         <div className="space-y-6">
-          {data.map((item, index) => {
-            const isSelected = item.id === selectedPackId;
-            const width = `${(item.fps / globalMaxFps) * 100}%`;
+          {currentData.map((item, index) => {
+            const isSelected = item.packId === selectedPackId;
+            const width = item.fps === 'N/A' ? '0%' : `${(item.fps / maxFps) * 100}%`;
 
             return (
               <div key={index} className="group">
@@ -444,7 +594,7 @@ const PerformanceChart = ({ selectedPackId }) => {
                   <span className={`${isSelected ? 'text-green-400 font-black' : 'text-blue-300/60 font-bold'} group-hover:text-white transition-colors uppercase tracking-wider`}>
                     {item.name} {isSelected && '— ACTUAL'}
                   </span>
-                  <span className={`font-black ${isSelected ? 'text-green-400' : 'text-blue-200'}`}>{item.fps} FPS</span>
+                  <span className={`font-black ${isSelected ? 'text-green-400' : 'text-blue-200'}`}>{item.fps} {item.fps !== 'N/A' && 'FPS'}</span>
                 </div>
                 <div className="w-full bg-slate-800/40 rounded-full border border-white/5 overflow-hidden" style={{ height: '8px' }}>
                   <div
@@ -462,80 +612,54 @@ const PerformanceChart = ({ selectedPackId }) => {
           })}
         </div>
       </div>
-    );
-  };
-
-  return (
-    <div className="mt-12 flex flex-col md:flex-row gap-6">
-      <ChartBlock
-        title="NVIDIA RTX 3050 (1440p)"
-        icon={<Zap size={14} />}
-        data={rtxData}
-        titleColor="text-blue-400"
-      />
-      <ChartBlock
-        title="Gráficos Integrados (1440p)"
-        icon={<Monitor size={14} />}
-        data={integratedData}
-        titleColor="text-slate-400"
-      />
     </div>
   );
 };
 
 const ModpacksTab = ({ setActiveTab }) => {
-  const [view, setView] = useState('main'); // main, client, detail
+  const [view, setView] = useState('client'); // client, detail
   const [selectedPack, setSelectedPack] = useState(null);
 
   const packs = {
-    server: {
-      id: 'server',
-      title: 'Archivos Base (Servidor)',
-      icon: <Server size={40} className="text-blue-400" />,
-      desc: 'El modpack base para jugar en el servidor. No incluye mods de optimización extra.',
-      features: ['Todos los mods del servidor', 'Configuraciones', 'Sin optimización'],
-      performance: {
-        fps: '59-110 FPS (Avg: 90)',
-        ram: 'Prueba: 2832 MB',
-        gpu: 'AMD Radeon Integrated Graphics',
-        usage: 'GPU 67% | CPU 20%',
-        dh: 'Desactivado',
-        resolution: '1440p'
-      },
-      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/server.zip'
-    },
     potato: {
       id: 'potato',
       title: 'Pack Potato (Optimización)',
       icon: <Zap size={40} className="text-blue-400" />,
       desc: 'El pack más ligero. Contiene mods de optimización pura para exprimir cada FPS. Recomendado para PCs humildes.',
-      features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'FPS al máximo', 'Create Mod Base'],
+      features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'Create Mod Base', 'Shaders: Vanilla'],
       performance: {
-        fps: '200-275 FPS (Avg: 230)',
+        fps: '450-500 FPS (Avg: 475)',
         ram: 'Prueba: 3088 MB',
         gpu: 'NVIDIA GeForce RTX 3050',
         usage: 'GPU 100% | CPU 56%',
         dh: 'Desactivado',
-        resolution: '1440p'
+        resolution: '1080p'
       },
       screenshot: potatoImg,
+      videos: [
+        { url: 'videos/vanillaPREVIEW.mp4', label: 'Vanilla', fullName: 'Vanilla Minecraft', resolution: '1080p' }
+      ],
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/potato.zip'
     },
     lowAesthetic: {
       id: 'lowAesthetic',
-      title: 'Low Aesthetic (Potato + Shaders)',
+      title: 'BALANCE',
       icon: <Eye size={40} className="text-blue-400" />,
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
-      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders E-LITE 5.0.1', 'Mejora visual fluida'],
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Sildur\'s Default Fast, E-LITE', 'Mejora visual fluida'],
       performance: {
-        fps: '102-121 FPS (Avg: 116)',
+        fps: '190-240 FPS (Avg: 222)',
         ram: 'Prueba: 2720 MB',
         gpu: 'NVIDIA GeForce RTX 3050',
         usage: 'GPU 100% | CPU 51%',
         dh: 'Activado',
-        resolution: '1440p'
+        resolution: '1080p'
       },
       screenshot: lowImg,
+      videos: [
+        { url: 'videos/sildursPREVIEW.mp4', label: 'Sildur\'s Vibrant', fullName: 'Sildur\'s Default Fast', resolution: '1080p' },
+        { url: 'videos/E-LITEPREVIEW.mp4', label: 'E-LITE', fullName: 'E-LITE Shaders 5.0.1', resolution: '1080p' }
+      ],
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/low.zip'
     },
     highAesthetic: {
@@ -543,16 +667,21 @@ const ModpacksTab = ({ setActiveTab }) => {
       title: 'High Aesthetic (Ultra)',
       icon: <Sparkles size={40} className="text-blue-400" />,
       desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
-      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders Solas V3.6', 'Visuales impresionantes'],
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Solas, Photon, Bliss', 'Visuales impresionantes'],
       performance: {
-        fps: '47-53 FPS (Avg: 52)',
+        fps: '55-75 FPS (Avg: 67)',
         ram: 'Prueba: 2722 MB',
         gpu: 'NVIDIA GeForce RTX 3050',
         usage: 'GPU 100% | CPU 56%',
         dh: 'Activado',
-        resolution: '1440p'
+        resolution: '1080p'
       },
       screenshot: highImg,
+      videos: [
+        { url: 'videos/solasPREVIEW.mp4', label: 'Solas', fullName: 'Solas Shaders V3.6', resolution: '1080p' },
+        { url: 'videos/photonPREVIEW.mp4', label: 'Photon', fullName: 'Photon Shaders', resolution: '1080p' },
+        { url: 'videos/blissPREVIEW.mp4', label: 'Bliss', fullName: 'Bliss Shaders', resolution: '1080p' }
+      ],
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/high.zip'
     }
   };
@@ -562,44 +691,10 @@ const ModpacksTab = ({ setActiveTab }) => {
     setView('detail');
   };
 
-  const renderMain = () => (
-    <div className="animate-enter delay-100 max-w-4xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-gradient">Descargas</h2>
-        <p className="text-secondary text-lg">¿Qué necesitas descargar?</p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="glass-card cursor-pointer items-center text-center" onClick={() => openDetail('server')}>
-          <div className="bg-blue-600/10 p-6 rounded-full mb-6">
-            <Server size={48} className="text-blue-400" />
-          </div>
-          <h3 className="mb-2">Servidor</h3>
-          <p className="text-secondary mb-6">Archivos del servidor (.zip con mods y config).</p>
-          <button className="btn btn-primary mt-auto w-full">
-            Ver Detalles <ChevronRight size={18} />
-          </button>
-        </div>
-
-        <div className="glass-card cursor-pointer items-center text-center" onClick={() => setView('client')}>
-          <div className="bg-blue-600/10 p-6 rounded-full mb-6">
-            <Monitor size={48} className="text-blue-400" />
-          </div>
-          <h3 className="mb-2">Cliente</h3>
-          <p className="text-secondary mb-6">Modpacks para jugar (diferentes niveles gráficos).</p>
-          <button className="btn btn-primary mt-auto w-full">
-            Ver Opciones <ChevronRight size={18} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 
   const renderClientPacks = () => (
     <div className="animate-enter max-w-5xl mx-auto">
-      <button className="btn btn-outline mb-8" onClick={() => setView('main')}>
-        <ArrowLeft size={18} /> Volver
-      </button>
+
 
       <div className="text-center mb-16">
         <h2 className="text-gradient">Selecciona tu Modpack</h2>
@@ -630,7 +725,7 @@ const ModpacksTab = ({ setActiveTab }) => {
 
         <button
           className="btn btn-outline mb-8 w-max"
-          onClick={() => setView(selectedPack.title.includes('Servidor') ? 'main' : 'client')}
+          onClick={() => setView('client')}
         >
           <ArrowLeft size={18} /> Volver
         </button>
@@ -647,7 +742,7 @@ const ModpacksTab = ({ setActiveTab }) => {
 
         <p className="text-lg text-secondary mb-8">{selectedPack.desc}</p>
 
-        <div className="flex flex-col md:flex-row gap-8 mb-12 items-stretch max-w-4xl mx-auto w-full px-4">
+        <div className="flex flex-col md:flex-row gap-8 mb-12 items-stretch w-full px-4">
           {/* Content Card */}
           <div className="flex-1 glass-card !p-6 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
             <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/30"></div>
@@ -668,11 +763,11 @@ const ModpacksTab = ({ setActiveTab }) => {
           <div className="flex-1 glass-card !p-6 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
             <div className="absolute top-0 left-0 w-1 h-full bg-orange-500/30"></div>
             <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 flex items-center gap-2">
-              <Cpu className="text-orange-400" size={18} /> Rendimiento (1440p)
+              <Cpu className="text-orange-400" size={18} /> Rendimiento (1080p)
             </h4>
 
             <div className="space-y-6">
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1">
                 {/* RTX 3050 */}
                 <div className="space-y-4">
                   <div className="text-[13px] font-black text-blue-400 uppercase tracking-widest flex items-center gap-2.5">
@@ -688,31 +783,6 @@ const ModpacksTab = ({ setActiveTab }) => {
                     <div className="flex flex-col pt-1">
                       <span className="text-label">Rango:</span>
                       <div className="text-xs font-bold text-slate-300">{selectedPack.performance.fps.split(' ')[0]}</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Integrated */}
-                <div className="space-y-4 border-l border-white/5 pl-8">
-                  <div className="text-[13px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2.5">
-                    <Monitor size={20} /> Integrados
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex flex-col">
-                      <span className="text-label">Promedio:</span>
-                      <div className="text-5xl font-black text-slate-200 leading-none pt-2">
-                        {selectedPack.id === 'potato' ? '130' :
-                          selectedPack.id === 'lowAesthetic' ? '45' :
-                            selectedPack.id === 'highAesthetic' ? '15' : '0'} <span className="text-[12px] text-slate-500 uppercase">fps</span>
-                      </div>
-                    </div>
-                    <div className="flex flex-col pt-1">
-                      <span className="text-label">Rango:</span>
-                      <div className="text-xs font-bold text-slate-300">
-                        {selectedPack.id === 'potato' ? '110-150' :
-                          selectedPack.id === 'lowAesthetic' ? '38-52' :
-                            selectedPack.id === 'highAesthetic' ? '12-18' : 'N/A'} FPS
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -734,16 +804,17 @@ const ModpacksTab = ({ setActiveTab }) => {
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-label">Resolución:</span>
-                  <span className="text-value">1440p (Native)</span>
+                  <span className="text-value">1080p (Native)</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Screenshot Section */}
-        <div className="max-w-4xl mx-auto mb-12 mt-10">
-          {selectedPack.screenshot && (
+        <div className="w-full mb-12 mt-10 px-4">
+          {selectedPack.videos ? (
+            <VideoCarousel videos={selectedPack.videos} />
+          ) : selectedPack.screenshot && (
             <div className="space-y-4">
               <div className="screenshot-frame glass !p-1 overflow-hidden border border-white/5 shadow-2xl group relative rounded-2xl bg-slate-900/40">
                 <img
@@ -794,7 +865,6 @@ const ModpacksTab = ({ setActiveTab }) => {
 
   return (
     <div>
-      {view === 'main' && renderMain()}
       {view === 'client' && renderClientPacks()}
       {view === 'detail' && renderDetail()}
     </div>

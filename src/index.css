@@ -384,8 +384,7 @@ h3 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 0;
+  gap: 1rem;
 }
 
 .nav-logo-icon {
@@ -402,10 +401,10 @@ h3 {
   gap: 0.5rem;
 }
 
-/* Hide desktop links on mobile */
-@media (max-width: 640px) {
+/* Hide desktop links on mobile/tablet */
+@media (max-width: 1024px) {
   .nav-links {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -415,9 +414,9 @@ h3 {
   gap: 0.5rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1024px) {
   .nav-mobile-right {
-    display: flex;
+    display: flex !important;
   }
 }
 
@@ -1234,4 +1233,200 @@ h3 {
 .screenshot-frame.glass {
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
+}
+
+/* Video Carousel Styles */
+.video-carousel-container {
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  background: #000;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.video-wrapper {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 1;
+}
+
+@keyframes videoFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes videoFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.carousel-video-out {
+  animation: videoFadeOut linear forwards;
+  z-index: 1;
+}
+
+.carousel-video-in {
+  animation: videoFadeIn linear forwards;
+  z-index: 2;
+}
+
+.nav-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 30%;
+  z-index: 10;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.nav-overlay.left {
+  left: 0;
+  justify-content: flex-start;
+  padding-left: 1.5rem;
+  background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, transparent 100%);
+  opacity: 0;
+}
+
+.nav-overlay.right {
+  right: 0;
+  justify-content: flex-end;
+  padding-right: 1.5rem;
+  background: linear-gradient(to left, rgba(0,0,0,0.4) 0%, transparent 100%);
+  opacity: 0;
+}
+
+.video-carousel-container:hover .nav-overlay {
+  opacity: 1;
+}
+
+.nav-btn-hint {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  transform: scale(0.9);
+}
+
+.nav-overlay:hover .nav-btn-hint {
+  background: rgba(37, 99, 235, 0.3);
+  border-color: rgba(37, 99, 235, 0.5);
+  transform: scale(1);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+}
+
+.video-info-overlay {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 20;
+  pointer-events: none;
+}
+
+.shader-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1.25rem;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeInDown 0.5s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.75rem;
+  z-index: 20;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-pill);
+}
+
+.indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator-dot.active {
+  background: var(--primary-color);
+  width: 24px;
+  border-radius: 4px;
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.indicator-dot:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 640px) {
+  .nav-overlay {
+    width: 40%;
+    opacity: 1;
+    background: transparent;
+  }
+  
+  .nav-btn-hint {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .shader-badge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.875rem;
+  }
+  
+  .carousel-indicators {
+    bottom: 0.75rem;
+  }
 }
