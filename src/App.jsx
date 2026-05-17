@@ -93,11 +93,7 @@ const VideoCarousel = ({ videos }) => {
           </>
         )}
 
-        <div className="absolute inset-0 flex items-end p-6 opacity-0 group-hover:opacity-100 transition-all duration-500 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" style={{ zIndex: 5 }}>
-          <div className="text-xl font-black text-white">{videos[activeIndex].fullName} — {videos[activeIndex].resolution}</div>
-        </div>
-
-        <div className="video-info-overlay">
+        <div className="video-info-overlay opacity-0 group-hover:opacity-100 transition-opacity duration-500">
           <div className="shader-badge" key={activeIndex}>
             <Sparkles size={14} className="text-blue-400" />
             <span>{videos[activeIndex].label}</span>
@@ -851,12 +847,51 @@ const ModpacksTab = ({ setActiveTab }) => {
           <div className="mt-12 p-6 bg-blue-500/[0.03] rounded-2xl border border-blue-500/10 backdrop-blur-md relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
             <h4 className="text-xs font-black text-blue-400 mb-3 uppercase tracking-[0.2em] flex items-center gap-2">
-              <Settings size={14} /> Personalización de Interfaz
+              <Settings size={14} /> Personalización de Interfaz y Cliente
             </h4>
-            <p className="text-xs text-secondary leading-relaxed font-medium">
-              Los mods de interfaz como <span className="text-blue-300 font-bold">JourneyMap</span> (minimapa) y <span className="text-blue-300 font-bold">Jade</span> (información de bloques) son <span className="text-slate-200">100% opcionales</span>.
-              Puedes configurarlos, ocultarlos o desactivarlos en tu cliente para una experiencia más inmersiva.
-            </p>
+            <div className="space-y-4">
+              <p className="text-xs text-secondary leading-relaxed font-medium">
+                Estos mods son <span className="text-slate-200">100% opcionales</span> y pueden configurarse o desactivarse según tus preferencias personales:
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
+                <ul className="text-[10px] space-y-2 text-slate-400">
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">JourneyMap:</span> 
+                    <span>Minimapa y mapa interactivo (Pantalla completa con 'J').</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">Jade:</span> 
+                    <span>Información emergente del bloque que estás mirando.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">AppleSkin:</span> 
+                    <span>Visualización de saturación y hambre en el HUD.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">JEI:</span> 
+                    <span>Buscador de recetas e inventario lateral.</span>
+                  </li>
+                </ul>
+                <ul className="text-[10px] space-y-2 text-slate-400">
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">Voice Chat:</span> 
+                    <span>Chat de voz por proximidad (tecla 'V' para configurar).</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">Shulker Tooltip:</span> 
+                    <span>Ver contenido de shulkers desde el inventario.</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">Iris Shaders:</span> 
+                    <span>Motor de shaders para mejoras gráficas (tecla 'K').</span>
+                  </li>
+                  <li className="flex gap-2">
+                    <span className="text-blue-300 font-bold min-w-[90px]">Sound Physics:</span> 
+                    <span>Acústica realista y eco dinámico en el mundo.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1010,17 +1045,18 @@ function App() {
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   return (
-    <div className="container min-h-screen flex flex-col justify-between">
-      <div className="flex-1 flex flex-col">
-        <TabNav activeTab={activeTab} setActiveTab={setActiveTab} theme={theme} toggleTheme={toggleTheme} />
+    <>
+      <TabNav activeTab={activeTab} setActiveTab={setActiveTab} theme={theme} toggleTheme={toggleTheme} />
+      <div className="container min-h-screen flex flex-col justify-between">
+        <div className="flex-1 flex flex-col">
 
-        <main className="flex-grow flex flex-col justify-center pb-12">
-          {activeTab === 'home' && <HomeTab setActiveTab={setActiveTab} />}
-          {activeTab === 'servidor' && <ServerTab />}
-          {activeTab === 'modpacks' && <ModpacksTab setActiveTab={setActiveTab} />}
-          {activeTab === 'acerca' && <AboutTab />}
-        </main>
-      </div>
+          <main className="flex-grow flex flex-col justify-center pb-12">
+            {activeTab === 'home' && <HomeTab setActiveTab={setActiveTab} />}
+            {activeTab === 'servidor' && <ServerTab />}
+            {activeTab === 'modpacks' && <ModpacksTab setActiveTab={setActiveTab} />}
+            {activeTab === 'acerca' && <AboutTab />}
+          </main>
+        </div>
 
       <footer className="w-full text-center text-secondary text-sm py-8 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
         <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -1033,7 +1069,8 @@ function App() {
           </div>
         </div>
       </footer>
-    </div>
+      </div>
+    </>
   );
 }
 
