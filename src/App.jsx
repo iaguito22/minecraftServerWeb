@@ -639,7 +639,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       videos: [
         { url: 'videos/vanillaPREVIEW.mp4', label: 'Vanilla', fullName: 'Vanilla Minecraft', resolution: '1080p' }
       ],
-      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/potato.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v2/potato.zip'
     },
     lowAesthetic: {
       id: 'lowAesthetic',
@@ -660,7 +660,7 @@ const ModpacksTab = ({ setActiveTab }) => {
         { url: 'videos/sildursPREVIEW.mp4', label: 'Sildur\'s Default Fast', fullName: 'Sildur\'s Default Fast', resolution: '1080p' },
         { url: 'videos/E-LITEPREVIEW.mp4', label: 'E-LITE', fullName: 'E-LITE Shaders 5.0.1', resolution: '1080p' }
       ],
-      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/low.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v2/balance.zip'
     },
     highAesthetic: {
       id: 'highAesthetic',
@@ -682,7 +682,7 @@ const ModpacksTab = ({ setActiveTab }) => {
         { url: 'videos/photonPREVIEW.mp4', label: 'Photon', fullName: 'Photon Shaders', resolution: '1080p' },
         { url: 'videos/blissPREVIEW.mp4', label: 'Bliss', fullName: 'Bliss Shaders', resolution: '1080p' }
       ],
-      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/high.zip'
+      downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v2/high.zip'
     }
   };
 
