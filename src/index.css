@@ -509,7 +509,7 @@ h3 {
 }
 
 /* Hide desktop links on mobile/tablet */
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (pointer: coarse) {
   .nav-links {
     display: none !important;
   }
@@ -521,7 +521,7 @@ h3 {
   gap: 0.5rem;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1024px) and (pointer: coarse) {
   .nav-mobile-right {
     display: flex !important;
   }
