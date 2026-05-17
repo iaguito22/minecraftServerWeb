@@ -26,7 +26,7 @@ const VideoCarousel = ({ videos }) => {
     if (!vid) return;
     vid.muted = true;
     vid.load();
-    vid.play().catch(() => {});
+    vid.play().catch(() => { });
   }, [activeIndex]);
 
   const changeVideo = (newIndex) => {
@@ -82,12 +82,12 @@ const VideoCarousel = ({ videos }) => {
           <>
             <div className="nav-overlay left" onClick={prevVideo}>
               <div className="nav-btn-hint">
-                 <ChevronLeft size={32} />
+                <ChevronLeft size={32} />
               </div>
             </div>
             <div className="nav-overlay right" onClick={nextVideo}>
               <div className="nav-btn-hint">
-                 <ChevronRight size={32} />
+                <ChevronRight size={32} />
               </div>
             </div>
           </>
@@ -99,8 +99,8 @@ const VideoCarousel = ({ videos }) => {
 
         <div className="video-info-overlay">
           <div className="shader-badge" key={activeIndex}>
-             <Sparkles size={14} className="text-blue-400" />
-             <span>{videos[activeIndex].label}</span>
+            <Sparkles size={14} className="text-blue-400" />
+            <span>{videos[activeIndex].label}</span>
           </div>
         </div>
 
@@ -189,7 +189,7 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
               className={`mobile-menu-item ${activeTab === tab ? 'active' : ''}`}
               onClick={() => handleTab(tab)}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab === 'acerca' ? 'El Mundo' : tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
           ))}
         </div>
@@ -560,28 +560,28 @@ const PerformanceChart = ({ selectedPackId }) => {
 
   return (
     <div className="mt-12">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <h3 className="text-xl font-bold flex items-center gap-2 text-white"><Zap size={20} className="text-blue-400" /> Comparativa de Rendimiento</h3>
-        <div className="flex gap-4">
-          <select 
-            value={gpu} 
+      <div className="flex flex-col items-center justify-center mb-2 gap-4 text-center">
+        <h3 className="text-xl font-bold flex items-center justify-center gap-2 text-white"><Zap size={20} className="text-blue-400" /> Comparativa de Rendimiento</h3>
+        <div className="flex flex-wrap justify-center gap-4">
+          <select
+            value={gpu}
             onChange={e => setGpu(e.target.value)}
-            className="bg-slate-800 text-white border border-slate-700 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm"
+            className="theme-select border rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm cursor-pointer transition-colors"
           >
             <option value="RTX 3050">NVIDIA RTX 3050</option>
             <option value="Integrados">Gráficos Integrados</option>
           </select>
-          <select 
-            value={resolution} 
+          <select
+            value={resolution}
             onChange={e => setResolution(e.target.value)}
-            className="bg-slate-800 text-white border border-slate-700 rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm"
+            className="theme-select border rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm cursor-pointer transition-colors"
           >
             <option value="1080p">1080p</option>
             <option value="1440p">1440p</option>
           </select>
         </div>
       </div>
-      
+
       <div className="p-6 rounded-2xl border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-xl">
         <div className="space-y-6">
           {currentData.map((item, index) => {
@@ -626,7 +626,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       title: 'Pack Potato (Optimización)',
       icon: <Zap size={40} className="text-blue-400" />,
       desc: 'El pack más ligero. Contiene mods de optimización pura para exprimir cada FPS. Recomendado para PCs humildes.',
-      features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'Create Mod Base', 'Shaders: Vanilla'],
+      features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'Create Mod Base', 'Shaders: Vanilla', 'Configuraciones pre-optimizadas'],
       performance: {
         fps: '450-500 FPS (Avg: 475)',
         ram: 'Prueba: 3088 MB',
@@ -646,7 +646,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       title: 'BALANCE',
       icon: <Eye size={40} className="text-blue-400" />,
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
-      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Sildur\'s Default Fast, E-LITE', 'Mejora visual fluida'],
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Sildur\'s Default Fast, E-LITE', 'Mejora visual fluida', 'Configuraciones pre-optimizadas'],
       performance: {
         fps: '190-240 FPS (Avg: 222)',
         ram: 'Prueba: 2720 MB',
@@ -657,7 +657,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       },
       screenshot: lowImg,
       videos: [
-        { url: 'videos/sildursPREVIEW.mp4', label: 'Sildur\'s Vibrant', fullName: 'Sildur\'s Default Fast', resolution: '1080p' },
+        { url: 'videos/sildursPREVIEW.mp4', label: 'Sildur\'s Default Fast', fullName: 'Sildur\'s Default Fast', resolution: '1080p' },
         { url: 'videos/E-LITEPREVIEW.mp4', label: 'E-LITE', fullName: 'E-LITE Shaders 5.0.1', resolution: '1080p' }
       ],
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v1/low.zip'
@@ -667,7 +667,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       title: 'High Aesthetic (Ultra)',
       icon: <Sparkles size={40} className="text-blue-400" />,
       desc: 'La experiencia definitiva. Optimización + DH + Shaders en High. Visuales impresionantes, requiere PC potente.',
-      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Solas, Photon, Bliss', 'Visuales impresionantes'],
+      features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Solas, Photon, Bliss', 'Visuales impresionantes', 'Configuraciones pre-optimizadas'],
       performance: {
         fps: '55-75 FPS (Avg: 67)',
         ram: 'Prueba: 2722 MB',

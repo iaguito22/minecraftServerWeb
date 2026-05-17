@@ -58,6 +58,18 @@
   border-color: rgba(59, 130, 246, 0.1);
 }
 
+:root.light .theme-select {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.theme-select {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
 :root.light .rule-item:hover {
   background: rgba(239, 246, 255, 0.9);
 }
@@ -456,29 +468,39 @@ h3 {
 
 /* Mobile dropdown menu */
 .mobile-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  padding-top: 0.75rem;
-  margin-top: 0.5rem;
-  border-top: 1px solid var(--glass-border);
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 1rem;
+  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
   animation: fadeInUp 0.2s ease forwards;
+  z-index: 40;
 }
 
 .mobile-menu-item {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1.25rem;
   border-radius: 0.75rem;
   color: var(--text-secondary);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-family: inherit;
   text-align: left;
   transition: var(--transition);
   border: 1px solid transparent;
+  width: 100%;
 }
 
 .mobile-menu-item:hover {
