@@ -421,7 +421,7 @@ h3 {
 }
 
 .nav-mobile-right {
-  display: none;
+  display: none !important;
   align-items: center;
   gap: 0.5rem;
 }
