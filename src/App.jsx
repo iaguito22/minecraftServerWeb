@@ -854,39 +854,39 @@ const ModpacksTab = ({ setActiveTab }) => {
                 Estos mods son <span className="text-slate-200">100% opcionales</span> y pueden configurarse o desactivarse según tus preferencias personales:
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                <ul className="text-[11px] space-y-4 text-slate-400">
+                <ul className="text-xs text-secondary leading-relaxed font-medium">
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">JourneyMap</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">JourneyMap</span>
                     <span className="leading-snug opacity-80">Minimapa y mapa interactivo (Pantalla completa con 'J').</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Jade</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Jade</span>
                     <span className="leading-snug opacity-80">Información emergente del bloque que estás mirando.</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">AppleSkin</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">AppleSkin</span>
                     <span className="leading-snug opacity-80">Visualización de saturación y hambre en el HUD.</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">JEI</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">JEI</span>
                     <span className="leading-snug opacity-80">Buscador de recetas e inventario lateral.</span>
                   </li>
                 </ul>
-                <ul className="text-[11px] space-y-4 text-slate-400">
+                <ul className="text-xs text-secondary leading-relaxed font-medium">
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Voice Chat</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Voice Chat</span>
                     <span className="leading-snug opacity-80">Chat de voz por proximidad (tecla 'V' para configurar).</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Shulker Tooltip</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Shulker Tooltip</span>
                     <span className="leading-snug opacity-80">Ver contenido de shulkers desde el inventario.</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Iris Shaders</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Iris Shaders</span>
                     <span className="leading-snug opacity-80">Motor de shaders para mejoras gráficas (tecla 'K').</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Sound Physics</span> 
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Sound Physics</span>
                     <span className="leading-snug opacity-80">Acústica realista y eco dinámico en el mundo.</span>
                   </li>
                 </ul>
@@ -1057,17 +1057,17 @@ function App() {
           </main>
         </div>
 
-      <footer className="w-full text-center text-secondary text-sm py-8 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
-        <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p>© 2026 Feixismo MC. Creado para la comunidad.</p>
-          <div className="flex items-center gap-3">
-            <span className="opacity-50 text-[10px] uppercase tracking-widest font-bold">Versión de Referencia:</span>
-            <div className="px-5 py-2 bg-orange-600/10 border border-orange-500/20 rounded-full text-[10px] font-black text-orange-400">
-              JAVA 1.21.1 | NEOFORGE
+        <footer className="w-full text-center text-secondary text-sm py-8 border-t border-white/5 bg-slate-900/30 backdrop-blur-md mt-auto">
+          <div className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p>© 2026 Feixismo MC. Creado para la comunidad.</p>
+            <div className="flex items-center gap-3">
+              <span className="opacity-50 text-[10px] uppercase tracking-widest font-bold">Versión de Referencia:</span>
+              <div className="px-5 py-2 bg-orange-600/10 border border-orange-500/20 rounded-full text-[10px] font-black text-orange-400">
+                JAVA 1.21.1 | NEOFORGE
+              </div>
             </div>
           </div>
-        </div>
-      </footer>
+        </footer>
       </div>
     </>
   );
