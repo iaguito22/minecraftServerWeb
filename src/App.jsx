@@ -853,45 +853,44 @@ const ModpacksTab = ({ setActiveTab }) => {
               <p className="text-xs text-secondary leading-relaxed font-medium">
                 Estos mods son <span className="text-slate-200">100% opcionales</span> y pueden configurarse o desactivarse según tus preferencias personales:
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2">
-                <ul className="text-[10px] space-y-2 text-slate-400">
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">JourneyMap:</span> 
-                    <span>Minimapa y mapa interactivo (Pantalla completa con 'J').</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                <ul className="text-[11px] space-y-4 text-slate-400">
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">JourneyMap</span> 
+                    <span className="leading-snug opacity-80">Minimapa y mapa interactivo (Pantalla completa con 'J').</span>
                   </li>
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">Jade:</span> 
-                    <span>Información emergente del bloque que estás mirando.</span>
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Jade</span> 
+                    <span className="leading-snug opacity-80">Información emergente del bloque que estás mirando.</span>
                   </li>
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">AppleSkin:</span> 
-                    <span>Visualización de saturación y hambre en el HUD.</span>
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">AppleSkin</span> 
+                    <span className="leading-snug opacity-80">Visualización de saturación y hambre en el HUD.</span>
                   </li>
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">JEI:</span> 
-                    <span>Buscador de recetas e inventario lateral.</span>
-                  </li>
-                </ul>
-                <ul className="text-[10px] space-y-2 text-slate-400">
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">Voice Chat:</span> 
-                    <span>Chat de voz por proximidad (tecla 'V' para configurar).</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">Shulker Tooltip:</span> 
-                    <span>Ver contenido de shulkers desde el inventario.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">Iris Shaders:</span> 
-                    <span>Motor de shaders para mejoras gráficas (tecla 'K').</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-blue-300 font-bold min-w-[90px]">Sound Physics:</span> 
-                    <span>Acústica realista y eco dinámico en el mundo.</span>
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">JEI</span> 
+                    <span className="leading-snug opacity-80">Buscador de recetas e inventario lateral.</span>
                   </li>
                 </ul>
-              </div>
-            </div>
+                <ul className="text-[11px] space-y-4 text-slate-400">
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Voice Chat</span> 
+                    <span className="leading-snug opacity-80">Chat de voz por proximidad (tecla 'V' para configurar).</span>
+                  </li>
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Shulker Tooltip</span> 
+                    <span className="leading-snug opacity-80">Ver contenido de shulkers desde el inventario.</span>
+                  </li>
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Iris Shaders</span> 
+                    <span className="leading-snug opacity-80">Motor de shaders para mejoras gráficas (tecla 'K').</span>
+                  </li>
+                  <li className="flex flex-col gap-1">
+                    <span className="text-blue-300 font-black uppercase tracking-wider">Sound Physics</span> 
+                    <span className="leading-snug opacity-80">Acústica realista y eco dinámico en el mundo.</span>
+                  </li>
+                </ul>
+              </div>            </div>
           </div>
         </div>
       </div>
