@@ -522,31 +522,37 @@ const PerformanceChart = ({ selectedPackId }) => {
     '1080p': {
       'RTX 3050': [
         { packId: 'potato', name: 'Potato (Vanilla)', fps: 475 },
-        { packId: 'lowAesthetic', name: 'BALANCE (Sildur\'s)', fps: 222 },
-        { packId: 'lowAesthetic', name: 'BALANCE (E-LITE)', fps: 172 },
+        { packId: 'balance', name: 'BALANCE (Sildur\'s)', fps: 222 },
+        { packId: 'balance', name: 'BALANCE (E-LITE)', fps: 172 },
         { packId: 'highAesthetic', name: 'High (Solas)', fps: 67 },
         { packId: 'highAesthetic', name: 'High (Photon)', fps: 84 },
         { packId: 'highAesthetic', name: 'High (Bliss)', fps: 67 }
       ],
       'Integrados': [
-        { packId: 'potato', name: 'Potato (Vanilla)', fps: 'N/A' },
-        { packId: 'lowAesthetic', name: 'BALANCE (Sildur\'s)', fps: 'N/A' },
-        { packId: 'lowAesthetic', name: 'BALANCE (E-LITE)', fps: 'N/A' },
-        { packId: 'highAesthetic', name: 'High (Solas)', fps: 'N/A' },
-        { packId: 'highAesthetic', name: 'High (Photon)', fps: 'N/A' },
-        { packId: 'highAesthetic', name: 'High (Bliss)', fps: 'N/A' }
+        { packId: 'potato', name: 'Potato (Vanilla)', fps: 328 },
+        { packId: 'balance', name: 'BALANCE (Sildur\'s)', fps: 70 },
+        { packId: 'balance', name: 'BALANCE (E-LITE)', fps: 78 },
+        { packId: 'highAesthetic', name: 'High (Solas)', fps: 19 },
+        { packId: 'highAesthetic', name: 'High (Photon)', fps: 24 },
+        { packId: 'highAesthetic', name: 'High (Bliss)', fps: 20 }
       ]
     },
     '1440p': {
       'RTX 3050': [
-        { packId: 'potato', name: 'Potato Pack', fps: 275 },
-        { packId: 'lowAesthetic', name: 'BALANCE', fps: 121 },
-        { packId: 'highAesthetic', name: 'High Aesthetic', fps: 53 }
+        { packId: 'potato', name: 'Potato (Vanilla)', fps: 280 },
+        { packId: 'balance', name: 'BALANCE (Sildur\'s)', fps: 130 },
+        { packId: 'balance', name: 'BALANCE (E-LITE)', fps: 120 },
+        { packId: 'highAesthetic', name: 'High (Solas)', fps: 49 },
+        { packId: 'highAesthetic', name: 'High (Photon)', fps: 58 },
+        { packId: 'highAesthetic', name: 'High (Bliss)', fps: 47 }
       ],
       'Integrados': [
-        { packId: 'potato', name: 'Potato Pack', fps: 150 },
-        { packId: 'lowAesthetic', name: 'BALANCE', fps: 52 },
-        { packId: 'highAesthetic', name: 'High Aesthetic', fps: 18 }
+        { packId: 'potato', name: 'Potato (Vanilla)', fps: 105 },
+        { packId: 'balance', name: 'BALANCE (Sildur\'s)', fps: 38 },
+        { packId: 'balance', name: 'BALANCE (E-LITE)', fps: 33 },
+        { packId: 'highAesthetic', name: 'High (Solas)', fps: 11 },
+        { packId: 'highAesthetic', name: 'High (Photon)', fps: 13 },
+        { packId: 'highAesthetic', name: 'High (Bliss)', fps: 11 }
       ]
     }
   };
@@ -622,10 +628,10 @@ const ModpacksTab = ({ setActiveTab }) => {
       title: 'Pack Potato (Optimización)',
       icon: <Zap size={40} className="text-blue-400" />,
       desc: 'El pack más ligero. Contiene mods de optimización pura para exprimir cada FPS. Recomendado para PCs humildes.',
-      features: ['Optimización (Chloride, Lithium, etc.)', 'Dynamic Lights (Realtime)', 'Create Mod Base', 'Shaders: Vanilla', 'Configuraciones pre-optimizadas'],
+      features: ['Optimización (Chloride, Sodium, etc.)', 'Dynamic Lights (Realtime)', 'Create Mod Base', 'Shaders: Vanilla', 'Configuraciones pre-optimizadas'],
       performance: {
-        fps: '450-500 FPS (Avg: 475)',
-        ram: 'Prueba: 3088 MB',
+        fps: '420-490 FPS (Avg: 475)',
+        ram: 'min 4GB recomendado 6+GB',
         gpu: 'NVIDIA GeForce RTX 3050',
         usage: 'GPU 100% | CPU 56%',
         dh: 'Desactivado',
@@ -637,15 +643,15 @@ const ModpacksTab = ({ setActiveTab }) => {
       ],
       downloadUrl: 'https://github.com/iaguito22/minecraftServerWeb/releases/download/v2/potato.zip'
     },
-    lowAesthetic: {
-      id: 'lowAesthetic',
-      title: 'BALANCE',
+    balance: {
+      id: 'balance',
+      title: 'BALANCE (al punto)',
       icon: <Eye size={40} className="text-blue-400" />,
       desc: 'Optimización + Distant Horizons (DH) + Shaders ligeros. Una experiencia bonita sin sacrificar tanto rendimiento.',
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Sildur\'s Default Fast, E-LITE', 'Mejora visual fluida', 'Configuraciones pre-optimizadas'],
       performance: {
         fps: '190-240 FPS (Avg: 222)',
-        ram: 'Prueba: 2720 MB',
+        ram: 'min 4GB recomendado 6+GB',
         gpu: 'NVIDIA GeForce RTX 3050',
         usage: 'GPU 100% | CPU 51%',
         dh: 'Activado',
@@ -666,7 +672,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       features: ['Mods de Optimización', 'Distant Horizons', 'Shaders: Solas, Photon, Bliss', 'Visuales impresionantes', 'Configuraciones pre-optimizadas'],
       performance: {
         fps: '55-75 FPS (Avg: 67)',
-        ram: 'Prueba: 2722 MB',
+        ram: 'min 4GB recomendado 6+GB',
         gpu: 'NVIDIA GeForce RTX 3050',
         usage: 'GPU 100% | CPU 56%',
         dh: 'Activado',
@@ -698,7 +704,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       </div>
 
       <div className="grid md:grid-cols-3 gap-6">
-        {['potato', 'lowAesthetic', 'highAesthetic'].map(key => (
+        {['potato', 'balance', 'highAesthetic'].map(key => (
           <div key={key} className="glass-card cursor-pointer items-center text-center" onClick={() => openDetail(key)}>
             <div className="mb-6 bg-blue-600/10 p-4 rounded-2xl border border-blue-500/10 w-max">{packs[key].icon}</div>
             <h3 className="text-xl mb-3">{packs[key].title}</h3>
@@ -1011,6 +1017,10 @@ const AboutTab = () => (
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Existen las protecciones de zona (Claims)?</h4>
             <p className="text-sm text-secondary">No. No hay bloques de protección mágicos. Si quieres asegurar tus cosas, construye una base oculta, lejos, o defiéndela con sistemas de seguridad mecánicos o formando alianzas.</p>
           </div>
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+            <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Que pasa si quiero un punto medio entre potato y balance?</h4>
+            <p className="text-sm text-secondary">Si quieres un punto medio entre potato y balance puedes pillar el modpack BALANCE y tocar la configuracion de Distant Horizons o incluso desactivarlo.</p>
+          </div>
         </div>
         <div className="space-y-6">
           <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
@@ -1021,6 +1031,7 @@ const AboutTab = () => (
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Puedo añadir minimapas o mods visuales?</h4>
             <p className="text-sm text-secondary">Sí, los mods que sean puramente visuales o de información en el cliente (como minimapas tipo JourneyMap o mods de inventario) están permitidos mientras no otorguen una ventaja injusta (como X-Ray).</p>
           </div>
+
         </div>
       </div>
     </section>
