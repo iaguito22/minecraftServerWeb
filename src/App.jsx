@@ -1031,6 +1031,10 @@ const AboutTab = () => (
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Puedo añadir minimapas o mods visuales?</h4>
             <p className="text-sm text-secondary">Sí, los mods que sean puramente visuales o de información en el cliente (como minimapas tipo JourneyMap o mods de inventario) están permitidos mientras no otorguen una ventaja injusta (como X-Ray).</p>
           </div>
+          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+            <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Como arreglo la alerta de garbage collector del DH?</h4>
+            <p className="text-sm text-secondary">Vete a los JVM arguments de tu launcher y cambia todo por <code className="bg-white/20 px-1 rounded">-Xms6G -Xmx6G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication</code> en caso de usar 6GB de ram, si usas 8 cambialo a <code>-Xms8G -Xmx8G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication</code> y asi sucesivamente.</p>
+          </div>
 
         </div>
       </div>
