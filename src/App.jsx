@@ -870,26 +870,18 @@ const ModpacksTab = ({ setActiveTab }) => {
                     <span className="leading-snug opacity-80">Información emergente del bloque que estás mirando.</span>
                   </li>
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">AppleSkin</span>
-                    <span className="leading-snug opacity-80">Visualización de saturación y hambre en el HUD.</span>
-                  </li>
-                  <li className="flex flex-col gap-1">
                     <span className="text-blue-300 font-black uppercase tracking-wider">JEI</span>
                     <span className="leading-snug opacity-80">Buscador de recetas e inventario lateral.</span>
                   </li>
                 </ul>
                 <ul className="text-xs text-secondary leading-relaxed font-medium">
                   <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Voice Chat</span>
-                    <span className="leading-snug opacity-80">Chat de voz por proximidad (tecla 'V' para configurar).</span>
+                    <span className="text-blue-300 font-black uppercase tracking-wider">AppleSkin</span>
+                    <span className="leading-snug opacity-80">Visualización de saturación y hambre en el HUD.</span>
                   </li>
                   <li className="flex flex-col gap-1">
                     <span className="text-blue-300 font-black uppercase tracking-wider">Shulker Tooltip</span>
                     <span className="leading-snug opacity-80">Ver contenido de shulkers desde el inventario.</span>
-                  </li>
-                  <li className="flex flex-col gap-1">
-                    <span className="text-blue-300 font-black uppercase tracking-wider">Iris Shaders</span>
-                    <span className="leading-snug opacity-80">Motor de shaders para mejoras gráficas (tecla 'K').</span>
                   </li>
                   <li className="flex flex-col gap-1">
                     <span className="text-blue-300 font-black uppercase tracking-wider">Sound Physics</span>
