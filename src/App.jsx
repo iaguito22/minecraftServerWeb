@@ -130,7 +130,7 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
   };
 
   return (
-    <nav className="nav-bar glass animate-enter">
+    <nav className="nav-bar glass !rounded-full animate-enter">
       <div className="flex items-center gap-3">
         <div className="nav-logo-icon">
           <Gamepad2 size={24} />
@@ -196,7 +196,7 @@ const TabNav = ({ activeTab, setActiveTab, theme, toggleTheme }) => {
 
 const HomeTab = ({ setActiveTab }) => (
   <div className="flex-col items-center text-center animate-enter delay-100 -mt-20">
-    <div className="badge mb-8 border-orange-500/50 bg-orange-500/10 text-orange-400 px-8 py-3 text-base font-bold">
+    <div className="badge mb-8 border-blue-500/50 bg-blue-500/10 text-blue-400 px-8 py-3 text-base font-bold">
       <Wrench size={20} /> <span>JAVA 1.21.1 — NEOFORGE</span>
     </div>
     <h1 className="text-gradient text-4xl mb-4">Feixismo MC</h1>
@@ -204,7 +204,7 @@ const HomeTab = ({ setActiveTab }) => (
       Bienvenido a un entorno industrial sin concesiones. Diseña fábricas, construye aeronaves físicas y sobrevive en un mundo donde la tecnología es tu única defensa.
     </p>
     <div className="flex gap-4 justify-center">
-      <button className="btn btn-primary bg-orange-600 hover:bg-orange-700 border-none px-8 py-6 text-lg" onClick={() => setActiveTab('modpacks')}>
+      <button className="btn btn-primary bg-blue-600 hover:bg-blue-700 border-none px-8 py-6 text-lg shadow-[0_8px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_12px_30px_rgba(37,99,235,0.5)]" onClick={() => setActiveTab('modpacks')}>
         <Download size={22} /> Obtener Modpacks
       </button>
       <button className="btn btn-outline px-8 py-6 text-lg" onClick={() => setActiveTab('servidor')}>
@@ -470,7 +470,8 @@ const ServerTab = () => {
           <h3 className="directives-title mb-0">Directrices de Supervivencia</h3>
         </div>
 
-        <div className="rule-item border-l-2 border-blue-500/30 pl-6 py-4">
+        <div className="rule-item pl-8 py-5 relative overflow-hidden">
+          <div className="absolute top-4 left-3.5 w-1.5 h-[calc(100%-32px)] bg-blue-500 rounded-full"></div>
           <div className="flex items-start gap-4">
             <Skull className="text-blue-500 mt-1" size={24} />
             <div>
@@ -486,9 +487,10 @@ const ServerTab = () => {
           </div>
         </div>
 
-        <div className="rule-item border-l-2 border-orange-500/30 pl-6 py-4 mt-4">
+        <div className="rule-item pl-8 py-5 relative overflow-hidden mt-4">
+          <div className="absolute top-4 left-3.5 w-1.5 h-[calc(100%-32px)] bg-purple-500 rounded-full"></div>
           <div className="flex items-start gap-4">
-            <Cpu className="text-orange-500 mt-1" size={24} />
+            <Cpu className="text-purple-400 mt-1" size={24} />
             <div>
               <h4 className="mb-2 text-xl text-white uppercase tracking-wider">Eficiencia de Máquinas</h4>
               <p className="text-secondary">
@@ -498,7 +500,8 @@ const ServerTab = () => {
           </div>
         </div>
 
-        <div className="rule-item border-l-2 border-yellow-500/30 pl-6 py-4 mt-4">
+        <div className="rule-item pl-8 py-5 relative overflow-hidden mt-4">
+          <div className="absolute top-4 left-3.5 w-1.5 h-[calc(100%-32px)] bg-yellow-500 rounded-full"></div>
           <div className="flex items-start gap-4">
             <AlertTriangle className="text-yellow-500 mt-1" size={24} />
             <div>
@@ -568,7 +571,7 @@ const PerformanceChart = ({ selectedPackId }) => {
           <select
             value={gpu}
             onChange={e => setGpu(e.target.value)}
-            className="theme-select border rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm cursor-pointer transition-colors"
+            className="theme-select border rounded-full px-5 py-2.5 outline-none focus:border-blue-500 font-medium text-sm cursor-pointer transition-all hover:bg-slate-800/80 shadow-md"
           >
             <option value="RTX 3050">NVIDIA RTX 3050</option>
             <option value="Integrados">Gráficos Integrados</option>
@@ -576,7 +579,7 @@ const PerformanceChart = ({ selectedPackId }) => {
           <select
             value={resolution}
             onChange={e => setResolution(e.target.value)}
-            className="theme-select border rounded-lg px-3 py-1.5 outline-none focus:border-blue-500 font-medium text-sm cursor-pointer transition-colors"
+            className="theme-select border rounded-full px-5 py-2.5 outline-none focus:border-blue-500 font-medium text-sm cursor-pointer transition-all hover:bg-slate-800/80 shadow-md"
           >
             <option value="1080p">1080p</option>
             <option value="1440p">1440p</option>
@@ -584,7 +587,7 @@ const PerformanceChart = ({ selectedPackId }) => {
         </div>
       </div>
 
-      <div className="p-6 rounded-2xl border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-xl">
+      <div className="p-10 rounded-2xl border border-white/5 bg-slate-900/60 backdrop-blur-md shadow-xl">
         <div className="space-y-6">
           {currentData.map((item, index) => {
             const isSelected = item.packId === selectedPackId;
@@ -706,7 +709,7 @@ const ModpacksTab = ({ setActiveTab }) => {
       <div className="grid md:grid-cols-3 gap-6">
         {['potato', 'balance', 'highAesthetic'].map(key => (
           <div key={key} className="glass-card cursor-pointer items-center text-center" onClick={() => openDetail(key)}>
-            <div className="mb-6 bg-blue-600/10 p-4 rounded-2xl border border-blue-500/10 w-max">{packs[key].icon}</div>
+            <div className="mb-6 circular-icon-container">{packs[key].icon}</div>
             <h3 className="text-xl mb-3">{packs[key].title}</h3>
             <p className="text-secondary text-sm mb-6 flex-1">{packs[key].desc}</p>
             <button className="btn btn-outline w-full justify-between">
@@ -733,7 +736,7 @@ const ModpacksTab = ({ setActiveTab }) => {
         </button>
 
         <div className="flex flex-col items-center text-center gap-4 mb-8">
-          <div className="p-4 bg-blue-900/30 rounded-2xl border border-blue-500/20 w-max">
+          <div className="circular-icon-container">
             {selectedPack.icon}
           </div>
           <div>
@@ -746,8 +749,8 @@ const ModpacksTab = ({ setActiveTab }) => {
 
         <div className="flex flex-col md:flex-row gap-8 mb-12 items-stretch w-full px-4">
           {/* Content Card */}
-          <div className="flex-1 glass-card !p-6 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
-            <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/30"></div>
+          <div className="flex-1 glass-card !p-8 md:!p-10 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
+            <div className="absolute top-4 left-3 w-1.5 h-[calc(100%-32px)] bg-blue-500/40 rounded-full"></div>
             <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 flex items-center gap-2">
               <Box className="text-blue-400" size={18} /> Contenido
             </h4>
@@ -762,10 +765,10 @@ const ModpacksTab = ({ setActiveTab }) => {
           </div>
 
           {/* Performance Card */}
-          <div className="flex-1 glass-card !p-6 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
-            <div className="absolute top-0 left-0 w-1 h-full bg-orange-500/30"></div>
+          <div className="flex-1 glass-card !p-8 md:!p-10 border-white/5 bg-slate-900/40 relative overflow-hidden flex flex-col">
+            <div className="absolute top-4 left-3 w-1.5 h-[calc(100%-32px)] bg-blue-500/40 rounded-full"></div>
             <h4 className="text-sm font-black uppercase tracking-widest text-white mb-6 flex items-center gap-2">
-              <Cpu className="text-orange-400" size={18} /> Rendimiento (1080p)
+              <Cpu className="text-blue-400" size={18} /> Rendimiento
             </h4>
 
             <div className="space-y-6">
@@ -773,7 +776,7 @@ const ModpacksTab = ({ setActiveTab }) => {
                 {/* RTX 3050 */}
                 <div className="space-y-4">
                   <div className="text-[13px] font-black text-blue-400 uppercase tracking-widest flex items-center gap-2.5">
-                    <Zap size={20} /> RTX 3050
+                    <Zap size={20} /> RTX 3050 | 1080p | Arch Linux
                   </div>
                   <div className="space-y-2">
                     <div className="flex flex-col">
@@ -791,10 +794,10 @@ const ModpacksTab = ({ setActiveTab }) => {
               </div>
 
               {/* Technical Specs */}
-              <div className="grid grid-cols-2 gap-y-6 gap-x-8 pt-20 border-t border-white/5">
+              <div className="grid grid-cols-2 gap-y-6 gap-x-8 pt-6 border-t border-white/5">
                 <div className="flex flex-col gap-1 col-span-2 mb-2">
-                  <span className="text-label text-blue-400 font-bold">RAM (Prueba):</span>
-                  <span className="text-2xl text-white font-black">{selectedPack.performance.ram}</span>
+                  <span className="text-label text-blue-400">RAM (Prueba):</span>
+                  <span className="text-xl text-white font-black">{selectedPack.performance.ram}</span>
                 </div>
                 <div className="flex flex-col gap-1">
                   <span className="text-label">Uso Sistema:</span>
@@ -850,17 +853,17 @@ const ModpacksTab = ({ setActiveTab }) => {
             </button>
           </div>
 
-          <div className="mt-12 p-6 bg-blue-500/[0.03] rounded-2xl border border-blue-500/10 backdrop-blur-md relative overflow-hidden group">
+          <div className="mt-12 p-10 bg-blue-500/[0.03] rounded-2xl border border-blue-500/10 backdrop-blur-md relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl -mr-16 -mt-16"></div>
-            <h4 className="text-xs font-black text-blue-400 mb-3 uppercase tracking-[0.2em] flex items-center gap-2">
+            <h4 className="text-xs font-black text-blue-400 mb-4 uppercase tracking-[0.2em] flex items-center gap-2">
               <Settings size={14} /> Personalización de Interfaz y Cliente
             </h4>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <p className="text-xs text-secondary leading-relaxed font-medium">
                 Estos mods son <span className="text-slate-200">100% opcionales</span> y pueden configurarse o desactivarse según tus preferencias personales:
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-                <ul className="text-xs text-secondary leading-relaxed font-medium">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-6">
+                <ul className="text-xs text-secondary leading-relaxed font-medium space-y-4">
                   <li className="flex flex-col gap-1">
                     <span className="text-blue-300 font-black uppercase tracking-wider">JourneyMap</span>
                     <span className="leading-snug opacity-80">Minimapa y mapa interactivo (Pantalla completa con 'J').</span>
@@ -874,7 +877,7 @@ const ModpacksTab = ({ setActiveTab }) => {
                     <span className="leading-snug opacity-80">Buscador de recetas e inventario lateral.</span>
                   </li>
                 </ul>
-                <ul className="text-xs text-secondary leading-relaxed font-medium">
+                <ul className="text-xs text-secondary leading-relaxed font-medium space-y-4">
                   <li className="flex flex-col gap-1">
                     <span className="text-blue-300 font-black uppercase tracking-wider">AppleSkin</span>
                     <span className="leading-snug opacity-80">Visualización de saturación y hambre en el HUD.</span>
@@ -907,8 +910,8 @@ const AboutTab = () => (
   <div className="animate-enter delay-100 max-w-5xl mx-auto px-6 pb-32 flex flex-col gap-8">
     {/* Bloque 1: El Mundo */}
     <section className="text-center pt-4">
-      <div className="bg-orange-600/10 p-5 rounded-full mb-4 w-max mx-auto border border-orange-500/20">
-        <Plane size={44} className="text-orange-500" />
+      <div className="bg-blue-600/10 rounded-full mb-4 w-max mx-auto border border-blue-500/20 flex items-center justify-center shadow-lg shadow-blue-950/20" style={{ width: '76px', height: '76px' }}>
+        <Plane size={36} className="text-blue-400" />
       </div>
       <h2 className="text-gradient mb-3 text-5xl">El Mundo y el Meta</h2>
       <p className="text-secondary text-xl max-w-3xl mx-auto leading-relaxed">
@@ -919,7 +922,7 @@ const AboutTab = () => (
     </section>
 
     {/* Bloque 2: Mods Principales */}
-    <section className="glass-card p-8 md:p-10">
+    <section className="glass-card">
       <h3 className="text-2xl mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
         <Box className="text-blue-400" /> Manifiesto Tecnológico (Mods)
       </h3>
@@ -951,81 +954,113 @@ const AboutTab = () => (
 
     {/* Bloque 3: Acceso y Seguridad */}
     <div className="grid md:grid-cols-2 gap-8">
-      <section className="glass-card p-8 md:p-10 border-blue-500/20 flex flex-col h-full">
+      <section className="glass-card border-blue-500/20 flex flex-col h-full">
         <h3 className="text-xl mb-6 flex items-center gap-3 text-blue-400">
           <Terminal size={24} /> Comandos de Acceso
         </h3>
         <div className="space-y-4 font-mono flex-grow">
-          <div className="bg-black/40 p-3 rounded-xl border border-white/5">
+          <div className="bg-black/35 p-5 px-7 rounded-xl border border-white/5 transition-all duration-300 hover:border-blue-500/25">
             <p className="text-[10px] uppercase tracking-wider text-secondary mb-1">Primera vez:</p>
             <p className="text-blue-300">/register &lt;contraseña&gt; &lt;contraseña&gt;</p>
           </div>
-          <div className="bg-black/40 p-3 rounded-xl border border-white/5">
+          <div className="bg-black/35 p-5 px-7 rounded-xl border border-white/5 transition-all duration-300 hover:border-blue-500/25">
             <p className="text-[10px] uppercase tracking-wider text-secondary mb-1">Entradas posteriores:</p>
             <p className="text-blue-300">/login &lt;contraseña&gt;</p>
           </div>
         </div>
 
-        <div className="mt-8 p-5 bg-amber-600/10 border border-amber-500/30 rounded-2xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-1 h-full bg-amber-500"></div>
+        <div className="mt-8 p-6 px-8 bg-amber-500/[0.04] border border-amber-500/20 rounded-3xl relative overflow-hidden group transition-all duration-300 hover:border-amber-500/40">
+          <div className="absolute top-4 left-3 w-1.5 h-[calc(100%-32px)] bg-amber-500 rounded-full"></div>
           <div className="flex items-center gap-3 text-amber-400 font-bold mb-2">
             <AlertTriangle size={20} className="animate-pulse" />
             <span className="text-xs uppercase tracking-widest">Seguridad</span>
           </div>
           <p className="text-sm text-amber-200 font-black tracking-tight leading-tight">
             ¡ES VITAL QUE NO OLVIDES TU CONTRASEÑA!<br />
-            <span className="text-[10px] opacity-70 font-medium uppercase">No podemos recuperarla manualmente.</span>
+            <span className="text-[10px] opacity-70 font-medium uppercase font-sans">No podemos recuperarla manualmente.</span>
           </p>
         </div>
       </section>
 
-      <section className="glass-card p-8 md:p-10 flex flex-col h-full">
-        <h3 className="text-xl mb-6 flex items-center gap-3 text-orange-400">
+      <section className="glass-card border-blue-500/20 flex flex-col h-full">
+        <h3 className="text-xl mb-6 flex items-center gap-3 text-blue-400">
           <Download size={24} /> Protocolo de Instalación
         </h3>
-        <ol className="text-sm text-secondary space-y-4 list-decimal pl-5 flex-grow">
-          <li>Descarga el archivo .zip de la sección de Modpacks.</li>
-          <li className="p-3 bg-orange-600/10 border border-orange-500/20 rounded-xl font-bold text-white shadow-lg shadow-orange-900/10">
-            Limpia tu carpeta <code className="bg-white/20 px-1.5 rounded text-orange-400">mods</code> anterior en .minecraft para evitar conflictos.
-          </li>
-          <li>Descomprime el contenido del .zip en tu directorio <code className="bg-white/10 px-1 rounded">.minecraft</code>.</li>
-          <li>Inicia el juego usando el perfil de <span className="text-orange-400 font-bold">NeoForge 1.21.1</span>.</li>
-        </ol>
+        <div className="space-y-4 flex-grow mb-6">
+          <div className="step-row">
+            <div className="step-bubble">
+              1
+            </div>
+            <p className="text-secondary text-sm font-medium leading-relaxed pt-0.5 flex-1">
+              Descarga el archivo <code className="bg-white/5 px-2.5 py-0.5 rounded-full text-blue-300 font-mono">.zip</code> correspondiente a tu rendimiento en la pestaña de <strong>Modpacks</strong>.
+            </p>
+          </div>
+          
+          <div className="step-row">
+            <div className="step-bubble">
+              2
+            </div>
+            <p className="text-secondary text-sm font-medium leading-relaxed pt-0.5 flex-1">
+              Descomprime el contenido del archivo en tu directorio raíz <code className="bg-white/5 px-2.5 py-0.5 rounded-full text-blue-300 font-mono">.minecraft</code>.
+            </p>
+          </div>
+
+          <div className="step-row">
+            <div className="step-bubble">
+              3
+            </div>
+            <p className="text-secondary text-sm font-medium leading-relaxed pt-0.5 flex-1">
+              Inicia el launcher de Minecraft y selecciona el perfil generado para <span className="text-blue-300 font-bold font-sans">NeoForge 1.21.1</span>.
+            </p>
+          </div>
+        </div>
+
+        <div className="p-6 px-8 bg-blue-500/[0.03] border border-blue-500/20 rounded-xl relative overflow-hidden group transition-all duration-300 hover:border-blue-500/40">
+          <div className="absolute top-4 left-3 w-1.5 h-[calc(100%-32px)] bg-blue-500 rounded-full"></div>
+          <div className="flex items-center gap-3 text-blue-400 font-bold mb-2">
+            <Info size={20} />
+            <span className="text-xs uppercase tracking-widest">Conflicto de Mods</span>
+          </div>
+          <p className="text-sm text-blue-200 font-black tracking-tight leading-tight">
+            ¡LIMPIA TU CARPETA DE MODS ANTERIOR!<br />
+            <span className="text-[10px] opacity-70 font-medium uppercase font-sans">Elimina o renombra la carpeta de mods vieja antes de copiar el pack.</span>
+          </p>
+        </div>
       </section>
     </div>
 
     {/* Bloque 4: Preguntas Frecuentes (Q&A) */}
-    <section className="glass-card p-8 md:p-10 border-blue-500/20 mt-2">
+    <section className="glass-card border-blue-500/20 mt-2">
       <h3 className="text-2xl mb-8 flex items-center gap-3 border-b border-white/10 pb-4 text-blue-400">
         <Info size={28} /> Q&A - Preguntas Frecuentes
       </h3>
       <div className="grid md:grid-cols-2 gap-8">
         <div className="space-y-6">
-          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+          <div className="bg-black/20 p-6 rounded-2xl border border-white/5 transition-all hover:bg-black/40">
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Hay comandos de /tpa o /home?</h4>
             <p className="text-sm text-secondary">No. Queremos mantener la inmersión y la importancia de la infraestructura. Para viajar rápido deberás construir vehiculos con Create o usar medios de transporte físicos.</p>
           </div>
-          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+          <div className="bg-black/20 p-6 rounded-2xl border border-white/5 transition-all hover:bg-black/40">
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Existen las protecciones de zona (Claims)?</h4>
             <p className="text-sm text-secondary">No. No hay bloques de protección mágicos. Si quieres asegurar tus cosas, construye una base oculta, lejos, o defiéndela con sistemas de seguridad mecánicos o formando alianzas.</p>
           </div>
-          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+          <div className="bg-black/20 p-6 rounded-2xl border border-white/5 transition-all hover:bg-black/40">
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Que pasa si quiero un punto medio entre potato y balance?</h4>
             <p className="text-sm text-secondary">Si quieres un punto medio entre potato y balance puedes pillar el modpack BALANCE y tocar la configuracion de Distant Horizons o incluso desactivarlo.</p>
           </div>
         </div>
         <div className="space-y-6">
-          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+          <div className="bg-black/20 p-6 rounded-2xl border border-white/5 transition-all hover:bg-black/40">
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Es obligatorio usar el chat de voz?</h4>
             <p className="text-sm text-secondary">No es obligatorio, pero es altamente recomendado. Gran parte de la diplomacia, el comercio y la supervivencia depende de poder comunicarte rápidamente con los que te encuentras.</p>
           </div>
-          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+          <div className="bg-black/20 p-6 rounded-2xl border border-white/5 transition-all hover:bg-black/40">
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Puedo añadir minimapas o mods visuales?</h4>
             <p className="text-sm text-secondary">Sí, los mods que sean puramente visuales o de información en el cliente (como minimapas tipo JourneyMap o mods de inventario) están permitidos mientras no otorguen una ventaja injusta (como X-Ray).</p>
           </div>
-          <div className="bg-black/20 p-5 rounded-xl border border-white/5 transition-all hover:bg-black/40">
+          <div className="bg-black/20 p-6 rounded-2xl border border-white/5 transition-all hover:bg-black/40">
             <h4 className="text-white font-bold mb-2 flex items-center gap-2">¿Como arreglo la alerta de garbage collector del DH?</h4>
-            <p className="text-sm text-secondary">Vete a los JVM arguments de tu launcher y cambia todo por <code className="bg-white/20 px-1 rounded">-Xms6G -Xmx6G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication</code> en caso de usar 6GB de ram, si usas 8 cambialo a <code>-Xms8G -Xmx8G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication</code> y asi sucesivamente.</p>
+            <p className="text-sm text-secondary">Vete a los JVM arguments de tu launcher y cambia todo por <code className="bg-white/20 px-2.5 py-0.5 rounded-full">-Xms6G -Xmx6G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication</code> en caso de usar 6GB de ram, si usas 8 cambialo a <code className="bg-white/20 px-2.5 py-0.5 rounded-full">-Xms8G -Xmx8G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication</code> y asi sucesivamente.</p>
           </div>
 
         </div>
@@ -1069,7 +1104,7 @@ function App() {
             <p>© 2026 Feixismo MC. Creado para la comunidad.</p>
             <div className="flex items-center gap-3">
               <span className="opacity-50 text-[10px] uppercase tracking-widest font-bold">Versión de Referencia:</span>
-              <div className="px-5 py-2 bg-orange-600/10 border border-orange-500/20 rounded-full text-[10px] font-black text-orange-400">
+              <div className="px-5 py-2 bg-blue-600/10 border border-blue-500/20 rounded-full text-[10px] font-black text-blue-400">
                 JAVA 1.21.1 | NEOFORGE
               </div>
             </div>
