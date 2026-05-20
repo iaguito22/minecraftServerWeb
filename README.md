@@ -1,46 +1,103 @@
-# 🛠️ Feixismo MC - Portal Web
+# 🛠️ Feixismo MC - Portal Web Premium
 
-![Versión](https://img.shields.io/badge/Minecraft-1.21.1-orange?style=for-the-badge&logo=minecraft)
-![Loader](https://img.shields.io/badge/NeoForge-Latest-blue?style=for-the-badge)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Minecraft Version](https://img.shields.io/badge/Minecraft-1.21.1-blue?style=for-the-badge&logo=minecraft&logoColor=white)
+![Loader](https://img.shields.io/badge/NeoForge-Latest-purple?style=for-the-badge)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Style](https://img.shields.io/badge/CSS-Vanilla-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
-Bienvenido al portal oficial de **Feixismo MC**, un servidor de Minecraft industrial y técnico diseñado para ofrecer una experiencia de supervivencia sin concesiones.
+Bienvenido al portal oficial de **Feixismo MC**, un servidor de Minecraft técnico, industrial y de supervivencia extrema diseñado para ofrecer una experiencia sin concesiones. Este portal sirve como centro de recursos, guías y descargas de modpacks optimizados para los jugadores del servidor.
 
-## 🚀 Características del Proyecto
+---
 
-Este portal web está construido con **React + Vite** y ofrece:
-- **Estado del Servidor en Tiempo Real**: Monitorización de jugadores, CPU, RAM y latencia.
-- **Selector de Modpacks**: Descarga directa de diferentes perfiles (Potato, Low Aesthetic, High Aesthetic).
-- **Diseño Glassmorphic Premium**: Una interfaz moderna que soporta temas **Claro** y **Oscuro**.
-- **Guía de Instalación**: Instrucciones paso a paso para configurar el cliente y los mods.
+## 🌟 Características Clave del Portal
 
-## 🛠️ Tecnologías Utilizadas
+### 1. Panel de Control y Estado del Servidor
+* **Estadísticas en Tiempo Real**: Visualización dinámica de latencia, consumo de RAM, rendimiento de CPU y cantidad de jugadores activos.
+* **Indicadores Visuales**: Animaciones dinámicas de respiración y pulsos en el estado de conexión del servidor.
 
-- **Frontend**: React 19 + Vite
-- **Iconografía**: Lucide React
-- **Estilos**: Vanilla CSS con variables dinámicas y Glassmorphism
-- **Despliegue**: GitHub Pages
+### 2. Selector de Modpacks Optimizado
+Ofrece tres perfiles de rendimiento y estética adaptados a cualquier hardware:
+* **Potato (Vanilla + Optimización)**: Rendimiento puro, ideal para equipos de bajos recursos.
+* **Balance (Sildur's E-Lite)**: Equilibrio perfecto entre estética moderna y rendimiento.
+* **High (Solas / Photon / Bliss)**: Calidad gráfica cinematográfica con trazado de rayos simulado e iluminación avanzada.
 
-## 💻 Desarrollo Local
+### 3. Directrices de Supervivencia y Meta
+Guía interactiva que detalla las bases tecnológicas y mecánicas del servidor:
+* **Ingeniería Automática (`Create`)**: Construcción de fábricas automáticas y redes de transporte ferroviario.
+* **Aeronáutica Dinámica (`Create: Aeronautics`)**: Diseño y vuelo de naves físicas personalizadas.
+* **Defensa de Posiciones (`Create Big Cannons`)**: Protección táctica mediante artillería y defensas mecánicas.
 
-Para ejecutar el proyecto localmente, sigue estos pasos:
+### 4. Guía y Protocolo de Instalación Premium
+* **Línea de Tiempo Anti-Deformación**: Un timeline de instalación fluido de 3 pasos numerados e interactivos, maquetados con burbujas de vidrio circulares que nunca se deforman en resoluciones móviles o de escritorio.
+* **Alertas de Conflicto y Seguridad**: Paneles dedicados con información crucial para evitar fallos de versiones de mods y pautas de seguridad para contraseñas de acceso al servidor.
 
-1. Instala las dependencias:
+---
+
+## 🎨 Sistema de Diseño: Estética Circular & Glassmorphism
+
+El portal destaca por un acabado visual sumamente premium y moderno:
+* **Efecto de Cristal de Alta Calidad**: Fondos con transparencias combinadas, desenfoques profundos (`backdrop-filter: blur(24px)`), relieves internos y bordes de cristal dinámicos que se iluminan al pasar el cursor.
+* **Esquinas Ultra-Redondeadas**: Curvatura consistente en todo el sitio utilizando un sistema de diseño con border-radius optimizados de `32px` (`rounded-xl`) y `48px` (`rounded-2xl` / `.glass-card`), evitando cualquier esquina recta rígida.
+* **Paleta de Colores de Alta Tecnología**: Eliminación de colores saturados en favor de tonos celestes, púrpuras y azules translúcidos de alta tecnología, reservando el color ámbar exclusivamente para alertas críticas.
+* **Compatibilidad de Temas**: Soporte impecable y con alta legibilidad para temas **Oscuro** (predeterminado) y **Claro**.
+
+---
+
+## 🛠️ Tecnologías y Estructura
+
+El frontend está desarrollado con un stack ágil y ligero que elimina dependencias pesadas:
+* **Núcleo**: [React 19](https://react.dev/) y [Vite](https://vite.dev/) para un hot-reload instantáneo y builds ultrarrápidos.
+* **Iconografía**: [Lucide React](https://lucide.dev/) para iconos vectoriales limpios y adaptables.
+* **Estilos**: Vanilla CSS (`src/index.css`) con variables de diseño personalizadas para bordes, sombras, transiciones y paddings consistentes.
+
+### Estructura de Archivos Principal:
+* `src/App.jsx`: Componentes estructurados, lógica de navegación y pestañas de la aplicación.
+* `src/index.css`: Sistema de variables de diseño, sombras de cristal, curvas y estilos específicos (como `.step-row` y `.circular-icon-container`).
+
+---
+
+## 💻 Desarrollo e Instalación Local
+
+Asegúrate de tener instalado [Node.js](https://nodejs.org/). Luego, sigue estos pasos:
+
+1. **Clonar el repositorio e ingresar a la carpeta**:
+   ```bash
+   git clone <url-del-repositorio>
+   cd web
+   ```
+
+2. **Instalar dependencias**:
    ```bash
    npm install
    ```
-2. Inicia el servidor de desarrollo:
+
+3. **Ejecutar el servidor de desarrollo**:
    ```bash
    npm run dev
    ```
+   Abre [http://localhost:5173](http://localhost:5173) en tu navegador para ver la aplicación.
 
-## 🏗️ Estructura del Servidor
+4. **Compilar para producción**:
+   ```bash
+   npm run build
+   ```
+   Esto compila y genera los archivos optimizados dentro del directorio `dist/` en menos de 1 segundo.
 
-El meta del juego se centra en:
-- **Ingeniería con Create**: Automatización masiva y redes ferroviarias.
-- **Aeronáutica**: Construcción de aeronaves físicas con `Create: Aeronautics`.
-- **Defensa y Combate**: Artillería pesada con `Create Big Cannons`.
-- **Supervivencia Pura**: Libertad total con consecuencias reales.
+5. **Desplegar en GitHub Pages**:
+   ```bash
+   npm run deploy
+   ```
 
 ---
-Creado con ❤️ para la comunidad de Feixismo MC.
+
+## 🔧 Optimización Recomendada del Servidor (JVM Arguments)
+Para evitar alertas de Garbage Collector (recolector de basura) causadas por mods de carga pesada como *Distant Horizons*, se incluye la siguiente configuración recomendada para el Launcher de Minecraft:
+
+```text
+-Xms6G -Xmx6G -XX:+UseZGC -XX:+ZGenerational -XX:+AlwaysPreTouch -XX:+UseStringDeduplication
+```
+*(Nota: Ajusta `-Xms6G -Xmx6G` a `8G` u otros valores según la memoria RAM disponible de tu sistema).*
+
+---
+Desarrollado con ❤️ para la comunidad técnica de **Feixismo MC**.
